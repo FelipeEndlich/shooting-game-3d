@@ -48,7 +48,7 @@ namespace math
         static Matrix identity(int rows);
 
     protected:
-        void allocate();
+        void allocate(int rows);
         void deallocate();
         void copy(const Matrix &other);
 
