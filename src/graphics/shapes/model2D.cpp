@@ -1,6 +1,7 @@
 #include "model2D.hpp"
 #include <cmath>
 #include <stdexcept>
+#include <GL/glut.h>
 using namespace graphics::shapes;
 
 #pragma region Constructors and Destructors
@@ -104,6 +105,20 @@ void Model2D::transform(const math::Vector center, const math::Vector &translate
     T_rev[1][2] *= -1;
 
     transform(T * R * S * T_rev);
+}
+
+void Model2D::draw()
+{
+    double r = color.getR() / 255.0;
+    double g = color.getG() / 255.0;
+    double b = color.getB() / 255.0;
+    double a = color.getA() / 255.0;
+
+    glColor4d(r, g, b, a);
+    glBegin(GL_POLYGON);
+    for (int i = 0; i < points.getRows(); i++)
+        glVertex2d(points[i][0], points[i][1]);
+    glEnd();
 }
 #pragma endregion // Methods
 

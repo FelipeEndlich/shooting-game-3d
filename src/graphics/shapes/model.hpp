@@ -27,6 +27,8 @@ namespace graphics
             virtual void transform(const math::Matrix &matrix) = 0;
             virtual void transform(const math::Vector &translate, const math::Vector &scale, double radians) = 0;
 
+            virtual void draw() = 0;
+
         protected:
             math::Matrix points;
             color::RGBA color;
