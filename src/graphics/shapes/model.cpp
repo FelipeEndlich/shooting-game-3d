@@ -1,6 +1,6 @@
 #include "model.hpp"
 
-using namespace graphics::elements;
+using namespace graphics::shapes;
 
 #pragma region Constructors and Destructors
 Model::Model()

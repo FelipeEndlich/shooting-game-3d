@@ -1,7 +1,7 @@
 #include "model2D.hpp"
 #include <cmath>
 #include <stdexcept>
-using namespace graphics::elements;
+using namespace graphics::shapes;
 
 #pragma region Constructors and Destructors
 Model2D::Model2D()

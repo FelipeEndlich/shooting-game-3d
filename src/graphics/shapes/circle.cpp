@@ -1,6 +1,6 @@
 #include "./circle.hpp"
 #include <cmath>
-using namespace graphics::elements;
+using namespace graphics::shapes;
 
 #pragma region Constructor and Destructor
 Circle::Circle()

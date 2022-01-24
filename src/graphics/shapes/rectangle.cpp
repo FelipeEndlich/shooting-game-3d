@@ -1,6 +1,6 @@
 #include "rectangle.hpp"
 
-using namespace graphics::elements;
+using namespace graphics::shapes;
 
 #pragma region Constructor and Destructor
 Rectangle::Rectangle()

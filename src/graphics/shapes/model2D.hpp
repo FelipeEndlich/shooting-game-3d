@@ -4,7 +4,7 @@
 
 namespace graphics
 {
-    namespace elements
+    namespace shapes
     {
         class Model2D : public Model
         {
