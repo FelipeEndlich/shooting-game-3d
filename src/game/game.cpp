@@ -12,6 +12,7 @@ using namespace math;
 using namespace graphics::color;
 using namespace graphics::shapes;
 using namespace graphics::elements;
+using namespace graphics::elements::character;
 using namespace std;
 
 namespace game
@@ -235,22 +236,22 @@ namespace game
 
     void Game::checkKeys()
     {
-        if (keys['a'] && !keys['d'] && mouse[GLUT_LEFT_BUTTON])
+        if (keys['a'] && !keys['d'] && mouse[GLUT_RIGHT_BUTTON])
             cout << "Jump Left" << endl;
 
-        if (keys['a'] && !keys['d'] && !mouse[GLUT_LEFT_BUTTON])
+        if (keys['a'] && !keys['d'] && !mouse[GLUT_RIGHT_BUTTON])
             cout << "Walk Left" << endl;
 
-        if (!keys['a'] && keys['d'] && mouse[GLUT_LEFT_BUTTON])
+        if (!keys['a'] && keys['d'] && mouse[GLUT_RIGHT_BUTTON])
             cout << "Jump Right" << endl;
 
-        if (!keys['a'] && keys['d'] && !mouse[GLUT_LEFT_BUTTON])
+        if (!keys['a'] && keys['d'] && !mouse[GLUT_RIGHT_BUTTON])
             cout << "Walk Right" << endl;
 
-        if (((!keys['a'] && !keys['d']) || (keys['a'] && keys['d'])) && mouse[GLUT_LEFT_BUTTON])
+        if (((!keys['a'] && !keys['d']) || (keys['a'] && keys['d'])) && mouse[GLUT_RIGHT_BUTTON])
             cout << "Jump" << endl;
 
-        if (mouse[GLUT_RIGHT_BUTTON])
+        if (mouse[GLUT_LEFT_BUTTON])
             cout << "Shoot" << endl;
     }
 #pragma endregion // Private Methods

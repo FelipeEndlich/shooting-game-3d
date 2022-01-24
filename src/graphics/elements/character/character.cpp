@@ -1,6 +1,6 @@
 #include "character.hpp"
 
-using namespace graphics::elements;
+using namespace graphics::elements::character;
 
 Character::Character()
     : RigidBody(2)

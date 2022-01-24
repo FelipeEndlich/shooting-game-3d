@@ -8,10 +8,10 @@ SOURCE_DIR=./src
 OBJ_DIR=./objects
 
 # .c files
-CPP_SOURCE=$(wildcard $(SOURCE_DIR)/*.cpp $(SOURCE_DIR)/ext/*.cpp $(SOURCE_DIR)/game/*.cpp $(SOURCE_DIR)/graphics/color/*.cpp $(SOURCE_DIR)/graphics/shapes/*.cpp $(SOURCE_DIR)/graphics/elements/*.cpp $(SOURCE_DIR)/math/*.cpp $(SOURCE_DIR)/physics/*.cpp)
+CPP_SOURCE=$(wildcard $(SOURCE_DIR)/*.cpp $(SOURCE_DIR)/ext/*.cpp $(SOURCE_DIR)/game/*.cpp $(SOURCE_DIR)/graphics/color/*.cpp $(SOURCE_DIR)/graphics/shapes/*.cpp $(SOURCE_DIR)/graphics/elements/*.cpp $(SOURCE_DIR)/graphics/elements/character/*.cpp $(SOURCE_DIR)/math/*.cpp $(SOURCE_DIR)/physics/*.cpp)
  
 # .h files
-HPP_SOURCE=$(wildcard $(SOURCE_DIR)/*.hpp $(SOURCE_DIR)/ext/*.hpp $(SOURCE_DIR)/game/*.hpp $(SOURCE_DIR)/graphics/color/*.hpp $(SOURCE_DIR)/graphics/shapes/*.hpp $(SOURCE_DIR)/graphics/elements/*.hpp $(SOURCE_DIR)/math/*.hpp $(SOURCE_DIR)/physics/*.hpp)
+HPP_SOURCE=$(wildcard $(SOURCE_DIR)/*.hpp $(SOURCE_DIR)/ext/*.hpp $(SOURCE_DIR)/game/*.hpp $(SOURCE_DIR)/graphics/color/*.hpp $(SOURCE_DIR)/graphics/shapes/*.hpp $(SOURCE_DIR)/graphics/elements/*.hpp $(SOURCE_DIR)/graphics/elements/character/*.hpp $(SOURCE_DIR)/math/*.hpp $(SOURCE_DIR)/physics/*.hpp)
 
 # Object files
 OBJ=$(subst .cpp,.o,$(subst src,objects,$(CPP_SOURCE)))
@@ -73,6 +73,11 @@ $(OBJ_DIR)/graphics/elements/%.o: $(SOURCE_DIR)/%.cpp $(SOURCE_DIR)/%.hpp
 	$(CC) $< $(CC_FLAGS) -o $@ $(LFLAGS)
 	@ echo ' '
 
+$(OBJ_DIR)/graphics/elements/character/%.o: $(SOURCE_DIR)/%.cpp $(SOURCE_DIR)/%.hpp
+	@ echo 'Building target using GCC compiler: $<'
+	$(CC) $< $(CC_FLAGS) -o $@ $(LFLAGS)
+	@ echo ' '
+
 $(OBJ_DIR)/graphics/shapes/%.o: $(SOURCE_DIR)/%.cpp $(SOURCE_DIR)/%.hpp
 	@ echo 'Building target using GCC compiler: $<'
 	$(CC) $< $(CC_FLAGS) -o $@ $(LFLAGS)
@@ -94,7 +99,7 @@ $(OBJ_DIR)/main.o: $(SOURCE_DIR)/main.cpp $(HPP_SOURCE)
 	@ echo ' '
 
 objFolder:
-	mkdir -p $(OBJ_DIR) $(OBJ_DIR)/ext $(OBJ_DIR)/game $(OBJ_DIR)/math $(OBJ_DIR)/graphics $(OBJ_DIR)/graphics/color $(OBJ_DIR)/graphics/shapes $(OBJ_DIR)/graphics/elements $(OBJ_DIR)/physics
+	mkdir -p $(OBJ_DIR) $(OBJ_DIR)/ext $(OBJ_DIR)/game $(OBJ_DIR)/math $(OBJ_DIR)/graphics $(OBJ_DIR)/graphics/color $(OBJ_DIR)/graphics/shapes $(OBJ_DIR)/graphics/elements $(OBJ_DIR)/graphics/elements/character $(OBJ_DIR)/physics
 
 clean:
 	@ $(RM) $(OBJ_DIR) $(PROJ_NAME) *~

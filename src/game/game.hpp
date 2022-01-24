@@ -2,7 +2,7 @@
 #include <string>
 #include "../ext/tinyxml2.hpp"
 #include "../graphics/elements/map.hpp"
-#include "../graphics/elements/character.hpp"
+#include "../graphics/elements/character/character.hpp"
 #include <vector>
 #include <map>
 
@@ -26,8 +26,8 @@ namespace game
     private:
         double deltaTime;
         graphics::elements::Map map;
-        graphics::elements::Character player;
-        std::vector<graphics::elements::Character> enemies;
+        graphics::elements::character::Character player;
+        std::vector<graphics::elements::character::Character> enemies;
 
         std::map<char, bool> keys;
         std::map<int, bool> mouse;
