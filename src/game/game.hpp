@@ -2,6 +2,8 @@
 #include <string>
 #include "../ext/tinyxml2.hpp"
 #include "../graphics/elements/map.hpp"
+#include "../graphics/elements/character.hpp"
+#include <vector>
 
 namespace game
 {
@@ -17,6 +19,8 @@ namespace game
     private:
         double deltaTime;
         graphics::elements::Map map;
+        graphics::elements::Character player;
+        std::vector<graphics::elements::Character> enemies;
 
         double orthoLeft;
         double orthoRight;

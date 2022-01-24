@@ -44,7 +44,12 @@ void Game::render(int argc, char **argv)
     glOrtho(orthoLeft, orthoRight, orthoBottom, orthoTop, orthoNear, orthoFar);
 
     glClear(GL_COLOR_BUFFER_BIT);
+
     map.render();
+    player.render();
+    for (auto &enemy : enemies)
+        enemy.render();
+
     glutSwapBuffers();
 
     glutMainLoop();
@@ -114,13 +119,13 @@ void Game::loadBackground(tinyxml2::XMLElement *element)
     orthoFar = 0.0;
 }
 
-void Game::loadObstacle(tinyxml2::XMLElement *obstacles)
+void Game::loadObstacle(tinyxml2::XMLElement *element)
 {
-    double width = obstacles->DoubleAttribute("width");
-    double height = obstacles->DoubleAttribute("height");
-    double x = obstacles->DoubleAttribute("x");
-    double y = obstacles->DoubleAttribute("y");
-    string fill = obstacles->Attribute("fill");
+    double width = element->DoubleAttribute("width");
+    double height = element->DoubleAttribute("height");
+    double x = element->DoubleAttribute("x");
+    double y = element->DoubleAttribute("y");
+    string fill = element->Attribute("fill");
 
     Vector origin(2);
     origin[0] = x;
@@ -132,13 +137,39 @@ void Game::loadObstacle(tinyxml2::XMLElement *obstacles)
     map.addObstacle(obstacle);
 }
 
-void Game::loadPlayer(tinyxml2::XMLElement *player)
+void Game::loadPlayer(tinyxml2::XMLElement *element)
 {
-    cout << "Player" << endl;
+    double radius = element->DoubleAttribute("r");
+    double cx = element->DoubleAttribute("cx");
+    double cy = element->DoubleAttribute("cy");
+    string fill = element->Attribute("fill");
+
+    Vector origin(2);
+    origin[0] = cx;
+    origin[1] = cy;
+
+    RGBA color = RGBAFactory::getColor(fill);
+
+    Character player(origin, radius, color);
+
+    this->player = player;
 }
 
-void Game::loadEnemy(tinyxml2::XMLElement *enemies)
+void Game::loadEnemy(tinyxml2::XMLElement *element)
 {
-    cout << "Enemy" << endl;
+    double radius = element->DoubleAttribute("r");
+    double cx = element->DoubleAttribute("cx");
+    double cy = element->DoubleAttribute("cy");
+    string fill = element->Attribute("fill");
+
+    Vector origin(2);
+    origin[0] = cx;
+    origin[1] = cy;
+
+    RGBA color = RGBAFactory::getColor(fill);
+
+    Character enemy(origin, radius, color);
+
+    enemies.push_back(enemy);
 }
 #pragma endregion // Private Methods

@@ -4,6 +4,7 @@
 #include "../../math/vector.hpp"
 #include "../color/rgba.hpp"
 #include "../shapes/rectangle.hpp"
+#include "../shapes/circle.hpp"
 
 using namespace math;
 using namespace physics;
@@ -14,16 +15,16 @@ namespace graphics
 {
     namespace elements
     {
-        class Obstacle : public RigidBody
+        class Character : public RigidBody
         {
         public:
-            Obstacle() = default;
-            Obstacle(Vector &initialPosition, double width, double height, RGBA &color);
+            Character();
+            Character(Vector &initialPosition, double radius, RGBA &color);
 
             void render();
 
         private:
-            Rectangle shape;
+            Circle shape;
         };
     }
 }
