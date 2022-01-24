@@ -15,6 +15,16 @@ using namespace std;
 Game::Game(string path)
 {
     deltaTime = 0.0;
+
+    Vector origin(2);
+    origin[0] = -0.5;
+    origin[1] = -0.5;
+
+    RGBA color(0, 0, 255);
+
+    Rectangle background(origin, 1, 1, color);
+
+    map.setBackground(background);
 }
 Game::~Game()
 {
@@ -41,31 +51,7 @@ void Game::render(int argc, char **argv)
     glOrtho(-2.0, 2.0, -2.0, 2.0, 2.0, 0.0);
 
     glClear(GL_COLOR_BUFFER_BIT);
-    Vector origin(2);
-    origin[0] = 0;
-    origin[1] = 0;
-
-    Vector center(2);
-    center[0] = 0.0;
-    center[1] = 0.0;
-
-    Vector translate(2);
-    translate[0] = 2.0;
-    translate[1] = 0.0;
-
-    Vector scale(2);
-    scale[0] = 0.25;
-    scale[1] = 0.25;
-
-    RGBA color(255, 100, 0, 255);
-
-    Circle circle(origin, 0.5, color);
-    circle.draw();
-
-    glClear(GL_COLOR_BUFFER_BIT);
-    circle.scale(center, scale);
-    circle.draw();
-
+    map.render();
     glutSwapBuffers();
 
     glutMainLoop();

@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include "../graphics/elements/map.hpp"
 
 namespace game
 {
@@ -14,5 +15,6 @@ namespace game
 
     private:
         double deltaTime;
+        graphics::elements::Map map;
     };
 }
