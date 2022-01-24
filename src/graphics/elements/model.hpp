@@ -15,6 +15,7 @@ namespace graphics
             Model(const math::Matrix &matrix, const graphics::color::RGBA &color);
             Model(const Model &other);
             Model(const Model &&other);
+            virtual ~Model();
 
             Model &operator=(const Model &other);
             Model &operator=(const Model &&other);

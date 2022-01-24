@@ -14,6 +14,7 @@ namespace graphics
             Model2D(const math::Matrix &matrix, const graphics::color::RGBA &color);
             Model2D(const Model2D &other);
             Model2D(const Model2D &&other);
+            virtual ~Model2D();
 
             virtual void translate(const math::Vector &vector);
             virtual void scale(const math::Vector center, const math::Vector &vector);
