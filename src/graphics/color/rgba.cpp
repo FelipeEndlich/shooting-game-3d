@@ -1,4 +1,4 @@
-#include "rgb.hpp"
+#include "rgba.hpp"
 
 using namespace graphics::color;
 

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "./../../math/matrix.hpp"
-#include "./../color/rgb.hpp"
+#include "./../color/rgba.hpp"
 
 namespace graphics
 {
