@@ -42,11 +42,11 @@ void Model2D::translate(const math::Vector &vector)
         points[i] += vector;
 }
 
-void Model2D::scale(const math::Vector center, const math::Vector &vector)
+void Model2D::scale(const math::Vector &center, const math::Vector &vector)
 {
     math::Matrix T = math::Matrix::identity(3, 3);
-    T[0][2] = center[0];
-    T[1][2] = center[1];
+    T[0][2] = -center[0];
+    T[1][2] = -center[1];
 
     math::Matrix S = math::Matrix::identity(3, 3);
     S[0][0] = vector[0];
@@ -59,11 +59,11 @@ void Model2D::scale(const math::Vector center, const math::Vector &vector)
     transform(T * S * T_rev);
 }
 
-void Model2D::rotate(const math::Vector center, double radians)
+void Model2D::rotate(const math::Vector &center, double radians)
 {
     math::Matrix T = math::Matrix::identity(3, 3);
-    T[0][2] = center[0];
-    T[1][2] = center[1];
+    T[0][2] = -center[0];
+    T[1][2] = -center[1];
 
     math::Matrix R = math::Matrix::identity(3, 3);
     R[0][0] = cos(radians);
@@ -81,14 +81,23 @@ void Model2D::rotate(const math::Vector center, double radians)
 void Model2D::transform(const math::Matrix &matrix)
 {
     for (int i = 0; i < points.getRows(); i++)
-        points[i] = matrix * points[i];
+    {
+        math::Vector point = math::Vector::fill(3, 1);
+        point[0] = points[i][0];
+        point[1] = points[i][1];
+
+        point = matrix * point;
+
+        points[i][0] = point[0];
+        points[i][1] = point[1];
+    }
 }
 
-void Model2D::transform(const math::Vector center, const math::Vector &translate, const math::Vector &scale, double radians)
+void Model2D::transform(const math::Vector &center, const math::Vector &scale, double radians)
 {
     math::Matrix T = math::Matrix::identity(3, 3);
-    T[0][2] = center[0];
-    T[1][2] = center[1];
+    T[0][2] = -center[0];
+    T[1][2] = -center[1];
 
     math::Matrix S = math::Matrix::identity(3, 3);
     S[0][0] = scale[0];
@@ -104,7 +113,7 @@ void Model2D::transform(const math::Vector center, const math::Vector &translate
     T_rev[0][2] *= -1;
     T_rev[1][2] *= -1;
 
-    transform(T * R * S * T_rev);
+    transform(T * S * R * T_rev);
 }
 
 void Model2D::draw()
@@ -118,6 +127,7 @@ void Model2D::draw()
     glBegin(GL_POLYGON);
     for (int i = 0; i < points.getRows(); i++)
         glVertex2d(points[i][0], points[i][1]);
+
     glEnd();
 }
 #pragma endregion // Methods

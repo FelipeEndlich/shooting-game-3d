@@ -32,10 +32,6 @@ Rectangle::Rectangle(const Rectangle &&other)
     this->points = other.points;
     this->color = other.color;
 }
-
-Rectangle::~Rectangle()
-{
-}
 #pragma endregion // Constructor and Destructor
 
 #pragma region Operator Overloads

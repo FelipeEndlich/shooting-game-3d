@@ -32,10 +32,6 @@ Circle::Circle(const Circle &&other)
     this->points = other.points;
     this->color = other.color;
 }
-
-Circle::~Circle()
-{
-}
 #pragma endregion // Constructor and Destructor
 
 #pragma region Operator Overloads

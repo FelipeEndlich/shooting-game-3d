@@ -14,7 +14,7 @@ namespace graphics
             Circle(const math::Vector &origin, double radius, const graphics::color::RGBA &color);
             Circle(const Circle &other);
             Circle(const Circle &&other);
-            ~Circle();
+            ~Circle() = default;
 
             Circle &operator=(const Circle &other);
             Circle &operator=(const Circle &&other);
@@ -25,5 +25,5 @@ namespace graphics
 
             void buildPoints(const math::Vector &origin, double radius);
         };
-    };
+    }
 }

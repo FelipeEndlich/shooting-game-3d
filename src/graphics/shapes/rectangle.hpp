@@ -14,7 +14,7 @@ namespace graphics
             Rectangle(const math::Vector &origin, double width, double height, const graphics::color::RGBA &color);
             Rectangle(const Rectangle &other);
             Rectangle(const Rectangle &&other);
-            ~Rectangle();
+            ~Rectangle() = default;
 
             Rectangle &operator=(const Rectangle &other);
             Rectangle &operator=(const Rectangle &&other);
