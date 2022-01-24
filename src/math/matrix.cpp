@@ -5,6 +5,11 @@
 using namespace math;
 
 #pragma region Constructor and Destructor
+Matrix::Matrix()
+{
+    allocate(0, 0);
+}
+
 Matrix::Matrix(int rows, int columns)
 {
     allocate(rows, columns);
@@ -20,6 +25,44 @@ Matrix::~Matrix()
     deallocate();
 }
 #pragma endregion // Constructor and Destructor
+
+#pragma region Getters and Setters
+int Matrix::getRows() const
+{
+    return rows;
+}
+
+int Matrix::getColumns() const
+{
+    return columns;
+}
+
+void Matrix::setRows(int rows)
+{
+    if (rows < 0)
+    {
+        throw std::invalid_argument("rows must be greater than or equal to 0");
+    }
+    if (rows != this->rows)
+    {
+        deallocate();
+        allocate(rows, columns);
+    }
+}
+
+void Matrix::setColumns(int columns)
+{
+    if (columns < 0)
+    {
+        throw std::invalid_argument("columns must be greater than or equal to 0");
+    }
+    if (columns != this->columns)
+    {
+        deallocate();
+        allocate(rows, columns);
+    }
+}
+#pragma endregion // Getters and Setters
 
 #pragma region Operator Overloading
 Matrix &Matrix::operator=(const Matrix &other)
@@ -72,6 +115,20 @@ Matrix Matrix::operator*(const Matrix &other)
         for (int j = 0; j < other.columns; j++)
             for (int k = 0; k < this->columns; k++)
                 result[i][j] += this->values[i][k] * other.values[k][j];
+
+    return result;
+}
+
+Vector Matrix::operator*(const Vector &other) const
+{
+    if (this->columns != other.getDimension())
+        throw std::invalid_argument("Dimension mismatch");
+
+    Vector result(this->rows);
+
+    for (int i = 0; i < this->rows; i++)
+        for (int j = 0; j < this->columns; j++)
+            result[i] += this->values[i][j] * other[j];
 
     return result;
 }

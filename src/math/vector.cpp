@@ -174,6 +174,22 @@ double &Vector::operator[](int i)
 }
 #pragma endregion // Operator Overloading
 
+#pragma region Getters and Setters
+int Vector::getDimension() const
+{
+    return this->dimension;
+}
+
+void Vector::setDimension(int dimension)
+{
+    if (dimension < 0)
+        throw std::invalid_argument("Dimension must be greater than 0");
+
+    deallocate();
+    allocate(dimension);
+}
+#pragma endregion // Getters and Setters
+
 #pragma region Static Methods
 Vector Vector::zero(int dimension)
 {

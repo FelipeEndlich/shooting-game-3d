@@ -3,6 +3,14 @@
 using namespace graphics::color;
 
 #pragma region Constructors and Destructors
+RGBA::RGBA()
+{
+    this->r = 0;
+    this->g = 0;
+    this->b = 0;
+    this->a = 255;
+}
+
 RGBA::RGBA(unsigned int r, unsigned int g, unsigned int b)
 {
     this->r = r;

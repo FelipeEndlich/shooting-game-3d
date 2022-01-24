@@ -32,6 +32,10 @@ namespace math
         double operator[](int i) const;
         double &operator[](int i);
 
+        int getDimension() const;
+
+        void setDimension(int dimension);
+
         double dotProduct(const Vector &other) const;
         Vector crossProduct(const Vector &other) const;
         double scalarProduct(const Vector &other) const;
