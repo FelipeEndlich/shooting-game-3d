@@ -1,14 +1,15 @@
 #pragma once
 
-#include "coordinate.hpp"
+#include "vector.hpp"
 #include <vector>
+#include <string>
 
 namespace math
 {
     class Matrix
     {
     public:
-        Matrix(int rows);
+        Matrix(int rows, int columns);
         Matrix(const Matrix &other);
         ~Matrix();
 
@@ -27,32 +28,23 @@ namespace math
         Matrix &operator/=(const double &other);
         Matrix &operator^=(const int &other);
 
-        Matrix &operator++();
-        Matrix &operator--();
-        Matrix operator++(int);
-        Matrix operator--(int);
-
-        Coordinate operator[](int i) const;
-        Coordinate &operator[](int i);
+        Vector operator[](int i) const;
+        Vector &operator[](int i);
 
         Matrix transpose();
-        Matrix inverse();
-        Matrix cofactor();
-        Matrix adjoint();
-        double determinant();
-        double trace();
+        std::string to_string() const;
 
-        const char *toString() const;
-
-        static Matrix zero(int rows);
-        static Matrix identity(int rows);
+        static Matrix zero(int rows, int columns);
+        static Matrix identity(int rows, int columns);
 
     protected:
-        void allocate(int rows);
+        void allocate(int rows, int columns);
         void deallocate();
         void copy(const Matrix &other);
 
     private:
-        std::vector<Coordinate> coordinates;
+        int rows;
+        int columns;
+        std::vector<Vector> values;
     };
 } // namespace Math

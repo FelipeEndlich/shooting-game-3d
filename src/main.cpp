@@ -2,7 +2,7 @@
 #include <string>
 using namespace std;
 
-#include "./math/vector.hpp"
+#include "./math/matrix.hpp"
 using namespace math;
 
 int main(int argc, char **argv)

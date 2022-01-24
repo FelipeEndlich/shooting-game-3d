@@ -8,6 +8,7 @@ namespace math
     class Vector
     {
     public:
+        Vector();
         Vector(int dimension);
         Vector(const Vector &other);
         ~Vector();
@@ -40,6 +41,8 @@ namespace math
         double angle(const Vector &other) const;
 
         std::string to_string() const;
+        void resize(int dimension);
+        void swap(Vector &other);
 
         static Vector zero(int dimension);
         static Vector fill(int dimension, double value);
@@ -50,6 +53,7 @@ namespace math
         void deallocate();
 
     private:
+        int dimension;
         std::vector<double> values;
     };
 } // namespace Math
