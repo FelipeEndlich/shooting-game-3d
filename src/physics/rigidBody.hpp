@@ -7,7 +7,7 @@ namespace physics
     class RigidBody
     {
     public:
-        RigidBody(int dimension, double width, double height);
+        RigidBody(int dimension);
         virtual ~RigidBody() = default;
 
         void update(double dt);

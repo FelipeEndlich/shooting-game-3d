@@ -8,22 +8,31 @@ RGBA RGBAFactory::getColor(Color color)
     {
     case BLACK:
         return RGBA(0, 0, 0);
+    case BLUE:
+        return RGBA(0, 0, 255);
+    case RED:
+        return RGBA(255, 0, 0);
+    case GREEN:
+        return RGBA(0, 255, 0);
     default:
         return RGBA(0, 0, 0);
     }
 }
 
-RGBA RGBAFactory::getColor(std::string color)
+RGBA RGBAFactory::getColor(std::string strColor)
 {
-    color.erase(std::remove(color.begin(), color.end(), ' '), color.end());
-    std::transform(color.begin(), color.end(), color.begin(), ::tolower);
+    strColor.erase(std::remove(strColor.begin(), strColor.end(), ' '), strColor.end());
+    std::transform(strColor.begin(), strColor.end(), strColor.begin(), ::tolower);
 
-    if (color == "black")
-    {
-        return RGBA(0, 0, 0);
-    }
-    else
-    {
-        return RGBA(0, 0, 0);
-    }
+    Color color = BLACK;
+    if (strColor == "black")
+        color = BLACK;
+    else if (strColor == "blue")
+        color = BLUE;
+    else if (strColor == "red")
+        color = RED;
+    else if (strColor == "green")
+        color = GREEN;
+
+    return getColor(color);
 }

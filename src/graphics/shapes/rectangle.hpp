@@ -19,6 +19,9 @@ namespace graphics
             Rectangle &operator=(const Rectangle &other);
             Rectangle &operator=(const Rectangle &&other);
 
+            double getWidth() const;
+            double getHeight() const;
+
         private:
             double width;
             double height;

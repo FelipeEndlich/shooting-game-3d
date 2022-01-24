@@ -70,3 +70,15 @@ void Rectangle::buildPoints(const math::Vector &origin, double width, double hei
     points[3][1] = origin[1] + height;
 }
 #pragma endregion // Private Methods
+
+#pragma region Getters and Setters
+double Rectangle::getWidth() const
+{
+    return width;
+}
+
+double Rectangle::getHeight() const
+{
+    return height;
+}
+#pragma endregion // Getters and Setters

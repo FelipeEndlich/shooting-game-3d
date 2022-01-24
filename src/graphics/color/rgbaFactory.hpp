@@ -11,7 +11,10 @@ namespace graphics
         public:
             enum Color
             {
-                BLACK
+                BLACK,
+                BLUE,
+                RED,
+                GREEN
             };
 
             static RGBA getColor(Color color);

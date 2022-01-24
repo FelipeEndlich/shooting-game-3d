@@ -2,7 +2,7 @@
 
 using namespace physics;
 
-RigidBody::RigidBody(int dimension, double width, double height)
+RigidBody::RigidBody(int dimension)
 {
     position = math::Vector::zero(dimension);
     velocity = math::Vector::zero(dimension);
