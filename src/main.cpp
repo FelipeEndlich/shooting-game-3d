@@ -22,7 +22,7 @@ int main(int argc, char **argv)
     string configPath = argv[1];
 
     Game game(configPath);
-    game.render(argc, argv);
+    game.run(argc, argv);
 
     return 0;
 }
