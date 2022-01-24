@@ -5,7 +5,7 @@ using namespace graphics::elements;
 #pragma region Constructor and Destructor
 Rectangle::Rectangle()
 {
-    this->points = math::Matrix::zero(4, 2);
+    this->color = graphics::color::RGBA();
     buildPoints(math::Vector::zero(2), 0, 0);
 }
 
