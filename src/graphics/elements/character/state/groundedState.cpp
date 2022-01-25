@@ -34,20 +34,20 @@ State *GroundedState::clone()
     return new GroundedState(*this);
 }
 
-void GroundedState::fall()
+void GroundedState::fall(double deltaTime)
 {
 }
 
-void GroundedState::jump()
+void GroundedState::jump(double deltaTime)
 {
     // Switch to jumping state
 }
 
-void GroundedState::stop()
+void GroundedState::stop(double deltaTime)
 {
 }
 
-void GroundedState::move(Direction direction)
+void GroundedState::move(double deltaTime, Direction direction)
 {
     //TODO: if direction is different than current direction then mirror the character
 

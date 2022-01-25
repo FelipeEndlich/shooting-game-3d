@@ -25,6 +25,8 @@ namespace game
 
     private:
         double deltaTime;
+        double currentTime;
+
         graphics::elements::Map map;
         graphics::elements::character::Character *player;
         std::vector<graphics::elements::character::Character *> enemies;

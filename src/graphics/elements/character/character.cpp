@@ -1,5 +1,6 @@
 #include "./character.hpp"
 #include "./state/groundedState.hpp"
+#include "../../../physics/rigidBody.hpp"
 
 using namespace math;
 using namespace graphics::color;
@@ -45,24 +46,24 @@ void Character::render()
     shape.draw();
 }
 
-void Character::fall()
+void Character::fall(double deltaTime)
 {
-    state->fall();
+    state->fall(deltaTime);
 }
 
-void Character::jump()
+void Character::jump(double deltaTime)
 {
-    state->jump();
+    state->jump(deltaTime);
 }
 
-void Character::stop()
+void Character::stop(double deltaTime)
 {
-    state->stop();
+    state->stop(deltaTime);
 }
 
-void Character::move(Direction direction)
+void Character::move(double deltaTime, Direction direction)
 {
-    state->move(direction);
+    state->move(deltaTime, direction);
 }
 
 #include <iostream>

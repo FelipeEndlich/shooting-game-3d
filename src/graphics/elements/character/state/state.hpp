@@ -19,10 +19,10 @@ namespace graphics::elements::character
 
         std::string getName() const;
 
-        virtual void fall() = 0;
-        virtual void jump() = 0;
-        virtual void stop() = 0;
-        virtual void move(Direction direction) = 0;
+        virtual void fall(double deltaTime) = 0;
+        virtual void jump(double deltaTime) = 0;
+        virtual void stop(double deltaTime) = 0;
+        virtual void move(double deltaTime, Direction direction) = 0;
 
         virtual State *clone() = 0;
 

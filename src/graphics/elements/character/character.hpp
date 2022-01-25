@@ -25,10 +25,10 @@ namespace graphics::elements::character
 
         void render();
 
-        void fall();
-        void jump();
-        void stop();
-        void move(Direction direction);
+        void fall(double deltaTime);
+        void jump(double deltaTime);
+        void stop(double deltaTime);
+        void move(double deltaTime, Direction direction);
 
         void setState(State *state);
 

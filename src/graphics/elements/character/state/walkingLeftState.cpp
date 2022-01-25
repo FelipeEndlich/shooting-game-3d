@@ -15,7 +15,7 @@ WalkingLeftState::WalkingLeftState(Character *character)
     : State(character)
 {
     character->velocity[0] = 0;
-    character->velocity[1] = 0;
+    character->velocity[1] = -1;
 
     character->acceleration[0] = 0;
     character->acceleration[1] = 0;
@@ -28,21 +28,21 @@ State *WalkingLeftState::clone()
     return new WalkingLeftState(*this);
 }
 
-void WalkingLeftState::fall()
+void WalkingLeftState::fall(double deltaTime)
 {
 }
 
-void WalkingLeftState::jump()
+void WalkingLeftState::jump(double deltaTime)
 {
     // Switch to jumping state
 }
 
-void WalkingLeftState::stop()
+void WalkingLeftState::stop(double deltaTime)
 {
     character->setState(new GroundedState(character));
 }
 
-void WalkingLeftState::move(Direction direction)
+void WalkingLeftState::move(double deltaTime, Direction direction)
 {
     //TODO: if direction is different than current direction then mirror the character
     if (direction == Direction::RIGHT)

@@ -70,11 +70,6 @@ namespace game
 #pragma endregion // Constructors and Destructors
 
 #pragma region Public Methods
-    void Game::update(double deltaTime)
-    {
-        this->deltaTime = deltaTime;
-    }
-
     void Game::run(int argc, char **argv)
     {
         glutInit(&argc, argv);
@@ -102,8 +97,14 @@ namespace game
 
     void Game::idle()
     {
-        checkKeys();
-        glutPostRedisplay();
+        double currentTime = glutGet(GLUT_ELAPSED_TIME);
+        deltaTime = currentTime - this->currentTime;
+        if (deltaTime > 0.1)
+        {
+            this->currentTime = currentTime;
+            checkKeys();
+            glutPostRedisplay();
+        }
     }
 
     void Game::display()
@@ -244,33 +245,31 @@ namespace game
 
         RGBA color = RGBAFactory::getColor(fill);
 
-        //Character enemy(origin, radius, color);
-
         enemies.push_back(new Character(origin, radius, color));
     }
 
     void Game::checkKeys()
     {
-        if (keys['a'] && !keys['d'] && mouse[GLUT_RIGHT_BUTTON])
-            cout << "Jump Left" << endl;
+        // if (keys['a'] && !keys['d'] && mouse[GLUT_RIGHT_BUTTON])
+        //     cout << "Jump Left" << endl;
 
         if (keys['a'] && !keys['d'] && !mouse[GLUT_RIGHT_BUTTON])
-            player->move(Direction::LEFT);
+            player->move(deltaTime, Direction::LEFT);
 
-        if (!keys['a'] && keys['d'] && mouse[GLUT_RIGHT_BUTTON])
-            cout << "Jump Right" << endl;
+        // if (!keys['a'] && keys['d'] && mouse[GLUT_RIGHT_BUTTON])
+        //     cout << "Jump Right" << endl;
 
         if (!keys['a'] && keys['d'] && !mouse[GLUT_RIGHT_BUTTON])
-            player->move(Direction::RIGHT);
+            player->move(deltaTime, Direction::RIGHT);
 
         if (((!keys['a'] && !keys['d']) || (keys['a'] && keys['d'])) && !mouse[GLUT_RIGHT_BUTTON])
-            player->stop();
+            player->stop(deltaTime);
 
-        if (((!keys['a'] && !keys['d']) || (keys['a'] && keys['d'])) && mouse[GLUT_RIGHT_BUTTON])
-            cout << "Jump" << endl;
+        // if (((!keys['a'] && !keys['d']) || (keys['a'] && keys['d'])) && mouse[GLUT_RIGHT_BUTTON])
+        //     cout << "Jump" << endl;
 
-        if (mouse[GLUT_LEFT_BUTTON])
-            cout << "Shoot" << endl;
+        // if (mouse[GLUT_LEFT_BUTTON])
+        //     cout << "Shoot" << endl;
     }
 #pragma endregion // Private Methods
 }

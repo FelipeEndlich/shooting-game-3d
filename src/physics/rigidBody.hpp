@@ -10,7 +10,7 @@ namespace physics
         RigidBody(int dimension);
         virtual ~RigidBody() = default;
 
-        void update(double dt);
+        virtual void update(double dt);
 
     protected:
         math::Vector position;
