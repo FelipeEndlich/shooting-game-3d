@@ -12,6 +12,8 @@ namespace physics
 
         virtual void update(double dt);
 
+        inline static double DEFAULT_HORIZONTAL_VELOCITY = 0.1;
+
     protected:
         math::Vector position;
         math::Vector velocity;
