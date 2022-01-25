@@ -5,29 +5,42 @@
 #include "../../color/rgba.hpp"
 #include "../../shapes/rectangle.hpp"
 #include "../../shapes/circle.hpp"
+#include "./direction.hpp"
+#include "./state/state.hpp"
+#include "./state/groundedState.hpp"
+#include "./state/walkingLeftState.hpp"
+#include "./state/walkingRightState.hpp"
 
-using namespace math;
-using namespace physics;
-using namespace graphics::shapes;
-using namespace graphics::color;
-
-namespace graphics
+namespace graphics::elements::character
 {
-    namespace elements
+    class Character : public physics::RigidBody
     {
-        namespace character
-        {
-            class Character : public RigidBody
-            {
-            public:
-                Character();
-                Character(Vector &initialPosition, double radius, RGBA &color);
 
-                void render();
+    public:
+        Character();
+        Character(math::Vector &initialPosition, double radius, graphics::color::RGBA &color);
+        ~Character();
 
-            private:
-                Circle shape;
-            };
-        }
-    }
+        Character &operator=(const Character &other);
+
+        void render();
+
+        void fall();
+        void jump();
+        void stop();
+        void move(Direction direction);
+
+        void setState(State *state);
+
+    private:
+        graphics::shapes::Circle shape;
+        State *state;
+
+        void allocate();
+        void deallocate();
+
+        friend class GroundedState;
+        friend class WalkingLeftState;
+        friend class WalkingRightState;
+    };
 }

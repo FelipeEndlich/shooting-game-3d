@@ -12,7 +12,7 @@ namespace game
     {
     public:
         Game(std::string path);
-        virtual ~Game() = default;
+        virtual ~Game();
 
         void update(double deltaTime);
         void run(int argc, char **argv);
@@ -26,8 +26,8 @@ namespace game
     private:
         double deltaTime;
         graphics::elements::Map map;
-        graphics::elements::character::Character player;
-        std::vector<graphics::elements::character::Character> enemies;
+        graphics::elements::character::Character *player;
+        std::vector<graphics::elements::character::Character *> enemies;
 
         std::map<char, bool> keys;
         std::map<int, bool> mouse;
@@ -38,6 +38,9 @@ namespace game
         double orthoTop;
         double orthoNear;
         double orthoFar;
+
+        void allocate();
+        void deallocate();
 
         void loadMap(std::string path);
         void loadBackground(tinyxml2::XMLElement *background);

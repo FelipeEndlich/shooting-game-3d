@@ -48,7 +48,24 @@ namespace game
     Game::Game(string path)
     {
         instance = this;
+        allocate();
         loadMap(path);
+    }
+
+    Game::~Game()
+    {
+        deallocate();
+    }
+
+    void Game::allocate()
+    {
+    }
+
+    void Game::deallocate()
+    {
+        delete player;
+        for (auto enemy : enemies)
+            delete enemy;
     }
 #pragma endregion // Constructors and Destructors
 
@@ -94,9 +111,9 @@ namespace game
         glClear(GL_COLOR_BUFFER_BIT);
 
         map.render();
-        player.render();
+        player->render();
         for (auto &enemy : enemies)
-            enemy.render();
+            enemy->render();
 
         glutSwapBuffers();
     }
@@ -211,9 +228,7 @@ namespace game
 
         RGBA color = RGBAFactory::getColor(fill);
 
-        Character player(origin, radius, color);
-
-        this->player = player;
+        this->player = new Character(origin, radius, color);
     }
 
     void Game::loadEnemy(tinyxml2::XMLElement *element)
@@ -229,9 +244,9 @@ namespace game
 
         RGBA color = RGBAFactory::getColor(fill);
 
-        Character enemy(origin, radius, color);
+        //Character enemy(origin, radius, color);
 
-        enemies.push_back(enemy);
+        enemies.push_back(new Character(origin, radius, color));
     }
 
     void Game::checkKeys()
@@ -240,13 +255,16 @@ namespace game
             cout << "Jump Left" << endl;
 
         if (keys['a'] && !keys['d'] && !mouse[GLUT_RIGHT_BUTTON])
-            cout << "Walk Left" << endl;
+            player->move(Direction::LEFT);
 
         if (!keys['a'] && keys['d'] && mouse[GLUT_RIGHT_BUTTON])
             cout << "Jump Right" << endl;
 
         if (!keys['a'] && keys['d'] && !mouse[GLUT_RIGHT_BUTTON])
-            cout << "Walk Right" << endl;
+            player->move(Direction::RIGHT);
+
+        if (((!keys['a'] && !keys['d']) || (keys['a'] && keys['d'])) && !mouse[GLUT_RIGHT_BUTTON])
+            player->stop();
 
         if (((!keys['a'] && !keys['d']) || (keys['a'] && keys['d'])) && mouse[GLUT_RIGHT_BUTTON])
             cout << "Jump" << endl;
