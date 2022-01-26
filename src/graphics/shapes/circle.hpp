@@ -17,6 +17,8 @@ namespace graphics::shapes
         Circle &operator=(const Circle &other);
         Circle &operator=(const Circle &&other);
 
+        double get_radius() const;
+
     private:
         double radius_;
         static inline double segments_ = 32;

@@ -2,6 +2,7 @@
 
 #include "../../../physics/rigid_body.hpp"
 #include "../../../physics/direction.hpp"
+#include "../../../physics/icollidable.hpp"
 #include "../../../math/vector.hpp"
 #include "../../color/rgba.hpp"
 #include "../../shapes/rectangle.hpp"
@@ -13,7 +14,7 @@
 
 namespace graphics::elements::state
 {
-    class Character : public physic::RigidBody
+    class Character : public physic::RigidBody, public physic::ICollidable
     {
 
     public:
@@ -31,6 +32,11 @@ namespace graphics::elements::state
         void Move(double delta_time, physic::Direction direction);
 
         void set_state(BaseState *state);
+
+        math::Vector get_position() override;
+        double get_width() override;
+        double get_height() override;
+        void ProcessCollision(ICollidable *collidable) override;
 
     private:
         graphics::shapes::Circle shape_;

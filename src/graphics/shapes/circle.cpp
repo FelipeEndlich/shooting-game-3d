@@ -17,24 +17,28 @@ Circle::Circle()
 Circle::Circle(const Vector &origin, double radius)
 {
     color_ = RGBA();
+    radius_ = radius;
     BuildPoints(origin, radius);
 }
 
 Circle::Circle(const Vector &origin, double radius, const RGBA &color)
 {
     color_ = color;
+    radius_ = radius;
     BuildPoints(origin, radius);
 }
 
 Circle::Circle(const Circle &other)
 {
     points_ = other.points_;
+    radius_ = other.radius_;
     color_ = other.color_;
 }
 
 Circle::Circle(const Circle &&other)
 {
     points_ = other.points_;
+    radius_ = other.radius_;
     color_ = other.color_;
 }
 #pragma endregion // Constructor and Destructor
@@ -44,6 +48,7 @@ Circle &Circle::operator=(const Circle &other)
 {
     points_ = other.points_;
     color_ = other.color_;
+    radius_ = other.radius_;
     return *this;
 }
 
@@ -51,6 +56,7 @@ Circle &Circle::operator=(const Circle &&other)
 {
     points_ = other.points_;
     color_ = other.color_;
+    radius_ = other.radius_;
     return *this;
 }
 #pragma endregion // Operator Overloads
@@ -70,3 +76,8 @@ void Circle::BuildPoints(const Vector &origin, double radius)
     points_[segments_][1] = points_[0][1];
 }
 #pragma endregion // Private Methods
+
+double Circle::get_radius() const
+{
+    return radius_;
+}

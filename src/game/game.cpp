@@ -20,6 +20,7 @@ using ::graphics::elements::state::Character;
 using ::graphics::shapes::Circle;
 using ::graphics::shapes::Rectangle;
 using ::math::Vector;
+using ::physic::CollisionSystem;
 using ::physic::Direction;
 using ::std::cout;
 using ::std::endl;
@@ -113,6 +114,7 @@ namespace shoot_and_jump
         {
             this->current_time_ = current_time;
             CheckKeys();
+            collision_system_.ProcessCollisions();
             glutPostRedisplay();
         }
     }
@@ -239,7 +241,9 @@ namespace shoot_and_jump
 
         RGBA color = RGBAFactory::get_color(fill);
 
-        this->player_ = new Character(origin, radius, color);
+        Character *player = new Character(origin, radius, color);
+        this->player_ = player;
+        collision_system_.AddToCollisionSystem(player);
     }
 
     void Game::LoadEnemy(tinyxml2::XMLElement *element)
@@ -255,7 +259,9 @@ namespace shoot_and_jump
 
         RGBA color = RGBAFactory::get_color(fill);
 
-        enemies_.push_back(new Character(origin, radius, color));
+        Character *enemy = new Character(origin, radius, color);
+        enemies_.push_back(enemy);
+        collision_system_.AddToCollisionSystem(enemy);
     }
 
     void Game::CheckKeys()

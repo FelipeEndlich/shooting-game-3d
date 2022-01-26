@@ -3,6 +3,7 @@
 #include "../ext/tinyxml2.hpp"
 #include "../graphics/elements/map.hpp"
 #include "../graphics/elements/character/character.hpp"
+#include "../physics/collision_system.hpp"
 #include <vector>
 #include <map>
 
@@ -40,6 +41,8 @@ namespace shoot_and_jump
         double ortho_top_;
         double ortho_near_;
         double ortho_far_;
+
+        physic::CollisionSystem collision_system_;
 
         void Allocate();
         void Deallocate();

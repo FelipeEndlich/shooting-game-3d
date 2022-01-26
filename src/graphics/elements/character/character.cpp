@@ -12,6 +12,7 @@ using ::graphics::elements::state::GroundedState;
 using ::graphics::shapes::Circle;
 using ::math::Vector;
 using ::physic::Direction;
+using ::physic::ICollidable;
 using ::std::cout;
 using ::std::endl;
 
@@ -89,4 +90,28 @@ void Character::Allocate()
 void Character::Deallocate()
 {
     delete state_;
+}
+
+#include <iostream>
+using namespace std;
+Vector Character::get_position()
+{
+    Vector position = position_;
+    position[0] -= shape_.get_radius();
+    position[1] -= shape_.get_radius();
+    return position_;
+}
+
+double Character::get_width()
+{
+    return shape_.get_radius() * 2;
+}
+
+double Character::get_height()
+{
+    return shape_.get_radius() * 2;
+}
+void Character::ProcessCollision(ICollidable *collidable)
+{
+    cout << "Character::ProcessCollision()" << endl;
 }

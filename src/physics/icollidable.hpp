@@ -2,8 +2,6 @@
 
 #include "../math/vector.hpp"
 
-#include "direction.hpp"
-
 namespace physic
 {
     class ICollidable
@@ -16,6 +14,6 @@ namespace physic
         virtual double get_width() = 0;
         virtual double get_height() = 0;
 
-        virtual void ProcessCollision(ICollidable *collidable, Direction direction) = 0;
+        virtual void ProcessCollision(ICollidable *collidable) = 0;
     };
 }
