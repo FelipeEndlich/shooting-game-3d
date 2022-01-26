@@ -18,26 +18,26 @@ namespace graphics::elements::state
 
     public:
         Character();
-        Character(math::Vector &initialPosition, double radius, graphics::color::RGBA &color);
+        Character(math::Vector &initial_position, double radius, graphics::color::RGBA &color);
         ~Character();
 
         Character &operator=(const Character &other);
 
-        void render();
+        void Render();
 
-        void fall(double deltaTime);
-        void jump(double deltaTime);
-        void stop(double deltaTime);
-        void move(double deltaTime, Direction direction);
+        void Fall(double delta_time);
+        void Jump(double delta_time);
+        void Stop(double delta_time);
+        void Move(double delta_time, Direction direction);
 
-        void setState(BaseState *state);
+        void set_state(BaseState *state);
 
     private:
-        graphics::shapes::Circle shape;
-        BaseState *state;
+        graphics::shapes::Circle shape_;
+        BaseState *state_;
 
-        void allocate();
-        void deallocate();
+        void Allocate();
+        void Deallocate();
 
         friend class GroundedState;
         friend class WalkingLeftState;

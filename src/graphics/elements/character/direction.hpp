@@ -4,7 +4,7 @@ namespace graphics::elements::state
 {
     enum Direction
     {
-        LEFT,
-        RIGHT
+        kLeft,
+        kRight
     };
 }

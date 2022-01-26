@@ -6,6 +6,7 @@
 
 using graphics::elements::state::BaseState;
 using graphics::elements::state::Character;
+using graphics::elements::state::Direction;
 using graphics::elements::state::WalkingLeftState;
 using graphics::elements::state::WalkingRightState;
 using math::Vector;
@@ -45,14 +46,14 @@ void WalkingRightState::Jump(double delta_time)
 
 void WalkingRightState::Stop(double delta_time)
 {
-    character_->setState(new GroundedState(character_));
+    character_->set_state(new GroundedState(character_));
 }
 
 void WalkingRightState::Move(double delta_time, Direction direction)
 {
     //TODO: if direction is different than current direction then mirror the character
-    if (direction == Direction::LEFT)
-        character_->setState(new WalkingLeftState(character_));
+    if (direction == Direction::kLeft)
+        character_->set_state(new WalkingLeftState(character_));
     else
     {
         double x = character_->position[0];
@@ -67,6 +68,6 @@ void WalkingRightState::Move(double delta_time, Direction direction)
         translate[0] = dx;
         translate[1] = dy;
 
-        character_->shape.translate(translate);
+        character_->shape_.translate(translate);
     }
 }

@@ -6,6 +6,7 @@
 
 using graphics::elements::state::BaseState;
 using graphics::elements::state::Character;
+using graphics::elements::state::Direction;
 using graphics::elements::state::GroundedState;
 
 GroundedState::GroundedState(GroundedState &state)
@@ -52,8 +53,8 @@ void GroundedState::Move(double delta_time, Direction direction)
 {
     //TODO: if direction is different than current direction then mirror the character
 
-    if (direction == Direction::LEFT)
-        character_->setState(new WalkingLeftState(character_));
+    if (direction == Direction::kLeft)
+        character_->set_state(new WalkingLeftState(character_));
     else
-        character_->setState(new WalkingRightState(character_));
+        character_->set_state(new WalkingRightState(character_));
 }

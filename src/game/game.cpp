@@ -115,9 +115,9 @@ namespace shoot_and_jump
         glClear(GL_COLOR_BUFFER_BIT);
 
         map_.render();
-        player_->render();
+        player_->Render();
         for (auto &enemy : enemies_)
-            enemy->render();
+            enemy->Render();
 
         glutSwapBuffers();
     }
@@ -257,16 +257,16 @@ namespace shoot_and_jump
         //     cout << "Jump Left" << endl;
 
         if (keys_['a'] && !keys_['d'] && !mouse_[GLUT_RIGHT_BUTTON])
-            player_->move(delta_time_, Direction::LEFT);
+            player_->Move(delta_time_, Direction::kLeft);
 
         // if (!keys['a'] && keys['d'] && mouse[GLUT_RIGHT_BUTTON])
         //     cout << "Jump Right" << endl;
 
         if (!keys_['a'] && keys_['d'] && !mouse_[GLUT_RIGHT_BUTTON])
-            player_->move(delta_time_, Direction::RIGHT);
+            player_->Move(delta_time_, Direction::kRight);
 
         if (((!keys_['a'] && !keys_['d']) || (keys_['a'] && keys_['d'])) && !mouse_[GLUT_RIGHT_BUTTON])
-            player_->stop(delta_time_);
+            player_->Stop(delta_time_);
 
         // if (((!keys['a'] && !keys['d']) || (keys['a'] && keys['d'])) && mouse[GLUT_RIGHT_BUTTON])
         //     cout << "Jump" << endl;

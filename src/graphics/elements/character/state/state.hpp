@@ -31,7 +31,7 @@ namespace graphics::elements::state
 
     protected:
         Character *character_;
-        Direction direction_ = Direction::RIGHT;
+        Direction direction_ = Direction::kRight;
         std::string name_ = "Unnamed";
     };
 }

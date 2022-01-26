@@ -1,29 +1,36 @@
 #include "./character.hpp"
+
+#include <iostream>
+
 #include "./state/grounded_state.hpp"
 #include "../../../physics/rigidBody.hpp"
 
-using namespace math;
-using namespace graphics::color;
-using namespace graphics::shapes;
-using namespace graphics::elements::state;
+using ::graphics::color::RGBA;
+using ::graphics::elements::state::BaseState;
+using ::graphics::elements::state::Character;
+using ::graphics::elements::state::GroundedState;
+using ::graphics::shapes::Circle;
+using ::math::Vector;
+using ::std::cout;
+using ::std::endl;
 
 Character::Character()
     : RigidBody(2)
 {
-    allocate();
+    Allocate();
 }
 
-Character::Character(Vector &initialPosition, double radius, RGBA &color)
+Character::Character(Vector &initial_position, double radius, RGBA &color)
     : RigidBody(2)
 {
-    position = initialPosition;
-    shape = Circle(position, radius, color);
-    allocate();
+    position = initial_position;
+    shape_ = Circle(position, radius, color);
+    Allocate();
 }
 
 Character::~Character()
 {
-    deallocate();
+    Deallocate();
 }
 
 Character &Character::operator=(const Character &other)
@@ -31,56 +38,54 @@ Character &Character::operator=(const Character &other)
     if (this != &other)
     {
         position = other.position;
-        shape = other.shape;
+        shape_ = other.shape_;
         velocity = other.velocity;
         acceleration = other.acceleration;
 
-        deallocate();
-        this->state = other.state->Clone();
+        Deallocate();
+        this->state_ = other.state_->Clone();
     }
     return *this;
 }
 
-void Character::render()
+void Character::Render()
 {
-    shape.draw();
+    shape_.draw();
 }
 
-void Character::fall(double deltaTime)
+void Character::Fall(double delta_time)
 {
-    state->Fall(deltaTime);
+    state_->Fall(delta_time);
 }
 
-void Character::jump(double deltaTime)
+void Character::Jump(double delta_time)
 {
-    state->Jump(deltaTime);
+    state_->Jump(delta_time);
 }
 
-void Character::stop(double deltaTime)
+void Character::Stop(double delta_time)
 {
-    state->Stop(deltaTime);
+    state_->Stop(delta_time);
 }
 
-void Character::move(double deltaTime, Direction direction)
+void Character::Move(double delta_time, Direction direction)
 {
-    state->Move(deltaTime, direction);
+    state_->Move(delta_time, direction);
 }
 
-#include <iostream>
-using namespace std;
-void Character::setState(BaseState *state)
+void Character::set_state(BaseState *state)
 {
-    deallocate();
-    this->state = state;
+    Deallocate();
+    this->state_ = state;
     cout << "Character::setState() " << state->to_string() << endl;
 }
 
-void Character::allocate()
+void Character::Allocate()
 {
-    state = new GroundedState(this);
+    state_ = new GroundedState(this);
 }
 
-void Character::deallocate()
+void Character::Deallocate()
 {
-    delete state;
+    delete state_;
 }
