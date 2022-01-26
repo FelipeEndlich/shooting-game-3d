@@ -1,26 +1,28 @@
 #pragma once
 
-#include "../shapes/rectangle.hpp"
 #include "obstacle.hpp"
+
 #include <vector>
+
+#include "../shapes/rectangle.hpp"
 
 namespace graphics::elements
 {
-        class Map
-        {
-        public:
-            Map() = default;
-            virtual ~Map() = default;
+    class Map
+    {
+    public:
+        Map() = default;
+        virtual ~Map() = default;
 
-            void setBackground(const shapes::Rectangle &background);
-            void addObstacle(const Obstacle &obstacle);
-            double getWidth() const;
-            double getHeight() const;
+        void set_background(const shapes::Rectangle &background);
+        double get_width() const;
+        double get_height() const;
 
-            void render();
+        void AddObstacle(const Obstacle &obstacle);
+        void Render();
 
-        private:
-            shapes::Rectangle background;
-            std::vector<Obstacle> obstacles;
-        };
+    private:
+        shapes::Rectangle background_;
+        std::vector<Obstacle> obstacles_;
+    };
 }

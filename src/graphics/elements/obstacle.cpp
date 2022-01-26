@@ -1,15 +1,18 @@
 #include "obstacle.hpp"
 
-using namespace graphics::elements;
+using graphics::color::RGBA;
+using graphics::elements::Obstacle;
+using graphics::shapes::Rectangle;
+using math::Vector;
 
-Obstacle::Obstacle(Vector &initialPosition, double width, double height, RGBA &color)
+Obstacle::Obstacle(Vector &initial_position, double width, double height, RGBA &color)
     : RigidBody(2)
 {
-    position = initialPosition;
-    shape = Rectangle(position, width, height, color);
+    position = initial_position;
+    shape_ = Rectangle(position, width, height, color);
 }
 
-void Obstacle::render()
+void Obstacle::Render()
 {
-    shape.draw();
+    shape_.draw();
 }

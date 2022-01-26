@@ -1,33 +1,36 @@
 #include "map.hpp"
+
 #include "../shapes/rectangle.hpp"
+#include "../elements/obstacle.hpp"
 
-using namespace graphics::elements;
-using namespace graphics::shapes;
+using ::graphics::elements::Map;
+using ::graphics::elements::Obstacle;
+using ::graphics::shapes::Rectangle;
 
-void Map::setBackground(const Rectangle &background)
+void Map::set_background(const Rectangle &background)
 {
-    this->background = background;
+    this->background_ = background;
 }
 
-void Map::render()
+void Map::Render()
 {
-    background.draw();
+    background_.draw();
 
-    for (auto &obstacle : obstacles)
-        obstacle.render();
+    for (auto &obstacle : obstacles_)
+        obstacle.Render();
 }
 
-double Map::getWidth() const
+double Map::get_width() const
 {
-    return background.getWidth();
+    return background_.getWidth();
 }
 
-double Map::getHeight() const
+double Map::get_height() const
 {
-    return background.getHeight();
+    return background_.getHeight();
 }
 
-void Map::addObstacle(const Obstacle &obstacle)
+void Map::AddObstacle(const Obstacle &obstacle)
 {
-    obstacles.push_back(obstacle);
+    obstacles_.push_back(obstacle);
 }

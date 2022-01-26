@@ -114,7 +114,7 @@ namespace shoot_and_jump
     {
         glClear(GL_COLOR_BUFFER_BIT);
 
-        map_.render();
+        map_.Render();
         player_->Render();
         for (auto &enemy : enemies_)
             enemy->Render();
@@ -191,7 +191,7 @@ namespace shoot_and_jump
 
         Rectangle background(origin, width, height, color);
 
-        map_.setBackground(background);
+        map_.set_background(background);
 
         ortho_left_ = x;
         ortho_right_ = x + width;
@@ -216,7 +216,7 @@ namespace shoot_and_jump
         RGBA color = RGBAFactory::getColor(fill);
 
         Obstacle obstacle(origin, width, height, color);
-        map_.addObstacle(obstacle);
+        map_.AddObstacle(obstacle);
     }
 
     void Game::LoadPlayer(tinyxml2::XMLElement *element)
