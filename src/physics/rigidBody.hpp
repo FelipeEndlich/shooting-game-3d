@@ -2,7 +2,7 @@
 
 #include "../math/vector.hpp"
 
-namespace physics
+namespace physic
 {
     class RigidBody
     {

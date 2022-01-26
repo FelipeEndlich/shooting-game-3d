@@ -1,11 +1,11 @@
 #include "./character.hpp"
-#include "./state/groundedState.hpp"
+#include "./state/grounded_state.hpp"
 #include "../../../physics/rigidBody.hpp"
 
 using namespace math;
 using namespace graphics::color;
 using namespace graphics::shapes;
-using namespace graphics::elements::character;
+using namespace graphics::elements::state;
 
 Character::Character()
     : RigidBody(2)
@@ -36,7 +36,7 @@ Character &Character::operator=(const Character &other)
         acceleration = other.acceleration;
 
         deallocate();
-        this->state = other.state->clone();
+        this->state = other.state->Clone();
     }
     return *this;
 }
@@ -48,31 +48,31 @@ void Character::render()
 
 void Character::fall(double deltaTime)
 {
-    state->fall(deltaTime);
+    state->Fall(deltaTime);
 }
 
 void Character::jump(double deltaTime)
 {
-    state->jump(deltaTime);
+    state->Jump(deltaTime);
 }
 
 void Character::stop(double deltaTime)
 {
-    state->stop(deltaTime);
+    state->Stop(deltaTime);
 }
 
 void Character::move(double deltaTime, Direction direction)
 {
-    state->move(deltaTime, direction);
+    state->Move(deltaTime, direction);
 }
 
 #include <iostream>
 using namespace std;
-void Character::setState(State *state)
+void Character::setState(BaseState *state)
 {
     deallocate();
     this->state = state;
-    cout << "Character::setState() " << state->toString() << endl;
+    cout << "Character::setState() " << state->to_string() << endl;
 }
 
 void Character::allocate()

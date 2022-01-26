@@ -1,37 +1,37 @@
 #pragma once
 
-#include "../direction.hpp"
 #include <string>
 
-namespace graphics::elements::character
+#include "../direction.hpp"
+
+namespace graphics::elements::state
 {
     class Character;
 
-    class State
+    class BaseState
     {
     public:
-        State();
-        State(State &state)
-            : character(state.character), direction(state.direction){};
-        State(Character *character)
-            : character(character) {}
-        virtual ~State() {}
+        BaseState();
+        BaseState(BaseState &state)
+            : character_(state.character_), direction_(state.direction_){};
+        BaseState(Character *character)
+            : character_(character) {}
+        virtual ~BaseState() {}
 
-        std::string getName() const;
+        std::string get_name() const;
 
-        virtual void fall(double deltaTime) = 0;
-        virtual void jump(double deltaTime) = 0;
-        virtual void stop(double deltaTime) = 0;
-        virtual void move(double deltaTime, Direction direction) = 0;
+        virtual void Fall(double delta_time) = 0;
+        virtual void Jump(double delta_time) = 0;
+        virtual void Stop(double delta_time) = 0;
+        virtual void Move(double delta_time, Direction direction) = 0;
 
-        virtual State *clone() = 0;
+        virtual BaseState *Clone() = 0;
 
-        // to strng method
-        virtual std::string toString() const;
+        virtual std::string to_string() const;
 
     protected:
-        Character *character;
-        Direction direction = Direction::RIGHT;
-        std::string name = "Unnamed";
+        Character *character_;
+        Direction direction_ = Direction::RIGHT;
+        std::string name_ = "Unnamed";
     };
 }

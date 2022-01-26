@@ -4,10 +4,8 @@
 #include "obstacle.hpp"
 #include <vector>
 
-namespace graphics
+namespace graphics::elements
 {
-    namespace elements
-    {
         class Map
         {
         public:
@@ -25,5 +23,4 @@ namespace graphics
             shapes::Rectangle background;
             std::vector<Obstacle> obstacles;
         };
-    }
 }

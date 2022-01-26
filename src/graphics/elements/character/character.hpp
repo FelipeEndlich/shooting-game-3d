@@ -7,13 +7,13 @@
 #include "../../shapes/circle.hpp"
 #include "./direction.hpp"
 #include "./state/state.hpp"
-#include "./state/groundedState.hpp"
-#include "./state/walkingLeftState.hpp"
-#include "./state/walkingRightState.hpp"
+#include "./state/grounded_state.hpp"
+#include "./state/walking_left_state.hpp"
+#include "./state/walking_right_state.hpp"
 
-namespace graphics::elements::character
+namespace graphics::elements::state
 {
-    class Character : public physics::RigidBody
+    class Character : public physic::RigidBody
     {
 
     public:
@@ -30,11 +30,11 @@ namespace graphics::elements::character
         void stop(double deltaTime);
         void move(double deltaTime, Direction direction);
 
-        void setState(State *state);
+        void setState(BaseState *state);
 
     private:
         graphics::shapes::Circle shape;
-        State *state;
+        BaseState *state;
 
         void allocate();
         void deallocate();

@@ -2,23 +2,20 @@
 #include "rgba.hpp"
 #include <string>
 
-namespace graphics
+namespace graphics::color
 {
-    namespace color
+    class RGBAFactory
     {
-        class RGBAFactory
+    public:
+        enum Color
         {
-        public:
-            enum Color
-            {
-                BLACK,
-                BLUE,
-                RED,
-                GREEN
-            };
-
-            static RGBA getColor(Color color);
-            static RGBA getColor(std::string color);
+            BLACK,
+            BLUE,
+            RED,
+            GREEN
         };
-    }
+
+        static RGBA getColor(Color color);
+        static RGBA getColor(std::string color);
+    };
 }

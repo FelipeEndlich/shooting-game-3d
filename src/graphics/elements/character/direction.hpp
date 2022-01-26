@@ -1,6 +1,6 @@
 #pragma once
 
-namespace graphics::elements::character
+namespace graphics::elements::state
 {
     enum Direction
     {

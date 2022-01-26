@@ -5,7 +5,7 @@ using namespace std;
 
 #include "./game/game.hpp"
 #include <cmath>
-using namespace game;
+using namespace shoot_and_jump;
 
 int main(int argc, char **argv)
 {
@@ -22,7 +22,7 @@ int main(int argc, char **argv)
     string configPath = argv[1];
 
     Game game(configPath);
-    game.run(argc, argv);
+    game.Run(argc, argv);
 
     return 0;
 }

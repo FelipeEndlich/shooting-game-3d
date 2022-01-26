@@ -6,24 +6,21 @@
 #include "../shapes/rectangle.hpp"
 
 using namespace math;
-using namespace physics;
+using namespace physic;
 using namespace graphics::shapes;
 using namespace graphics::color;
 
-namespace graphics
+namespace graphics::elements
 {
-    namespace elements
+    class Obstacle : public RigidBody
     {
-        class Obstacle : public RigidBody
-        {
-        public:
-            Obstacle() = default;
-            Obstacle(Vector &initialPosition, double width, double height, RGBA &color);
+    public:
+        Obstacle() = default;
+        Obstacle(Vector &initialPosition, double width, double height, RGBA &color);
 
-            void render();
+        void render();
 
-        private:
-            Rectangle shape;
-        };
-    }
+    private:
+        Rectangle shape;
+    };
 }

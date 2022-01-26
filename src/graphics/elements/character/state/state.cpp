@@ -1,14 +1,14 @@
 #include "state.hpp"
 
-using namespace graphics::elements::character;
-using namespace std;
+using ::graphics::elements::state::BaseState;
+using ::std::string;
 
-string State::getName() const
+string BaseState::get_name() const
 {
-    return this->name;
+    return name_;
 }
 
-std::string State::toString() const
+std::string BaseState::to_string() const
 {
-    return "State: " + this->name;
+    return "State: " + name_;
 }

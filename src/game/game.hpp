@@ -6,7 +6,7 @@
 #include <vector>
 #include <map>
 
-namespace game
+namespace shoot_and_jump
 {
     class Game
     {
@@ -14,42 +14,42 @@ namespace game
         Game(std::string path);
         virtual ~Game();
 
-        void update(double deltaTime);
-        void run(int argc, char **argv);
+        void Update(double delta_time);
+        void Run(int argc, char **argv);
 
-        void idle();
-        void display();
-        void keyPressed(unsigned char key, int x, int y);
-        void keyReleased(unsigned char key, int x, int y);
-        void bindMouse(int button, int state, int x, int y);
+        void Idle();
+        void Display();
+        void KeyPressed(unsigned char key, int x, int y);
+        void KeyReleased(unsigned char key, int x, int y);
+        void BindMouse(int button, int state, int x, int y);
 
     private:
-        double deltaTime;
-        double currentTime;
+        double delta_time_;
+        double current_time_;
 
-        graphics::elements::Map map;
-        graphics::elements::character::Character *player;
-        std::vector<graphics::elements::character::Character *> enemies;
+        graphics::elements::Map map_;
+        graphics::elements::state::Character *player_;
+        std::vector<graphics::elements::state::Character *> enemies_;
 
-        std::map<char, bool> keys;
-        std::map<int, bool> mouse;
+        std::map<char, bool> keys_;
+        std::map<int, bool> mouse_;
 
-        double orthoLeft;
-        double orthoRight;
-        double orthoBottom;
-        double orthoTop;
-        double orthoNear;
-        double orthoFar;
+        double ortho_left_;
+        double ortho_right_;
+        double ortho_bottom_;
+        double ortho_top_;
+        double ortho_near_;
+        double ortho_far_;
 
-        void allocate();
-        void deallocate();
+        void Allocate();
+        void Deallocate();
 
-        void loadMap(std::string path);
-        void loadBackground(tinyxml2::XMLElement *background);
-        void loadObstacle(tinyxml2::XMLElement *obstacle);
-        void loadPlayer(tinyxml2::XMLElement *player);
-        void loadEnemy(tinyxml2::XMLElement *enemy);
+        void LoadMap(std::string path);
+        void LoadBackground(tinyxml2::XMLElement *background);
+        void LoadObstacle(tinyxml2::XMLElement *obstacle);
+        void LoadPlayer(tinyxml2::XMLElement *player);
+        void LoadEnemy(tinyxml2::XMLElement *enemy);
 
-        void checkKeys();
+        void CheckKeys();
     };
 }

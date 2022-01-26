@@ -1,6 +1,6 @@
 #include "rigidBody.hpp"
 
-using namespace physics;
+using namespace physic;
 
 RigidBody::RigidBody(int dimension)
 {

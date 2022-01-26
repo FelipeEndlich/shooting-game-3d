@@ -1,76 +1,79 @@
 #include "game.hpp"
+
+#include <iostream>
+
+#include <GL/glut.h>
+
 #include "../math/vector.hpp"
 #include "../graphics/color/rgbaFactory.hpp"
 #include "../graphics/color/rgba.hpp"
 #include "../graphics/shapes/circle.hpp"
 #include "../graphics/shapes/rectangle.hpp"
 #include "../graphics/elements/obstacle.hpp"
-#include <GL/glut.h>
-#include <iostream>
 
+using namespace std;
 using namespace math;
 using namespace graphics::color;
 using namespace graphics::shapes;
 using namespace graphics::elements;
-using namespace graphics::elements::character;
-using namespace std;
+using namespace graphics::elements::state;
 
-namespace game
+namespace shoot_and_jump
 {
     static Game *instance;
 
     void idleFunc()
     {
-        instance->idle();
+        instance->Idle();
     }
 
     void displayFunc()
     {
-        instance->display();
+        instance->Display();
     }
 
     void keyPressedFunc(unsigned char key, int x, int y)
     {
-        instance->keyPressed(key, x, y);
+        instance->KeyPressed(key, x, y);
     }
 
     void keyReleasedFunc(unsigned char key, int x, int y)
     {
-        instance->keyReleased(key, x, y);
+        instance->KeyReleased(key, x, y);
     }
 
     void mouseFunc(int button, int state, int x, int y)
     {
-        instance->bindMouse(button, state, x, y);
+        instance->BindMouse(button, state, x, y);
     }
 
 #pragma region Constructors and Destructors
     Game::Game(string path)
     {
         instance = this;
-        allocate();
-        loadMap(path);
+        Allocate();
+        LoadMap(path);
     }
 
     Game::~Game()
     {
-        deallocate();
+        Deallocate();
     }
 
-    void Game::allocate()
+    void Game::Allocate()
     {
     }
 
-    void Game::deallocate()
+    void Game::Deallocate()
     {
-        delete player;
-        for (auto enemy : enemies)
+        delete player_;
+        for (auto enemy : enemies_)
             delete enemy;
     }
 #pragma endregion // Constructors and Destructors
 
 #pragma region Public Methods
-    void Game::run(int argc, char **argv)
+    void Game::Run(int argc, char **argv)
     {
         glutInit(&argc, argv);
         glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
@@ -83,7 +86,7 @@ namespace game
         glClearColor(screnColor.getR(), screnColor.getG(), screnColor.getB(), screnColor.getA());
 
         glLoadIdentity();
-        glOrtho(orthoLeft, orthoRight, orthoBottom, orthoTop, orthoNear, orthoFar);
+        glOrtho(ortho_left_, ortho_right_, ortho_bottom_, ortho_top_, ortho_near_, ortho_far_);
 
         glutSetKeyRepeat(GLUT_KEY_REPEAT_OFF);
         glutMouseFunc(mouseFunc);
@@ -95,48 +98,48 @@ namespace game
         glutMainLoop();
     }
 
-    void Game::idle()
+    void Game::Idle()
     {
         double currentTime = glutGet(GLUT_ELAPSED_TIME);
-        deltaTime = currentTime - this->currentTime;
-        if (deltaTime > 0.1)
+        delta_time_ = currentTime - this->current_time_;
+        if (delta_time_ > 0.1)
         {
-            this->currentTime = currentTime;
-            checkKeys();
+            this->current_time_ = currentTime;
+            CheckKeys();
             glutPostRedisplay();
         }
     }
 
-    void Game::display()
+    void Game::Display()
     {
         glClear(GL_COLOR_BUFFER_BIT);
 
-        map.render();
-        player->render();
-        for (auto &enemy : enemies)
+        map_.render();
+        player_->render();
+        for (auto &enemy : enemies_)
             enemy->render();
 
         glutSwapBuffers();
     }
 
-    void Game::keyPressed(unsigned char key, int x, int y)
+    void Game::KeyPressed(unsigned char key, int x, int y)
     {
-        keys[key] = true;
+        keys_[key] = true;
     }
 
-    void Game::keyReleased(unsigned char key, int x, int y)
+    void Game::KeyReleased(unsigned char key, int x, int y)
     {
-        keys[key] = false;
+        keys_[key] = false;
     }
 
-    void Game::bindMouse(int button, int state, int x, int y)
+    void Game::BindMouse(int button, int state, int x, int y)
     {
-        mouse[button] = state == GLUT_DOWN;
+        mouse_[button] = state == GLUT_DOWN;
     }
 #pragma endregion // Public Methods
 
 #pragma region Private Methods
-    void Game::loadMap(std::string path)
+    void Game::LoadMap(std::string path)
     {
         tinyxml2::XMLDocument doc;
         doc.LoadFile(path.c_str());
@@ -153,9 +156,9 @@ namespace game
         {
             string fill = rectEl->Attribute("fill");
             if (fill == "blue")
-                loadBackground(rectEl);
+                LoadBackground(rectEl);
             else if (fill == "black")
-                loadObstacle(rectEl);
+                LoadObstacle(rectEl);
 
             rectEl = rectEl->NextSiblingElement("rect");
         }
@@ -165,15 +168,15 @@ namespace game
         {
             string fill = circleEl->Attribute("fill");
             if (fill == "green")
-                loadPlayer(circleEl);
+                LoadPlayer(circleEl);
             else if (fill == "red")
-                loadEnemy(circleEl);
+                LoadEnemy(circleEl);
 
             circleEl = circleEl->NextSiblingElement("circle");
         }
     }
 
-    void Game::loadBackground(tinyxml2::XMLElement *element)
+    void Game::LoadBackground(tinyxml2::XMLElement *element)
     {
         double width = element->DoubleAttribute("width");
         double height = element->DoubleAttribute("height");
@@ -188,17 +191,17 @@ namespace game
 
         Rectangle background(origin, width, height, color);
 
-        map.setBackground(background);
+        map_.setBackground(background);
 
-        orthoLeft = x;
-        orthoRight = x + width;
-        orthoTop = y;
-        orthoBottom = y + height;
-        orthoNear = 20.0;
-        orthoFar = 0.0;
+        ortho_left_ = x;
+        ortho_right_ = x + width;
+        ortho_top_ = y;
+        ortho_bottom_ = y + height;
+        ortho_near_ = 20.0;
+        ortho_far_ = 0.0;
     }
 
-    void Game::loadObstacle(tinyxml2::XMLElement *element)
+    void Game::LoadObstacle(tinyxml2::XMLElement *element)
     {
         double width = element->DoubleAttribute("width");
         double height = element->DoubleAttribute("height");
@@ -213,10 +216,10 @@ namespace game
         RGBA color = RGBAFactory::getColor(fill);
 
         Obstacle obstacle(origin, width, height, color);
-        map.addObstacle(obstacle);
+        map_.addObstacle(obstacle);
     }
 
-    void Game::loadPlayer(tinyxml2::XMLElement *element)
+    void Game::LoadPlayer(tinyxml2::XMLElement *element)
     {
         double radius = element->DoubleAttribute("r");
         double cx = element->DoubleAttribute("cx");
@@ -229,10 +232,10 @@ namespace game
 
         RGBA color = RGBAFactory::getColor(fill);
 
-        this->player = new Character(origin, radius, color);
+        this->player_ = new Character(origin, radius, color);
     }
 
-    void Game::loadEnemy(tinyxml2::XMLElement *element)
+    void Game::LoadEnemy(tinyxml2::XMLElement *element)
     {
         double radius = element->DoubleAttribute("r");
         double cx = element->DoubleAttribute("cx");
@@ -245,25 +248,25 @@ namespace game
 
         RGBA color = RGBAFactory::getColor(fill);
 
-        enemies.push_back(new Character(origin, radius, color));
+        enemies_.push_back(new Character(origin, radius, color));
     }
 
-    void Game::checkKeys()
+    void Game::CheckKeys()
     {
         // if (keys['a'] && !keys['d'] && mouse[GLUT_RIGHT_BUTTON])
         //     cout << "Jump Left" << endl;
 
-        if (keys['a'] && !keys['d'] && !mouse[GLUT_RIGHT_BUTTON])
-            player->move(deltaTime, Direction::LEFT);
+        if (keys_['a'] && !keys_['d'] && !mouse_[GLUT_RIGHT_BUTTON])
+            player_->move(delta_time_, Direction::LEFT);
 
         // if (!keys['a'] && keys['d'] && mouse[GLUT_RIGHT_BUTTON])
         //     cout << "Jump Right" << endl;
 
-        if (!keys['a'] && keys['d'] && !mouse[GLUT_RIGHT_BUTTON])
-            player->move(deltaTime, Direction::RIGHT);
+        if (!keys_['a'] && keys_['d'] && !mouse_[GLUT_RIGHT_BUTTON])
+            player_->move(delta_time_, Direction::RIGHT);
 
-        if (((!keys['a'] && !keys['d']) || (keys['a'] && keys['d'])) && !mouse[GLUT_RIGHT_BUTTON])
-            player->stop(deltaTime);
+        if (((!keys_['a'] && !keys_['d']) || (keys_['a'] && keys_['d'])) && !mouse_[GLUT_RIGHT_BUTTON])
+            player_->stop(delta_time_);
 
         // if (((!keys['a'] && !keys['d']) || (keys['a'] && keys['d'])) && mouse[GLUT_RIGHT_BUTTON])
         //     cout << "Jump" << endl;
