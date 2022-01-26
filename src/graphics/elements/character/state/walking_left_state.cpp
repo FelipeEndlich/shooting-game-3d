@@ -68,6 +68,6 @@ void WalkingLeftState::Move(double delta_time, Direction direction)
         translate[0] = dx;
         translate[1] = dy;
 
-        character_->shape_.translate(translate);
+        character_->shape_.Translate(translate);
     }
 }

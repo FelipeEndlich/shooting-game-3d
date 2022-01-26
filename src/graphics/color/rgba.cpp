@@ -5,42 +5,42 @@ using namespace graphics::color;
 #pragma region Constructors and Destructors
 RGBA::RGBA()
 {
-    this->r = 0;
-    this->g = 0;
-    this->b = 0;
-    this->a = 255;
+    red_ = 0;
+    green_ = 0;
+    blue_ = 0;
+    alpha_ = 255;
 }
 
-RGBA::RGBA(unsigned int r, unsigned int g, unsigned int b)
+RGBA::RGBA(unsigned int red, unsigned int green, unsigned int blue)
 {
-    this->r = r;
-    this->g = g;
-    this->b = b;
-    this->a = 255;
+    red_ = red;
+    green_ = green;
+    blue_ = blue;
+    alpha_ = 255;
 }
 
-RGBA::RGBA(unsigned int r, unsigned int g, unsigned int b, unsigned int a)
+RGBA::RGBA(unsigned int red, unsigned int green, unsigned int blue, unsigned int alpha)
 {
-    this->r = r;
-    this->g = g;
-    this->b = b;
-    this->a = a;
+    red_ = red;
+    green_ = green;
+    blue_ = blue;
+    alpha_ = alpha;
 }
 
 RGBA::RGBA(const RGBA &other)
 {
-    this->r = other.r;
-    this->g = other.g;
-    this->b = other.b;
-    this->a = other.a;
+    red_ = other.red_;
+    green_ = other.green_;
+    blue_ = other.blue_;
+    alpha_ = other.alpha_;
 }
 
 RGBA::RGBA(const RGBA &&other)
 {
-    this->r = other.r;
-    this->g = other.g;
-    this->b = other.b;
-    this->a = other.a;
+    red_ = other.red_;
+    green_ = other.green_;
+    blue_ = other.blue_;
+    alpha_ = other.alpha_;
 }
 
 #pragma endregion // Constructors and Destructors
@@ -48,62 +48,62 @@ RGBA::RGBA(const RGBA &&other)
 #pragma region Operators
 RGBA &RGBA::operator=(const RGBA &other)
 {
-    this->r = other.r;
-    this->g = other.g;
-    this->b = other.b;
-    this->a = other.a;
+    red_ = other.red_;
+    green_ = other.green_;
+    blue_ = other.blue_;
+    alpha_ = other.alpha_;
 
     return *this;
 }
 
 RGBA &RGBA::operator=(const RGBA &&other)
 {
-    this->r = other.r;
-    this->g = other.g;
-    this->b = other.b;
-    this->a = other.a;
+    red_ = other.red_;
+    green_ = other.green_;
+    blue_ = other.blue_;
+    alpha_ = other.alpha_;
 
     return *this;
 }
 #pragma endregion // Operators
 
 #pragma region Getters and Setters
-unsigned int RGBA::getR() const
+unsigned int RGBA::get_red() const
 {
-    return this->r;
+    return this->red_;
 }
 
-unsigned int RGBA::getG() const
+unsigned int RGBA::get_green() const
 {
-    return this->g;
+    return this->green_;
 }
-unsigned int RGBA::getB() const
+unsigned int RGBA::get_blue() const
 {
-    return this->b;
-}
-
-unsigned int RGBA::getA() const
-{
-    return this->a;
+    return this->blue_;
 }
 
-void RGBA::setR(unsigned int r)
+unsigned int RGBA::get_alpha() const
 {
-    this->r = r;
+    return this->alpha_;
 }
 
-void RGBA::setG(unsigned int g)
+void RGBA::set_red(unsigned int red)
 {
-    this->g = g;
+    this->red_ = red;
 }
 
-void RGBA::setB(unsigned int b)
+void RGBA::set_green(unsigned int green)
 {
-    this->b = b;
+    this->green_ = green;
 }
 
-void RGBA::setA(unsigned int a)
+void RGBA::set_blue(unsigned int blue)
 {
-    this->a = a;
+    this->blue_ = blue;
+}
+
+void RGBA::set_alpha(unsigned int alpha)
+{
+    this->alpha_ = alpha;
 }
 #pragma endregion // Getters and Setters

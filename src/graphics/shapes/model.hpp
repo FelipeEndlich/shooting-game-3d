@@ -18,16 +18,16 @@ namespace graphics::shapes
         Model &operator=(const Model &other);
         Model &operator=(const Model &&other);
 
-        virtual void translate(const math::Vector &vector) = 0;
-        virtual void scale(const math::Vector &center, const math::Vector &vector) = 0;
-        virtual void rotate(const math::Vector &center, double radians) = 0;
-        virtual void transform(const math::Matrix &matrix) = 0;
-        virtual void transform(const math::Vector &center, const math::Vector &scale, double radians) = 0;
+        virtual void Translate(const math::Vector &vector) = 0;
+        virtual void Scale(const math::Vector &center, const math::Vector &vector) = 0;
+        virtual void Rotate(const math::Vector &center, double radians) = 0;
+        virtual void Transform(const math::Matrix &matrix) = 0;
+        virtual void Transform(const math::Vector &center, const math::Vector &scale, double radians) = 0;
 
-        virtual void draw() = 0;
+        virtual void Draw() = 0;
 
     protected:
-        math::Matrix points;
-        color::RGBA color;
+        math::Matrix points_;
+        color::RGBA color_;
     };
 }

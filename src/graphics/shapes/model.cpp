@@ -1,36 +1,37 @@
 #include "model.hpp"
 
-using namespace graphics::shapes;
+using ::graphics::color::RGBA;
+using ::graphics::shapes::Model;
 
 #pragma region Constructors and Destructors
 Model::Model()
 {
-    this->points = math::Matrix(0, 0);
-    this->color = graphics::color::RGBA();
+    points_ = math::Matrix(0, 0);
+    color_ = RGBA();
 }
 
 Model::Model(const math::Matrix &matrix)
 {
-    this->points = matrix;
-    this->color = graphics::color::RGBA();
+    points_ = matrix;
+    color_ = RGBA();
 }
 
-Model::Model(const math::Matrix &matrix, const graphics::color::RGBA &color)
+Model::Model(const math::Matrix &matrix, const RGBA &color)
 {
-    this->points = matrix;
-    this->color = color;
+    points_ = matrix;
+    color_ = color;
 }
 
 Model::Model(const Model &other)
 {
-    this->points = other.points;
-    this->color = other.color;
+    points_ = other.points_;
+    color_ = other.color_;
 }
 
 Model::Model(const Model &&other)
 {
-    this->points = other.points;
-    this->color = other.color;
+    points_ = other.points_;
+    color_ = other.color_;
 }
 #pragma endregion // Constructors and Destructors
 
@@ -39,8 +40,8 @@ Model &Model::operator=(const Model &other)
 {
     if (this != &other)
     {
-        this->points = other.points;
-        this->color = other.color;
+        points_ = other.points_;
+        color_ = other.color_;
     }
     return *this;
 }
@@ -49,8 +50,8 @@ Model &Model::operator=(const Model &&other)
 {
     if (this != &other)
     {
-        this->points = other.points;
-        this->color = other.color;
+        points_ = other.points_;
+        color_ = other.color_;
     }
     return *this;
 }

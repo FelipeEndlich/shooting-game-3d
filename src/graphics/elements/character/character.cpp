@@ -50,7 +50,7 @@ Character &Character::operator=(const Character &other)
 
 void Character::Render()
 {
-    shape_.draw();
+    shape_.Draw();
 }
 
 void Character::Fall(double delta_time)

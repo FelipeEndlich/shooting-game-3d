@@ -14,5 +14,5 @@ Obstacle::Obstacle(Vector &initial_position, double width, double height, RGBA &
 
 void Obstacle::Render()
 {
-    shape_.draw();
+    shape_.Draw();
 }

@@ -5,7 +5,7 @@
 #include <GL/glut.h>
 
 #include "../math/vector.hpp"
-#include "../graphics/color/rgbaFactory.hpp"
+#include "../graphics/color/rgba_factory.hpp"
 #include "../graphics/color/rgba.hpp"
 #include "../graphics/shapes/circle.hpp"
 #include "../graphics/shapes/rectangle.hpp"
@@ -82,8 +82,8 @@ namespace shoot_and_jump
         glutCreateWindow("2D GAME");
 
         /* selecionar cor de fundo (preto) */
-        RGBA screnColor = RGBAFactory::getColor(RGBAFactory::Color::BLACK);
-        glClearColor(screnColor.getR(), screnColor.getG(), screnColor.getB(), screnColor.getA());
+        RGBA screnColor = RGBAFactory::get_color(ColorOption::kBlack);
+        glClearColor(screnColor.get_red(), screnColor.get_green(), screnColor.get_blue(), screnColor.get_alpha());
 
         glLoadIdentity();
         glOrtho(ortho_left_, ortho_right_, ortho_bottom_, ortho_top_, ortho_near_, ortho_far_);
@@ -187,7 +187,7 @@ namespace shoot_and_jump
         origin[0] = x;
         origin[1] = y;
 
-        RGBA color = RGBAFactory::getColor(fill);
+        RGBA color = RGBAFactory::get_color(fill);
 
         Rectangle background(origin, width, height, color);
 
@@ -213,7 +213,7 @@ namespace shoot_and_jump
         origin[0] = x;
         origin[1] = y;
 
-        RGBA color = RGBAFactory::getColor(fill);
+        RGBA color = RGBAFactory::get_color(fill);
 
         Obstacle obstacle(origin, width, height, color);
         map_.AddObstacle(obstacle);
@@ -230,7 +230,7 @@ namespace shoot_and_jump
         origin[0] = cx;
         origin[1] = cy;
 
-        RGBA color = RGBAFactory::getColor(fill);
+        RGBA color = RGBAFactory::get_color(fill);
 
         this->player_ = new Character(origin, radius, color);
     }
@@ -246,7 +246,7 @@ namespace shoot_and_jump
         origin[0] = cx;
         origin[1] = cy;
 
-        RGBA color = RGBAFactory::getColor(fill);
+        RGBA color = RGBAFactory::get_color(fill);
 
         enemies_.push_back(new Character(origin, radius, color));
     }

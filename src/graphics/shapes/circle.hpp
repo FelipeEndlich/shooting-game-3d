@@ -1,6 +1,6 @@
 #pragma once
 
-#include "./model2D.hpp"
+#include "./model_2d.hpp"
 
 namespace graphics::shapes
 {
@@ -18,9 +18,9 @@ namespace graphics::shapes
         Circle &operator=(const Circle &&other);
 
     private:
-        double radius;
-        static inline double segments = 32;
+        double radius_;
+        static inline double segments_ = 32;
 
-        void buildPoints(const math::Vector &origin, double radius);
+        void BuildPoints(const math::Vector &origin, double radius);
     };
 }

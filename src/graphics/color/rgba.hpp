@@ -6,28 +6,28 @@ namespace graphics::color
     {
     public:
         RGBA();
-        RGBA(unsigned int r, unsigned int g, unsigned int b);
-        RGBA(unsigned int r, unsigned int g, unsigned int b, unsigned int a);
+        RGBA(unsigned int red, unsigned int green, unsigned int blue);
+        RGBA(unsigned int red, unsigned int green, unsigned int blue, unsigned int alpha);
         RGBA(const RGBA &other);
         RGBA(const RGBA &&other);
 
         RGBA &operator=(const RGBA &other);
         RGBA &operator=(const RGBA &&other);
 
-        unsigned int getR() const;
-        unsigned int getG() const;
-        unsigned int getB() const;
-        unsigned int getA() const;
+        unsigned int get_red() const;
+        unsigned int get_green() const;
+        unsigned int get_blue() const;
+        unsigned int get_alpha() const;
 
-        void setR(unsigned int r);
-        void setG(unsigned int g);
-        void setB(unsigned int b);
-        void setA(unsigned int a);
+        void set_red(unsigned int red);
+        void set_green(unsigned int green);
+        void set_blue(unsigned int blue);
+        void set_alpha(unsigned int alpha);
 
     private:
-        unsigned int r;
-        unsigned int g;
-        unsigned int b;
-        unsigned int a;
+        unsigned int red_;
+        unsigned int green_;
+        unsigned int blue_;
+        unsigned int alpha_;
     };
 }

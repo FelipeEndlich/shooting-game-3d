@@ -1,6 +1,6 @@
 #pragma once
 
-#include "./model2D.hpp"
+#include "./model_2d.hpp"
 
 namespace graphics::shapes
 {
@@ -17,13 +17,13 @@ namespace graphics::shapes
         Rectangle &operator=(const Rectangle &other);
         Rectangle &operator=(const Rectangle &&other);
 
-        double getWidth() const;
-        double getHeight() const;
+        double get_width() const;
+        double get_height() const;
 
     private:
-        double width;
-        double height;
+        double width_;
+        double height_;
 
-        void buildPoints(const math::Vector &origin, double width, double height);
+        void BuildPoints(const math::Vector &origin, double width, double height);
     };
 }

@@ -1,67 +1,72 @@
 #include "./circle.hpp"
+
 #include <cmath>
-using namespace graphics::shapes;
+
+using ::graphics::color::RGBA;
+using ::graphics::shapes::Circle;
+using ::math::Matrix;
+using ::math::Vector;
 
 #pragma region Constructor and Destructor
 Circle::Circle()
 {
-    this->color = graphics::color::RGBA();
-    buildPoints(math::Vector::zero(2), 0);
+    color_ = RGBA();
+    BuildPoints(Vector::zero(2), 0);
 }
 
-Circle::Circle(const math::Vector &origin, double radius)
+Circle::Circle(const Vector &origin, double radius)
 {
-    this->color = graphics::color::RGBA();
-    buildPoints(origin, radius);
+    color_ = RGBA();
+    BuildPoints(origin, radius);
 }
 
-Circle::Circle(const math::Vector &origin, double radius, const graphics::color::RGBA &color)
+Circle::Circle(const Vector &origin, double radius, const RGBA &color)
 {
-    this->color = color;
-    buildPoints(origin, radius);
+    color_ = color;
+    BuildPoints(origin, radius);
 }
 
 Circle::Circle(const Circle &other)
 {
-    this->points = other.points;
-    this->color = other.color;
+    points_ = other.points_;
+    color_ = other.color_;
 }
 
 Circle::Circle(const Circle &&other)
 {
-    this->points = other.points;
-    this->color = other.color;
+    points_ = other.points_;
+    color_ = other.color_;
 }
 #pragma endregion // Constructor and Destructor
 
 #pragma region Operator Overloads
 Circle &Circle::operator=(const Circle &other)
 {
-    this->points = other.points;
-    this->color = other.color;
+    points_ = other.points_;
+    color_ = other.color_;
     return *this;
 }
 
 Circle &Circle::operator=(const Circle &&other)
 {
-    this->points = other.points;
-    this->color = other.color;
+    points_ = other.points_;
+    color_ = other.color_;
     return *this;
 }
 #pragma endregion // Operator Overloads
 
 #pragma region Private Methods
-void Circle::buildPoints(const math::Vector &origin, double radius)
+void Circle::BuildPoints(const Vector &origin, double radius)
 {
-    points = math::Matrix::zero(segments + 1, 2);
+    points_ = Matrix::zero(segments_ + 1, 2);
     double angle = 0;
-    for (int i = 0; i < segments; i++)
+    for (int i = 0; i < segments_; i++)
     {
-        points[i][0] = origin[0] + radius * std::cos(angle);
-        points[i][1] = origin[1] + radius * std::sin(angle);
-        angle += 2 * M_PI / segments;
+        points_[i][0] = origin[0] + radius * std::cos(angle);
+        points_[i][1] = origin[1] + radius * std::sin(angle);
+        angle += 2 * M_PI / segments_;
     }
-    points[segments][0] = points[0][0];
-    points[segments][1] = points[0][1];
+    points_[segments_][0] = points_[0][0];
+    points_[segments_][1] = points_[0][1];
 }
 #pragma endregion // Private Methods
