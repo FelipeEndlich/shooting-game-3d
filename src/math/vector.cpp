@@ -3,27 +3,27 @@
 #include <string>
 #include <cmath>
 
-using namespace math;
+using math::Vector;
 
 #pragma region Constructor and Destructor
 Vector::Vector()
 {
-    allocate(0);
+    Allocate(0);
 }
 
 Vector::Vector(int dimension)
 {
-    allocate(dimension);
+    Allocate(dimension);
 }
 
 Vector::Vector(const Vector &other)
 {
-    copy(other);
+    Copy(other);
 }
 
 Vector::~Vector()
 {
-    deallocate();
+    Deallocate();
 }
 #pragma endregion // Constructor and Destructor
 
@@ -32,19 +32,19 @@ Vector &Vector::operator=(const Vector &other)
 {
     if (this != &other)
     {
-        deallocate();
-        copy(other);
+        Deallocate();
+        Copy(other);
     }
     return *this;
 }
 
 bool Vector::operator==(const Vector &other) const
 {
-    if (this->dimension != other.dimension)
+    if (this->dimension_ != other.dimension_)
         return false;
 
-    for (int i = 0; i < this->dimension; i++)
-        if (this->values[i] != other.values[i])
+    for (int i = 0; i < this->dimension_; i++)
+        if (this->values_[i] != other.values_[i])
             return false;
 
     return true;
@@ -57,46 +57,46 @@ bool Vector::operator!=(const Vector &other) const
 
 Vector Vector::operator+(const Vector &other) const
 {
-    if (this->dimension != other.dimension)
+    if (this->dimension_ != other.dimension_)
         throw std::invalid_argument("Dimension mismatch");
 
-    Vector result(this->dimension);
+    Vector result(this->dimension_);
 
-    for (int i = 0; i < this->dimension; i++)
-        result.values[i] = this->values[i] + other.values[i];
+    for (int i = 0; i < this->dimension_; i++)
+        result.values_[i] = this->values_[i] + other.values_[i];
 
     return result;
 }
 
 Vector Vector::operator-(const Vector &other) const
 {
-    if (this->dimension != other.dimension)
+    if (this->dimension_ != other.dimension_)
         throw std::invalid_argument("Dimension mismatch");
 
-    Vector result(this->dimension);
+    Vector result(this->dimension_);
 
-    for (int i = 0; i < this->dimension; i++)
-        result.values[i] = this->values[i] - other.values[i];
+    for (int i = 0; i < this->dimension_; i++)
+        result.values_[i] = this->values_[i] - other.values_[i];
 
     return result;
 }
 
 Vector Vector::operator*(const double &other) const
 {
-    Vector result(this->dimension);
+    Vector result(this->dimension_);
 
-    for (int i = 0; i < this->dimension; i++)
-        result.values[i] = this->values[i] * other;
+    for (int i = 0; i < this->dimension_; i++)
+        result.values_[i] = this->values_[i] * other;
 
     return result;
 }
 
 Vector Vector::operator/(const double &other) const
 {
-    Vector result(this->dimension);
+    Vector result(this->dimension_);
 
-    for (int i = 0; i < this->dimension; i++)
-        result.values[i] = this->values[i] / other;
+    for (int i = 0; i < this->dimension_; i++)
+        result.values_[i] = this->values_[i] / other;
 
     return result;
 }
@@ -106,48 +106,48 @@ Vector Vector::operator^(const int &other) const
     if (other < 0)
         throw std::invalid_argument("Power must be greater than 0");
 
-    Vector result(this->dimension);
+    Vector result(this->dimension_);
 
-    for (int i = 0; i < this->dimension; i++)
-        result.values[i] = pow(this->values[i], other);
+    for (int i = 0; i < this->dimension_; i++)
+        result.values_[i] = pow(this->values_[i], other);
 
     return result;
 }
 
 Vector &Vector::operator+=(const Vector &other)
 {
-    if (this->dimension != other.dimension)
+    if (this->dimension_ != other.dimension_)
         throw std::invalid_argument("Dimension mismatch");
 
-    for (int i = 0; i < this->dimension; i++)
-        this->values[i] += other.values[i];
+    for (int i = 0; i < this->dimension_; i++)
+        this->values_[i] += other.values_[i];
 
     return *this;
 }
 
 Vector &Vector::operator-=(const Vector &other)
 {
-    if (this->dimension != other.dimension)
+    if (this->dimension_ != other.dimension_)
         throw std::invalid_argument("Dimension mismatch");
 
-    for (int i = 0; i < this->dimension; i++)
-        this->values[i] -= other.values[i];
+    for (int i = 0; i < this->dimension_; i++)
+        this->values_[i] -= other.values_[i];
 
     return *this;
 }
 
 Vector &Vector::operator*=(const double &other)
 {
-    for (int i = 0; i < this->dimension; i++)
-        this->values[i] *= other;
+    for (int i = 0; i < this->dimension_; i++)
+        this->values_[i] *= other;
 
     return *this;
 }
 
 Vector &Vector::operator/=(const double &other)
 {
-    for (int i = 0; i < this->dimension; i++)
-        this->values[i] /= other;
+    for (int i = 0; i < this->dimension_; i++)
+        this->values_[i] /= other;
 
     return *this;
 }
@@ -157,125 +157,125 @@ Vector &Vector::operator^=(const int &other)
     if (other < 0)
         throw std::invalid_argument("Power must be greater than 0");
 
-    for (int i = 0; i < this->dimension; i++)
-        this->values[i] = pow(this->values[i], other);
+    for (int i = 0; i < this->dimension_; i++)
+        this->values_[i] = pow(this->values_[i], other);
 
     return *this;
 }
 
 double Vector::operator[](int i) const
 {
-    return this->values[i];
+    return this->values_[i];
 }
 
 double &Vector::operator[](int i)
 {
-    return this->values[i];
+    return this->values_[i];
 }
 #pragma endregion // Operator Overloading
 
 #pragma region Getters and Setters
-int Vector::getDimension() const
+int Vector::get_dimension() const
 {
-    return this->dimension;
+    return this->dimension_;
 }
 
-void Vector::setDimension(int dimension)
+void Vector::set_dimension(int dimension)
 {
     if (dimension < 0)
         throw std::invalid_argument("Dimension must be greater than 0");
 
-    deallocate();
-    allocate(dimension);
+    Deallocate();
+    Allocate(dimension);
 }
 #pragma endregion // Getters and Setters
 
 #pragma region Static Methods
-Vector Vector::zero(int dimension)
+Vector Vector::Zero(int dimension)
 {
-    return Vector::fill(dimension, 0.0);
+    return Vector::Fill(dimension, 0.0);
 }
 
-Vector Vector::fill(int dimension, double value)
+Vector Vector::Fill(int dimension, double value)
 {
     Vector result(dimension);
     for (int i = 0; i < dimension; i++)
-        result.values[i] = value;
+        result.values_[i] = value;
 
     return result;
 }
 #pragma endregion // Static Methods
 
 #pragma region Other Methods
-double Vector::dotProduct(const Vector &other) const
+double Vector::DotProduct(const Vector &other) const
 {
-    if (this->dimension != other.dimension)
+    if (this->dimension_ != other.dimension_)
         throw std::invalid_argument("Dimension mismatch");
 
     double result = 0.0;
-    for (int i = 0; i < this->dimension; i++)
-        result += this->values[i] * other.values[i];
+    for (int i = 0; i < this->dimension_; i++)
+        result += this->values_[i] * other.values_[i];
 
     return result;
 }
 
-Vector Vector::crossProduct(const Vector &other) const
+Vector Vector::CrossProduct(const Vector &other) const
 {
-    if (this->dimension != 3 || other.dimension != 3)
+    if (this->dimension_ != 3 || other.dimension_ != 3)
         throw std::invalid_argument("Dimension mismatch");
 
     Vector result(3);
-    result.values[0] = this->values[1] * other.values[2] - this->values[2] * other.values[1];
-    result.values[1] = this->values[2] * other.values[0] - this->values[0] * other.values[2];
-    result.values[2] = this->values[0] * other.values[1] - this->values[1] * other.values[0];
+    result.values_[0] = this->values_[1] * other.values_[2] - this->values_[2] * other.values_[1];
+    result.values_[1] = this->values_[2] * other.values_[0] - this->values_[0] * other.values_[2];
+    result.values_[2] = this->values_[0] * other.values_[1] - this->values_[1] * other.values_[0];
 
     return result;
 }
 
-double Vector::magnitude() const
+double Vector::Magnitude() const
 {
     double result = 0.0;
-    for (int i = 0; i < this->dimension; i++)
-        result += this->values[i] * this->values[i];
+    for (int i = 0; i < this->dimension_; i++)
+        result += this->values_[i] * this->values_[i];
 
     return sqrt(result);
 }
 
-Vector Vector::normalize() const
+Vector Vector::Normalize() const
 {
-    return *this / magnitude();
+    return *this / Magnitude();
 }
 
-double Vector::distance(const Vector &other) const
+double Vector::Distance(const Vector &other) const
 {
-    return (*this - other).magnitude();
+    return (*this - other).Magnitude();
 }
 
-double Vector::angle(const Vector &other) const
+double Vector::Angle(const Vector &other) const
 {
-    return acos(dotProduct(other) / (magnitude() * other.magnitude()));
+    return acos(DotProduct(other) / (Magnitude() * other.Magnitude()));
 }
 
-void Vector::swap(Vector &other)
+void Vector::Swap(Vector &other)
 {
-    std::swap(this->dimension, other.dimension);
-    std::swap(this->values, other.values);
+    std::swap(this->dimension_, other.dimension_);
+    std::swap(this->values_, other.values_);
 }
 
-void Vector::resize(int dimension)
+void Vector::Resize(int dimension)
 {
-    if (dimension == this->dimension)
+    if (dimension == this->dimension_)
         return;
 
-    deallocate();
-    allocate(dimension);
+    Deallocate();
+    Allocate(dimension);
 }
 
 std::string Vector::to_string() const
 {
     std::string result = "";
-    for (int i = 0; i < this->dimension; i++)
-        result += std::to_string(this->values[i]) + " ";
+    for (int i = 0; i < this->dimension_; i++)
+        result += std::to_string(this->values_[i]) + " ";
 
     return result;
 }
@@ -283,22 +283,22 @@ std::string Vector::to_string() const
 #pragma endregion // Other Methods
 
 #pragma region Protected Methods
-void Vector::copy(const Vector &other)
+void Vector::Copy(const Vector &other)
 {
-    allocate(other.dimension);
-    for (int i = 0; i < dimension; i++)
-        values[i] = other.values[i];
+    Allocate(other.dimension_);
+    for (int i = 0; i < dimension_; i++)
+        values_[i] = other.values_[i];
 }
 
-void Vector::allocate(int dimension)
+void Vector::Allocate(int dimension)
 {
-    this->dimension = dimension;
-    values.resize(dimension);
+    this->dimension_ = dimension;
+    values_.resize(dimension);
 }
 
-void Vector::deallocate()
+void Vector::Deallocate()
 {
-    values.clear();
-    dimension = 0;
+    values_.clear();
+    dimension_ = 0;
 }
 #pragma endregion // Protected Methods

@@ -11,7 +11,7 @@ using ::math::Vector;
 Circle::Circle()
 {
     color_ = RGBA();
-    BuildPoints(Vector::zero(2), 0);
+    BuildPoints(Vector::Zero(2), 0);
 }
 
 Circle::Circle(const Vector &origin, double radius)
@@ -58,7 +58,7 @@ Circle &Circle::operator=(const Circle &&other)
 #pragma region Private Methods
 void Circle::BuildPoints(const Vector &origin, double radius)
 {
-    points_ = Matrix::zero(segments_ + 1, 2);
+    points_ = Matrix::Zero(segments_ + 1, 2);
     double angle = 0;
     for (int i = 0; i < segments_; i++)
     {

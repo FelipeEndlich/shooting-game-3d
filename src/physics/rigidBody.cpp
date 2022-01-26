@@ -4,9 +4,9 @@ using namespace physic;
 
 RigidBody::RigidBody(int dimension)
 {
-    position = math::Vector::zero(dimension);
-    velocity = math::Vector::zero(dimension);
-    acceleration = math::Vector::zero(dimension);
+    position = math::Vector::Zero(dimension);
+    velocity = math::Vector::Zero(dimension);
+    acceleration = math::Vector::Zero(dimension);
 }
 
 void RigidBody::update(double dt)

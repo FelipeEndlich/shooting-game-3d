@@ -2,64 +2,65 @@
 #include <stdexcept>
 #include <sstream>
 
-using namespace math;
+using ::math::Matrix;
+using ::math::Vector;
 
 #pragma region Constructor and Destructor
 Matrix::Matrix()
 {
-    allocate(0, 0);
+    Allocate(0, 0);
 }
 
 Matrix::Matrix(int rows, int columns)
 {
-    allocate(rows, columns);
+    Allocate(rows, columns);
 }
 
 Matrix::Matrix(const Matrix &other)
 {
-    copy(other);
+    Copy(other);
 }
 
 Matrix::~Matrix()
 {
-    deallocate();
+    Deallocate();
 }
 #pragma endregion // Constructor and Destructor
 
 #pragma region Getters and Setters
-int Matrix::getRows() const
+int Matrix::get_rows() const
 {
-    return rows;
+    return rows_;
 }
 
-int Matrix::getColumns() const
+int Matrix::get_columns() const
 {
-    return columns;
+    return columns_;
 }
 
-void Matrix::setRows(int rows)
+void Matrix::set_rows(int rows)
 {
     if (rows < 0)
     {
         throw std::invalid_argument("rows must be greater than or equal to 0");
     }
-    if (rows != this->rows)
+    if (rows != this->rows_)
     {
-        deallocate();
-        allocate(rows, columns);
+        Deallocate();
+        Allocate(rows, columns_);
     }
 }
 
-void Matrix::setColumns(int columns)
+void Matrix::set_columns(int columns)
 {
     if (columns < 0)
     {
         throw std::invalid_argument("columns must be greater than or equal to 0");
     }
-    if (columns != this->columns)
+    if (columns != this->columns_)
     {
-        deallocate();
-        allocate(rows, columns);
+        Deallocate();
+        Allocate(rows_, columns);
     }
 }
 #pragma endregion // Getters and Setters
@@ -69,8 +70,8 @@ Matrix &Matrix::operator=(const Matrix &other)
 {
     if (this != &other)
     {
-        deallocate();
-        copy(other);
+        Deallocate();
+        Copy(other);
     }
     return *this;
 }
@@ -78,79 +79,79 @@ Matrix &Matrix::operator=(const Matrix &other)
 Matrix Matrix::operator+(const Matrix &other)
 {
 
-    if (this->rows != other.rows || this->columns != other.columns)
+    if (this->rows_ != other.rows_ || this->columns_ != other.columns_)
         throw std::invalid_argument("Dimension mismatch");
 
-    Matrix result(this->rows, this->columns);
+    Matrix result(this->rows_, this->columns_);
 
-    for (int i = 0; i < this->rows; i++)
-        for (int j = 0; j < this->columns; j++)
-            result[i][j] = this->values[i][j] + other.values[i][j];
+    for (int i = 0; i < this->rows_; i++)
+        for (int j = 0; j < this->columns_; j++)
+            result[i][j] = this->values_[i][j] + other.values_[i][j];
 
     return result;
 }
 
 Matrix Matrix::operator-(const Matrix &other)
 {
-    if (this->rows != other.rows || this->columns != other.columns)
+    if (this->rows_ != other.rows_ || this->columns_ != other.columns_)
         throw std::invalid_argument("Dimension mismatch");
 
-    Matrix result(this->rows, this->columns);
+    Matrix result(this->rows_, this->columns_);
 
-    for (int i = 0; i < this->rows; i++)
-        for (int j = 0; j < this->columns; j++)
-            result[i][j] = this->values[i][j] - other.values[i][j];
+    for (int i = 0; i < this->rows_; i++)
+        for (int j = 0; j < this->columns_; j++)
+            result[i][j] = this->values_[i][j] - other.values_[i][j];
 
     return result;
 }
 
 Matrix Matrix::operator*(const Matrix &other)
 {
-    if (this->columns != other.rows)
+    if (this->columns_ != other.rows_)
         throw std::invalid_argument("Dimension mismatch");
 
-    Matrix result(this->rows, other.columns);
+    Matrix result(this->rows_, other.columns_);
 
-    for (int i = 0; i < this->rows; i++)
-        for (int j = 0; j < other.columns; j++)
-            for (int k = 0; k < this->columns; k++)
-                result[i][j] += this->values[i][k] * other.values[k][j];
+    for (int i = 0; i < this->rows_; i++)
+        for (int j = 0; j < other.columns_; j++)
+            for (int k = 0; k < this->columns_; k++)
+                result[i][j] += this->values_[i][k] * other.values_[k][j];
 
     return result;
 }
 
 Vector Matrix::operator*(const Vector &other) const
 {
-    if (this->columns != other.getDimension())
+    if (this->columns_ != other.get_dimension())
         throw std::invalid_argument("Dimension mismatch");
 
-    Vector result(this->rows);
+    Vector result(this->rows_);
 
-    for (int i = 0; i < this->rows; i++)
-        for (int j = 0; j < this->columns; j++)
-            result[i] += this->values[i][j] * other[j];
+    for (int i = 0; i < this->rows_; i++)
+        for (int j = 0; j < this->columns_; j++)
+            result[i] += this->values_[i][j] * other[j];
 
     return result;
 }
 
 Matrix Matrix::operator*(const double &other)
 {
-    Matrix result(this->rows, this->columns);
+    Matrix result(this->rows_, this->columns_);
 
-    for (int i = 0; i < this->rows; i++)
-        for (int j = 0; j < this->columns; j++)
-            result[i][j] = this->values[i][j] * other;
+    for (int i = 0; i < this->rows_; i++)
+        for (int j = 0; j < this->columns_; j++)
+            result[i][j] = this->values_[i][j] * other;
 
     return result;
 }
 
 Matrix Matrix::operator/(const double &other)
 {
-    Matrix result(this->rows, this->columns);
+    Matrix result(this->rows_, this->columns_);
 
-    for (int i = 0; i < this->rows; i++)
-        for (int j = 0; j < this->columns; j++)
-            result[i][j] = this->values[i][j] / other;
+    for (int i = 0; i < this->rows_; i++)
+        for (int j = 0; j < this->columns_; j++)
+            result[i][j] = this->values_[i][j] / other;
 
     return result;
 }
@@ -170,39 +171,39 @@ Matrix Matrix::operator^(const int &other)
 
 Matrix &Matrix::operator+=(const Matrix &other)
 {
-    if (this->rows != other.rows || this->columns != other.columns)
+    if (this->rows_ != other.rows_ || this->columns_ != other.columns_)
         throw std::invalid_argument("Dimension mismatch");
 
-    for (int i = 0; i < this->rows; i++)
-        for (int j = 0; j < this->columns; j++)
-            this->values[i][j] += other.values[i][j];
+    for (int i = 0; i < this->rows_; i++)
+        for (int j = 0; j < this->columns_; j++)
+            this->values_[i][j] += other.values_[i][j];
 
     return *this;
 }
 
 Matrix &Matrix::operator-=(const Matrix &other)
 {
-    if (this->rows != other.rows || this->columns != other.columns)
+    if (this->rows_ != other.rows_ || this->columns_ != other.columns_)
         throw std::invalid_argument("Dimension mismatch");
 
-    for (int i = 0; i < this->rows; i++)
-        for (int j = 0; j < this->columns; j++)
-            this->values[i][j] -= other.values[i][j];
+    for (int i = 0; i < this->rows_; i++)
+        for (int j = 0; j < this->columns_; j++)
+            this->values_[i][j] -= other.values_[i][j];
 
     return *this;
 }
 
 Matrix &Matrix::operator*=(const Matrix &other)
 {
-    if (this->columns != other.rows)
+    if (this->columns_ != other.rows_)
         throw std::invalid_argument("Dimension mismatch");
 
-    Matrix result(this->rows, other.columns);
+    Matrix result(this->rows_, other.columns_);
 
-    for (int i = 0; i < this->rows; i++)
-        for (int j = 0; j < other.columns; j++)
-            for (int k = 0; k < this->columns; k++)
-                result[i][j] += this->values[i][k] * other.values[k][j];
+    for (int i = 0; i < this->rows_; i++)
+        for (int j = 0; j < other.columns_; j++)
+            for (int k = 0; k < this->columns_; k++)
+                result[i][j] += this->values_[i][k] * other.values_[k][j];
 
     *this = result;
 
@@ -211,18 +212,18 @@ Matrix &Matrix::operator*=(const Matrix &other)
 
 Matrix &Matrix::operator*=(const double &other)
 {
-    for (int i = 0; i < this->rows; i++)
-        for (int j = 0; j < this->columns; j++)
-            this->values[i][j] *= other;
+    for (int i = 0; i < this->rows_; i++)
+        for (int j = 0; j < this->columns_; j++)
+            this->values_[i][j] *= other;
 
     return *this;
 }
 
 Matrix &Matrix::operator/=(const double &other)
 {
-    for (int i = 0; i < this->rows; i++)
-        for (int j = 0; j < this->columns; j++)
-            this->values[i][j] /= other;
+    for (int i = 0; i < this->rows_; i++)
+        for (int j = 0; j < this->columns_; j++)
+            this->values_[i][j] /= other;
 
     return *this;
 }
@@ -240,29 +241,29 @@ Matrix &Matrix::operator^=(const int &other)
 
 Vector Matrix::operator[](int i) const
 {
-    if (i < 0 || i >= this->rows)
+    if (i < 0 || i >= this->rows_)
         throw std::invalid_argument("Index out of bounds");
 
-    return this->values[i];
+    return this->values_[i];
 }
 
 Vector &Matrix::operator[](int i)
 {
-    if (i < 0 || i >= this->rows)
+    if (i < 0 || i >= this->rows_)
         throw std::invalid_argument("Index out of bounds");
 
-    return this->values[i];
+    return this->values_[i];
 }
 #pragma endregion // Operator Overloading
 
 #pragma region Other Methods
-Matrix Matrix::transpose()
+Matrix Matrix::Transpose()
 {
-    Matrix result(this->columns, this->rows);
+    Matrix result(this->columns_, this->rows_);
 
-    for (int i = 0; i < this->rows; i++)
-        for (int j = 0; j < this->columns; j++)
-            result[j][i] = this->values[i][j];
+    for (int i = 0; i < this->rows_; i++)
+        for (int j = 0; j < this->columns_; j++)
+            result[j][i] = this->values_[i][j];
 
     return result;
 }
@@ -271,10 +272,10 @@ std::string Matrix::to_string() const
 {
     std::stringstream ss;
 
-    for (int i = 0; i < this->rows; i++)
+    for (int i = 0; i < this->rows_; i++)
     {
-        for (int j = 0; j < this->columns; j++)
-            ss << this->values[i][j] << " ";
+        for (int j = 0; j < this->columns_; j++)
+            ss << this->values_[i][j] << " ";
 
         ss << std::endl;
     }
@@ -284,7 +285,7 @@ std::string Matrix::to_string() const
 #pragma endregion // Other Methods
 
 #pragma region Static Methods
-Matrix Matrix::zero(int rows, int columns)
+Matrix Matrix::Zero(int rows, int columns)
 {
     Matrix result(rows, columns);
 
@@ -295,7 +296,7 @@ Matrix Matrix::zero(int rows, int columns)
     return result;
 }
 
-Matrix Matrix::identity(int rows, int columns)
+Matrix Matrix::Identity(int rows, int columns)
 {
     Matrix result(rows, columns);
 
@@ -308,27 +309,27 @@ Matrix Matrix::identity(int rows, int columns)
 #pragma endregion // Static Methods
 
 #pragma region Protected Methods
-void Matrix::allocate(int rows, int columns)
+void Matrix::Allocate(int rows, int columns)
 {
-    this->rows = rows;
-    this->columns = columns;
-    this->values.resize(rows);
+    this->rows_ = rows;
+    this->columns_ = columns;
+    this->values_.resize(rows);
     for (int i = 0; i < rows; i++)
-        this->values[i].resize(columns);
+        this->values_[i].Resize(columns);
 }
 
-void Matrix::deallocate()
+void Matrix::Deallocate()
 {
-    this->rows = 0;
-    this->columns = 0;
-    this->values.clear();
+    this->rows_ = 0;
+    this->columns_ = 0;
+    this->values_.clear();
 }
 
-void Matrix::copy(const Matrix &other)
+void Matrix::Copy(const Matrix &other)
 {
-    allocate(other.rows, other.columns);
-    for (int i = 0; i < other.rows; i++)
-        for (int j = 0; j < other.columns; j++)
-            this->values[i][j] = other.values[i][j];
+    Allocate(other.rows_, other.columns_);
+    for (int i = 0; i < other.rows_; i++)
+        for (int j = 0; j < other.columns_; j++)
+            this->values_[i][j] = other.values_[i][j];
 }
 #pragma endregion // Protected Methods

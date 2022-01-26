@@ -33,26 +33,26 @@ namespace math
         Vector operator[](int i) const;
         Vector &operator[](int i);
 
-        int getRows() const;
-        int getColumns() const;
+        int get_rows() const;
+        int get_columns() const;
 
-        void setRows(int rows);
-        void setColumns(int columns);
+        void set_rows(int rows);
+        void set_columns(int columns);
 
-        Matrix transpose();
+        Matrix Transpose();
         std::string to_string() const;
 
-        static Matrix zero(int rows, int columns);
-        static Matrix identity(int rows, int columns);
+        static Matrix Zero(int rows, int columns);
+        static Matrix Identity(int rows, int columns);
 
     protected:
-        void allocate(int rows, int columns);
-        void deallocate();
-        void copy(const Matrix &other);
+        void Allocate(int rows, int columns);
+        void Deallocate();
+        void Copy(const Matrix &other);
 
     private:
-        int rows;
-        int columns;
-        std::vector<Vector> values;
+        int rows_;
+        int columns_;
+        std::vector<Vector> values_;
     };
 } // namespace Math

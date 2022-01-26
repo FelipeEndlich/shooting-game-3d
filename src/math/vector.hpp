@@ -32,32 +32,32 @@ namespace math
         double operator[](int i) const;
         double &operator[](int i);
 
-        int getDimension() const;
+        int get_dimension() const;
 
-        void setDimension(int dimension);
+        void set_dimension(int dimension);
 
-        double dotProduct(const Vector &other) const;
-        Vector crossProduct(const Vector &other) const;
-        double scalarProduct(const Vector &other) const;
-        double magnitude() const;
-        Vector normalize() const;
-        double distance(const Vector &other) const;
-        double angle(const Vector &other) const;
+        double DotProduct(const Vector &other) const;
+        Vector CrossProduct(const Vector &other) const;
+        double ScalarProduct(const Vector &other) const;
+        double Magnitude() const;
+        Vector Normalize() const;
+        double Distance(const Vector &other) const;
+        double Angle(const Vector &other) const;
 
         std::string to_string() const;
-        void resize(int dimension);
-        void swap(Vector &other);
+        void Resize(int dimension);
+        void Swap(Vector &other);
 
-        static Vector zero(int dimension);
-        static Vector fill(int dimension, double value);
+        static Vector Zero(int dimension);
+        static Vector Fill(int dimension, double value);
 
     protected:
-        void copy(const Vector &other);
-        void allocate(int dimension);
-        void deallocate();
+        void Copy(const Vector &other);
+        void Allocate(int dimension);
+        void Deallocate();
 
     private:
-        int dimension;
-        std::vector<double> values;
+        int dimension_;
+        std::vector<double> values_;
     };
 } // namespace Math

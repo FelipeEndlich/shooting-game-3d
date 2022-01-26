@@ -9,7 +9,7 @@ using ::math::Matrix;
 Rectangle::Rectangle()
 {
     color_ = RGBA();
-    BuildPoints(Vector::zero(2), 0, 0);
+    BuildPoints(Vector::Zero(2), 0, 0);
 }
 
 Rectangle::Rectangle(const Vector &origin, double width, double height)
@@ -56,7 +56,7 @@ Rectangle &Rectangle::operator=(const Rectangle &&other)
 #pragma region Private Methods
 void Rectangle::BuildPoints(const Vector &origin, double width, double height)
 {
-    points_ = Matrix::zero(4, 2);
+    points_ = Matrix::Zero(4, 2);
     this->width_ = width;
     this->height_ = height;
 
