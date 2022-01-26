@@ -3,7 +3,7 @@
 #include <iostream>
 
 #include "./state/grounded_state.hpp"
-#include "../../../physics/rigidBody.hpp"
+#include "../../../physics/rigid_body.hpp"
 
 using ::graphics::color::RGBA;
 using ::graphics::elements::state::BaseState;
@@ -23,8 +23,8 @@ Character::Character()
 Character::Character(Vector &initial_position, double radius, RGBA &color)
     : RigidBody(2)
 {
-    position = initial_position;
-    shape_ = Circle(position, radius, color);
+    position_ = initial_position;
+    shape_ = Circle(position_, radius, color);
     Allocate();
 }
 
@@ -37,10 +37,10 @@ Character &Character::operator=(const Character &other)
 {
     if (this != &other)
     {
-        position = other.position;
+        position_ = other.position_;
         shape_ = other.shape_;
-        velocity = other.velocity;
-        acceleration = other.acceleration;
+        velocity_ = other.velocity_;
+        acceleration_ = other.acceleration_;
 
         Deallocate();
         this->state_ = other.state_->Clone();

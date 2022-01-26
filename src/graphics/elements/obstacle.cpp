@@ -8,8 +8,8 @@ using math::Vector;
 Obstacle::Obstacle(Vector &initial_position, double width, double height, RGBA &color)
     : RigidBody(2)
 {
-    position = initial_position;
-    shape_ = Rectangle(position, width, height, color);
+    position_ = initial_position;
+    shape_ = Rectangle(position_, width, height, color);
 }
 
 void Obstacle::Render()

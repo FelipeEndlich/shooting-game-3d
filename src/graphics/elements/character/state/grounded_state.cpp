@@ -18,11 +18,11 @@ GroundedState::GroundedState(GroundedState &state)
 GroundedState::GroundedState(Character *character)
     : BaseState(character)
 {
-    character->velocity[0] = 0;
-    character->velocity[1] = 0;
+    character->velocity_[0] = 0;
+    character->velocity_[1] = 0;
 
-    character->acceleration[0] = 0;
-    character->acceleration[1] = 0;
+    character->acceleration_[0] = 0;
+    character->acceleration_[1] = 0;
 
     name_ = "GroundedState";
 }

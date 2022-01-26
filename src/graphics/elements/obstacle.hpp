@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../physics/rigidBody.hpp"
+#include "../../physics/rigid_body.hpp"
 #include "../../math/vector.hpp"
 #include "../color/rgba.hpp"
 #include "../shapes/rectangle.hpp"

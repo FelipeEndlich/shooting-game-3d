@@ -2,7 +2,7 @@
 
 #include "../character.hpp"
 #include "../../../../math/vector.hpp"
-#include "../../../../physics/rigidBody.hpp"
+#include "../../../../physics/rigid_body.hpp"
 
 using graphics::elements::state::BaseState;
 using graphics::elements::state::Character;
@@ -21,11 +21,11 @@ WalkingRightState::WalkingRightState(WalkingRightState &state)
 WalkingRightState::WalkingRightState(Character *character)
     : BaseState(character)
 {
-    character->velocity[0] = RigidBody::DEFAULT_HORIZONTAL_VELOCITY;
-    character->velocity[1] = 0;
+    character->velocity_[0] = RigidBody::default_horizontal_velocity_;
+    character->velocity_[1] = 0;
 
-    character->acceleration[0] = 0;
-    character->acceleration[1] = 0;
+    character->acceleration_[0] = 0;
+    character->acceleration_[1] = 0;
 
     name_ = "WalkingRightState";
 }
@@ -56,13 +56,13 @@ void WalkingRightState::Move(double delta_time, Direction direction)
         character_->set_state(new WalkingLeftState(character_));
     else
     {
-        double x = character_->position[0];
-        double y = character_->position[1];
+        double x = character_->position_[0];
+        double y = character_->position_[1];
 
-        character_->update(delta_time);
+        character_->Update(delta_time);
 
-        double dx = character_->position[0] - x;
-        double dy = character_->position[1] - y;
+        double dx = character_->position_[0] - x;
+        double dy = character_->position_[1] - y;
 
         Vector translate = Vector(2);
         translate[0] = dx;

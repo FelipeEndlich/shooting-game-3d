@@ -5,7 +5,7 @@ using namespace std;
 
 #include "./game/game.hpp"
 #include <cmath>
-using namespace shoot_and_jump;
+using shoot_and_jump::Game;
 
 int main(int argc, char **argv)
 {

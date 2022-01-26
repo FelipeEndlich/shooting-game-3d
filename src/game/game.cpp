@@ -11,12 +11,18 @@
 #include "../graphics/shapes/rectangle.hpp"
 #include "../graphics/elements/obstacle.hpp"
 
-using namespace std;
-using namespace math;
-using namespace graphics::color;
-using namespace graphics::shapes;
-using namespace graphics::elements;
-using namespace graphics::elements::state;
+using ::graphics::color::ColorOption;
+using ::graphics::color::RGBA;
+using ::graphics::color::RGBAFactory;
+using ::graphics::elements::Obstacle;
+using ::graphics::elements::state::Character;
+using ::graphics::elements::state::Direction;
+using ::graphics::shapes::Circle;
+using ::graphics::shapes::Rectangle;
+using ::math::Vector;
+using ::std::cout;
+using ::std::endl;
+using ::std::string;
 
 namespace shoot_and_jump
 {
@@ -82,8 +88,8 @@ namespace shoot_and_jump
         glutCreateWindow("2D GAME");
 
         /* selecionar cor de fundo (preto) */
-        RGBA screnColor = RGBAFactory::get_color(ColorOption::kBlack);
-        glClearColor(screnColor.get_red(), screnColor.get_green(), screnColor.get_blue(), screnColor.get_alpha());
+        RGBA scren_color = RGBAFactory::get_color(ColorOption::kBlack);
+        glClearColor(scren_color.get_red(), scren_color.get_green(), scren_color.get_blue(), scren_color.get_alpha());
 
         glLoadIdentity();
         glOrtho(ortho_left_, ortho_right_, ortho_bottom_, ortho_top_, ortho_near_, ortho_far_);
@@ -100,11 +106,11 @@ namespace shoot_and_jump
 
     void Game::Idle()
     {
-        double currentTime = glutGet(GLUT_ELAPSED_TIME);
-        delta_time_ = currentTime - this->current_time_;
+        double current_time = glutGet(GLUT_ELAPSED_TIME);
+        delta_time_ = current_time - this->current_time_;
         if (delta_time_ > 0.1)
         {
-            this->current_time_ = currentTime;
+            this->current_time_ = current_time;
             CheckKeys();
             glutPostRedisplay();
         }
@@ -151,28 +157,28 @@ namespace shoot_and_jump
             throw "Configuration not found";
         }
 
-        tinyxml2::XMLElement *rectEl = root->FirstChildElement("rect");
-        while (rectEl != nullptr)
+        tinyxml2::XMLElement *rect_element = root->FirstChildElement("rect");
+        while (rect_element != nullptr)
         {
-            string fill = rectEl->Attribute("fill");
+            string fill = rect_element->Attribute("fill");
             if (fill == "blue")
-                LoadBackground(rectEl);
+                LoadBackground(rect_element);
             else if (fill == "black")
-                LoadObstacle(rectEl);
+                LoadObstacle(rect_element);
 
-            rectEl = rectEl->NextSiblingElement("rect");
+            rect_element = rect_element->NextSiblingElement("rect");
         }
 
-        tinyxml2::XMLElement *circleEl = root->FirstChildElement("circle");
-        while (circleEl != nullptr)
+        tinyxml2::XMLElement *circle_element = root->FirstChildElement("circle");
+        while (circle_element != nullptr)
         {
-            string fill = circleEl->Attribute("fill");
+            string fill = circle_element->Attribute("fill");
             if (fill == "green")
-                LoadPlayer(circleEl);
+                LoadPlayer(circle_element);
             else if (fill == "red")
-                LoadEnemy(circleEl);
+                LoadEnemy(circle_element);
 
-            circleEl = circleEl->NextSiblingElement("circle");
+            circle_element = circle_element->NextSiblingElement("circle");
         }
     }
 
