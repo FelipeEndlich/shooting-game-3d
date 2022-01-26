@@ -3,13 +3,14 @@
 #include "../character.hpp"
 #include "../../../../math/vector.hpp"
 #include "../../../../physics/rigid_body.hpp"
+#include "../../../../physics/direction.hpp"
 
 using graphics::elements::state::BaseState;
 using graphics::elements::state::Character;
-using graphics::elements::state::Direction;
 using graphics::elements::state::WalkingLeftState;
 using graphics::elements::state::WalkingRightState;
 using math::Vector;
+using physic::Direction;
 using physic::RigidBody;
 
 WalkingLeftState::WalkingLeftState(WalkingLeftState &state)

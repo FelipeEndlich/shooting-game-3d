@@ -2,7 +2,7 @@
 
 #include <string>
 
-#include "../direction.hpp"
+#include "../../../../physics/direction.hpp"
 
 namespace graphics::elements::state
 {
@@ -23,7 +23,7 @@ namespace graphics::elements::state
         virtual void Fall(double delta_time) = 0;
         virtual void Jump(double delta_time) = 0;
         virtual void Stop(double delta_time) = 0;
-        virtual void Move(double delta_time, Direction direction) = 0;
+        virtual void Move(double delta_time, physic::Direction direction) = 0;
 
         virtual BaseState *Clone() = 0;
 
@@ -31,7 +31,7 @@ namespace graphics::elements::state
 
     protected:
         Character *character_;
-        Direction direction_ = Direction::kRight;
+        physic::Direction direction_ = physic::Direction::kRight;
         std::string name_ = "Unnamed";
     };
 }

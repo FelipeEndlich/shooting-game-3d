@@ -3,11 +3,12 @@
 #include "../character.hpp"
 #include "./walking_left_state.hpp"
 #include "./walking_right_state.hpp"
+#include "../../../../physics/direction.hpp"
 
 using graphics::elements::state::BaseState;
 using graphics::elements::state::Character;
-using graphics::elements::state::Direction;
 using graphics::elements::state::GroundedState;
+using physic::Direction;
 
 GroundedState::GroundedState(GroundedState &state)
     : BaseState(state)

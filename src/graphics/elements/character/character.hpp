@@ -1,12 +1,12 @@
 #pragma once
 
 #include "../../../physics/rigid_body.hpp"
+#include "../../../physics/direction.hpp"
 #include "../../../math/vector.hpp"
 #include "../../color/rgba.hpp"
 #include "../../shapes/rectangle.hpp"
 #include "../../shapes/circle.hpp"
-#include "./direction.hpp"
-#include "./state/state.hpp"
+#include "./state/base_state.hpp"
 #include "./state/grounded_state.hpp"
 #include "./state/walking_left_state.hpp"
 #include "./state/walking_right_state.hpp"
@@ -28,7 +28,7 @@ namespace graphics::elements::state
         void Fall(double delta_time);
         void Jump(double delta_time);
         void Stop(double delta_time);
-        void Move(double delta_time, Direction direction);
+        void Move(double delta_time, physic::Direction direction);
 
         void set_state(BaseState *state);
 

@@ -10,16 +10,17 @@
 #include "../graphics/shapes/circle.hpp"
 #include "../graphics/shapes/rectangle.hpp"
 #include "../graphics/elements/obstacle.hpp"
+#include "../physics/direction.hpp"
 
 using ::graphics::color::ColorOption;
 using ::graphics::color::RGBA;
 using ::graphics::color::RGBAFactory;
 using ::graphics::elements::Obstacle;
 using ::graphics::elements::state::Character;
-using ::graphics::elements::state::Direction;
 using ::graphics::shapes::Circle;
 using ::graphics::shapes::Rectangle;
 using ::math::Vector;
+using ::physic::Direction;
 using ::std::cout;
 using ::std::endl;
 using ::std::string;

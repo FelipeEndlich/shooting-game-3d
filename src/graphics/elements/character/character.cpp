@@ -11,6 +11,7 @@ using ::graphics::elements::state::Character;
 using ::graphics::elements::state::GroundedState;
 using ::graphics::shapes::Circle;
 using ::math::Vector;
+using ::physic::Direction;
 using ::std::cout;
 using ::std::endl;
 

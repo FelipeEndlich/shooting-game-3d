@@ -1,6 +1,8 @@
 #pragma once
 
-#include "state.hpp"
+#include "base_state.hpp"
+
+#include "../../../../physics/direction.hpp"
 
 namespace graphics::elements::state
 {
@@ -17,6 +19,6 @@ namespace graphics::elements::state
         virtual void Fall(double delta_time) override;
         virtual void Jump(double delta_time) override;
         virtual void Stop(double delta_time) override;
-        virtual void Move(double delta_time, Direction direction) override;
+        virtual void Move(double delta_time, physic::Direction direction) override;
     };
 }
