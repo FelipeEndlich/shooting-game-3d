@@ -22,5 +22,8 @@ namespace graphics::elements::state
         virtual void Stop(double delta_time) override;
         virtual void Move(double delta_time, physic::Direction direction) override;
         virtual void ProcessCollision(physic::ICollidable *collidable) override;
+
+    private:
+        void FallUpdate(double delta_time);
     };
 }

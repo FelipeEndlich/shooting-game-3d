@@ -44,53 +44,17 @@ BaseState *FallingState::Clone()
 
 void FallingState::Fall(double delta_time)
 {
-    double x = character_->position_[0];
-    double y = character_->position_[1];
-
-    character_->Update(delta_time);
-
-    double dx = character_->position_[0] - x;
-    double dy = character_->position_[1] - y;
-
-    Vector translate = Vector(2);
-    translate[0] = dx;
-    translate[1] = dy;
-
-    character_->shape_.Translate(translate);
+    FallUpdate(delta_time);
 }
 
 void FallingState::Jump(double delta_time)
 {
-    double x = character_->position_[0];
-    double y = character_->position_[1];
-
-    character_->Update(delta_time);
-
-    double dx = character_->position_[0] - x;
-    double dy = character_->position_[1] - y;
-
-    Vector translate = Vector(2);
-    translate[0] = dx;
-    translate[1] = dy;
-
-    character_->shape_.Translate(translate);
+    FallUpdate(delta_time);
 }
 
 void FallingState::Stop(double delta_time)
 {
-    double x = character_->position_[0];
-    double y = character_->position_[1];
-
-    character_->Update(delta_time);
-
-    double dx = character_->position_[0] - x;
-    double dy = character_->position_[1] - y;
-
-    Vector translate = Vector(2);
-    translate[0] = dx;
-    translate[1] = dy;
-
-    character_->shape_.Translate(translate);
+    FallUpdate(delta_time);
 }
 
 void FallingState::Move(double delta_time, Direction direction)
@@ -112,4 +76,21 @@ void FallingState::ProcessCollision(ICollidable *collidable)
     character_->position_ += translate;
 
     character_->set_state(new GroundedState(character_));
+}
+
+void FallingState::FallUpdate(double delta_time)
+{
+    double x = character_->position_[0];
+    double y = character_->position_[1];
+
+    character_->Update(delta_time);
+
+    double dx = character_->position_[0] - x;
+    double dy = character_->position_[1] - y;
+
+    Vector translate = Vector(2);
+    translate[0] = dx;
+    translate[1] = dy;
+
+    character_->shape_.Translate(translate);
 }
