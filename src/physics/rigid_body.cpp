@@ -8,6 +8,7 @@ using ::physic::RigidBody;
 RigidBody::RigidBody(int dimension)
 {
     position_ = math::Vector::Zero(dimension);
+    set_last_position(position_);
     velocity_ = math::Vector::Zero(dimension);
     acceleration_ = math::Vector::Zero(dimension);
     external_force_ = math::Vector::Zero(dimension);
@@ -21,6 +22,7 @@ RigidBody::RigidBody(int dimension)
 
 void RigidBody::Update(double dt)
 {
+    set_last_position(position_);
     Vector forces = weight_ + external_force_;
     acceleration_ = forces / mass_;
     velocity_ += acceleration_ * dt;
@@ -42,8 +44,18 @@ Vector RigidBody::get_weight() const
     return weight_;
 }
 
-void RigidBody::set_gravity_acceleration(math::Vector gravity_acceleration)
+Vector RigidBody::get_last_position() const
+{
+    return last_position_;
+}
+
+void RigidBody::set_gravity_acceleration(Vector gravity_acceleration)
 {
     gravity_acceleration_ = gravity_acceleration;
     weight_ = gravity_acceleration_ * mass_;
+}
+
+void RigidBody::set_last_position(Vector last_position)
+{
+    last_position_ = last_position;
 }

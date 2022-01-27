@@ -71,14 +71,6 @@ void WalkingRightState::Move(double delta_time, Direction direction)
 
 void WalkingRightState::ProcessCollision(ICollidable *collidable)
 {
-    double collidable_x = collidable->get_position()[0];
-    double character_x = character_->get_position()[0] + character_->get_width();
-
-    Vector translate = Vector::Zero(2);
-    translate[0] = collidable_x - character_x;
-
-    character_->shape_.Translate(translate);
-    character_->position_ += translate;
-
+    character_->ProcessCollisionByRight(collidable);
     character_->set_state(new GroundedState(character_));
 }

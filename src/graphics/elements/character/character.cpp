@@ -55,6 +55,7 @@ Character &Character::operator=(const Character &other)
         shape_ = other.shape_;
         velocity_ = other.velocity_;
         acceleration_ = other.acceleration_;
+        last_position_ = other.last_position_;
 
         Deallocate();
         this->state_ = other.state_->Clone();
@@ -77,7 +78,6 @@ void Character::Jump(double delta_time, physic::Direction direction)
     state_->Jump(delta_time, direction);
 }
 
-
 void Character::Stop(double delta_time)
 {
     state_->Stop(delta_time);
@@ -92,7 +92,7 @@ void Character::set_state(BaseState *state)
 {
     Deallocate();
     this->state_ = state;
-    cout << "Character::setState() " << state->to_string() << endl;
+    //cout << "Character::setState() " << state->to_string() << endl;
 }
 
 void Character::Allocate()
@@ -105,8 +105,6 @@ void Character::Deallocate()
     delete state_;
 }
 
-#include <iostream>
-using namespace std;
 Vector Character::get_position()
 {
     Vector position(position_);
@@ -137,4 +135,52 @@ void Character::ProcessMove(double delta_time)
     Update(delta_time);
     Vector translate = position_ - position;
     shape_.Translate(translate);
+}
+
+void Character::ProcessCollisionByLeft(ICollidable *collidable)
+{
+    double collidable_x = collidable->get_position()[0] + collidable->get_width();
+    double character_x = get_position()[0];
+
+    Vector translate = Vector::Zero(2);
+    translate[0] = collidable_x - character_x;
+
+    shape_.Translate(translate);
+    position_ += translate;
+}
+
+void Character::ProcessCollisionByRight(ICollidable *collidable)
+{
+    double collidable_x = collidable->get_position()[0];
+    double character_x = get_position()[0] + get_width();
+
+    Vector translate = Vector::Zero(2);
+    translate[0] = collidable_x - character_x;
+
+    shape_.Translate(translate);
+    position_ += translate;
+}
+
+void Character::ProcessCollisionByTop(ICollidable *collidable)
+{
+    double collidable_y = collidable->get_position()[1] + collidable->get_height();
+    double character_y = get_position()[1];
+
+    Vector translate = Vector::Zero(2);
+    translate[1] = collidable_y - character_y;
+
+    shape_.Translate(translate);
+    position_ += translate;
+}
+
+void Character::ProcessCollisionByBottom(ICollidable *collidable)
+{
+    double collidable_y = collidable->get_position()[1];
+    double character_y = get_position()[1] + get_height();
+
+    Vector translate = Vector::Zero(2);
+    translate[1] = collidable_y - character_y;
+
+    shape_.Translate(translate);
+    position_ += translate;
 }

@@ -53,6 +53,10 @@ namespace graphics::elements::state
         bool collision_processable_;
 
         void ProcessMove(double delta_time);
+        void ProcessCollisionByLeft(physic::ICollidable *collidable);
+        void ProcessCollisionByRight(physic::ICollidable *collidable);
+        void ProcessCollisionByTop(physic::ICollidable *collidable);
+        void ProcessCollisionByBottom(physic::ICollidable *collidable);
 
         void Allocate();
         void Deallocate();

@@ -32,7 +32,7 @@ FallingState::FallingState(Character *character)
     character->velocity_[0] = 0;
 
     if (character->velocity_[1] < 0)
-        character->velocity_[1] *= 0;
+        character->velocity_[1] = 0;
 
     character->acceleration_ = Vector::Zero(2);
     character->external_force_ = Vector::Zero(2);
@@ -76,14 +76,6 @@ using namespace std;
 
 void FallingState::ProcessCollision(ICollidable *collidable)
 {
-    double collidable_y = collidable->get_position()[1];
-    double character_y = character_->get_position()[1] + character_->get_height();
-
-    Vector translate = Vector::Zero(2);
-    translate[1] = collidable_y - character_y;
-
-    character_->shape_.Translate(translate);
-    character_->position_ += translate;
-
+    character_->ProcessCollisionByBottom(collidable);
     character_->set_state(new GroundedState(character_));
 }

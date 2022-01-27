@@ -71,14 +71,14 @@ void JumpingLeftState::Move(double delta_time, Direction direction)
 
 void JumpingLeftState::ProcessCollision(ICollidable *collidable)
 {
-    // double collidable_y = collidable->get_position()[1] + collidable->get_height();
-    // double character_y = character_->get_position()[1];
-
-    // Vector translate = Vector::Zero(2);
-    // translate[1] = collidable_y - character_y;
-
-    // character_->shape_.Translate(translate);
-    // character_->position_ += translate;
-
-    // character_->set_state(new FallingState(character_));
+    if (collidable->IsColliding(character_->get_last_position()[0], character_->get_position()[1], character_->get_width(), character_->get_height()))
+    {
+        character_->ProcessCollisionByTop(collidable);
+        character_->set_state(new FallingState(character_));
+    }
+    else
+    {
+        character_->ProcessCollisionByLeft(collidable);
+        character_->set_state(new JumpingState(character_));
+    }
 }
