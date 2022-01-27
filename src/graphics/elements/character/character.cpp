@@ -119,3 +119,11 @@ void Character::ProcessCollision(ICollidable *collidable)
     if (collision_processable_)
         state_->ProcessCollision(collidable);
 }
+
+void Character::ProcessMove(double delta_time)
+{
+    Vector position = position_;
+    Update(delta_time);
+    Vector translate = position_ - position;
+    shape_.Translate(translate);
+}

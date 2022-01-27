@@ -25,14 +25,9 @@ FallingState::FallingState(FallingState &state)
 FallingState::FallingState(Character *character)
     : BaseState(character)
 {
-    character->velocity_[0] = 0;
-    character->velocity_[1] = 0;
-
-    character->acceleration_[0] = 0;
-    character->acceleration_[1] = 0;
-
-    character->external_force_[0] = 0;
-    character->external_force_[1] = 0;
+    character->velocity_ = Vector::Zero(2);
+    character->acceleration_ = Vector::Zero(2);
+    character->external_force_ = Vector::Zero(2);
 
     name_ = "FallingState";
 }
@@ -44,17 +39,17 @@ BaseState *FallingState::Clone()
 
 void FallingState::Fall(double delta_time)
 {
-    FallUpdate(delta_time);
+    character_->ProcessMove(delta_time);
 }
 
 void FallingState::Jump(double delta_time)
 {
-    FallUpdate(delta_time);
+    character_->ProcessMove(delta_time);
 }
 
 void FallingState::Stop(double delta_time)
 {
-    FallUpdate(delta_time);
+    character_->ProcessMove(delta_time);
 }
 
 void FallingState::Move(double delta_time, Direction direction)
@@ -76,21 +71,4 @@ void FallingState::ProcessCollision(ICollidable *collidable)
     character_->position_ += translate;
 
     character_->set_state(new GroundedState(character_));
-}
-
-void FallingState::FallUpdate(double delta_time)
-{
-    double x = character_->position_[0];
-    double y = character_->position_[1];
-
-    character_->Update(delta_time);
-
-    double dx = character_->position_[0] - x;
-    double dy = character_->position_[1] - y;
-
-    Vector translate = Vector(2);
-    translate[0] = dx;
-    translate[1] = dy;
-
-    character_->shape_.Translate(translate);
 }

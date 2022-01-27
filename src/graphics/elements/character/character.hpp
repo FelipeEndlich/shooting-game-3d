@@ -45,6 +45,8 @@ namespace graphics::elements::state
 
         bool collision_processable_;
 
+        void ProcessMove(double delta_time);
+
         void Allocate();
         void Deallocate();
 
