@@ -75,10 +75,13 @@ void WalkingLeftState::Move(double delta_time, Direction direction)
     }
 }
 
+#include <iostream>
+using namespace std;
+
 void WalkingLeftState::ProcessCollision(ICollidable *collidable)
 {
-    double collidable_x = collidable->get_position()[0];
-    double character_x = character_->get_position()[0] + character_->get_width();
+    double collidable_x = collidable->get_position()[0] + collidable->get_width();
+    double character_x = character_->get_position()[0];
 
     Vector translate = Vector::Zero(2);
     translate[0] = collidable_x - character_x;

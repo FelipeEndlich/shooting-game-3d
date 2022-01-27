@@ -94,7 +94,7 @@ namespace shoot_and_jump
         glClearColor(scren_color.get_red(), scren_color.get_green(), scren_color.get_blue(), scren_color.get_alpha());
 
         glLoadIdentity();
-        glOrtho(ortho_left_, ortho_right_, ortho_bottom_, ortho_top_, ortho_near_, ortho_far_);
+        glOrtho(ortho_left_ - 50, ortho_right_ + 50, ortho_bottom_ + 50, ortho_top_ - 50, ortho_near_, ortho_far_);
 
         glutSetKeyRepeat(GLUT_KEY_REPEAT_OFF);
         glutMouseFunc(mouseFunc);
@@ -208,6 +208,34 @@ namespace shoot_and_jump
         ortho_bottom_ = y + height;
         ortho_near_ = 20.0;
         ortho_far_ = 0.0;
+
+        RGBA obstacle_color = RGBAFactory::get_color("red");
+
+        double obstacle_stroke = 1;
+
+        Vector bottom_limit = Vector(origin);
+        bottom_limit[1] += height;
+        Obstacle *bottom_limit_obstacle = new Obstacle(bottom_limit, width, obstacle_stroke, obstacle_color);
+        map_.AddObstacle(bottom_limit_obstacle);
+        collision_system_.AddToCollisionSystem(bottom_limit_obstacle);
+
+        Vector top_limit = Vector(origin);
+        top_limit[1] -= obstacle_stroke;
+        Obstacle *top_limit_obstacle = new Obstacle(top_limit, width, obstacle_stroke, obstacle_color);
+        map_.AddObstacle(top_limit_obstacle);
+        collision_system_.AddToCollisionSystem(top_limit_obstacle);
+
+        Vector left_limit = Vector(origin);
+        left_limit[0] -= obstacle_stroke;
+        Obstacle *left_limit_obstacle = new Obstacle(left_limit, obstacle_stroke, height, obstacle_color);
+        map_.AddObstacle(left_limit_obstacle);
+        collision_system_.AddToCollisionSystem(left_limit_obstacle);
+
+        Vector right_limit = Vector(origin);
+        right_limit[0] += width;
+        Obstacle *right_limit_obstacle = new Obstacle(right_limit, obstacle_stroke, height, obstacle_color);
+        map_.AddObstacle(right_limit_obstacle);
+        collision_system_.AddToCollisionSystem(right_limit_obstacle);
     }
 
     void Game::LoadObstacle(tinyxml2::XMLElement *element)

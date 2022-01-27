@@ -16,15 +16,17 @@ using ::physic::ICollidable;
 using ::std::cout;
 using ::std::endl;
 
-Character::Character()
+Character::Character(bool collision_processable)
     : RigidBody(2)
 {
+    collision_processable_ = collision_processable;
     Allocate();
 }
 
-Character::Character(Vector &initial_position, double radius, RGBA &color)
+Character::Character(Vector &initial_position, double radius, RGBA &color, bool collision_processable)
     : RigidBody(2)
 {
+    collision_processable_ = collision_processable;
     position_ = initial_position;
     shape_ = Circle(position_, radius, color);
     Allocate();
@@ -96,22 +98,24 @@ void Character::Deallocate()
 using namespace std;
 Vector Character::get_position()
 {
-    Vector position = position_;
+    Vector position(position_);
     position[0] -= shape_.get_radius();
     position[1] -= shape_.get_radius();
-    return position_;
+
+    return position;
 }
 
 double Character::get_width()
 {
-    return shape_.get_radius();
+    return shape_.get_radius() * 2;
 }
 
 double Character::get_height()
 {
-    return shape_.get_radius();
+    return shape_.get_radius() * 2;
 }
 void Character::ProcessCollision(ICollidable *collidable)
 {
-    state_->ProcessCollision(collidable);
+    if (collision_processable_)
+        state_->ProcessCollision(collidable);
 }

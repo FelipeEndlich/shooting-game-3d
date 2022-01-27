@@ -18,8 +18,8 @@ namespace graphics::elements::state
     {
 
     public:
-        Character();
-        Character(math::Vector &initial_position, double radius, graphics::color::RGBA &color);
+        Character(bool collision_processable = true);
+        Character(math::Vector &initial_position, double radius, graphics::color::RGBA &color, bool collision_processable = true);
         ~Character();
 
         Character &operator=(const Character &other);
@@ -41,6 +41,8 @@ namespace graphics::elements::state
     private:
         graphics::shapes::Circle shape_;
         BaseState *state_;
+
+        bool collision_processable_;
 
         void Allocate();
         void Deallocate();
