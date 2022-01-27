@@ -28,7 +28,7 @@ FallingLeftState::FallingLeftState(Character *character)
 {
     character->velocity_[0] = -Character::default_horizontal_velocity_;
     if (character->velocity_[1] < 0)
-        character->velocity_[1] *= -1;
+        character->velocity_[1] = 0;
 
     character->acceleration_ = Vector::Zero(2);
     character->external_force_ = Vector::Zero(2);
@@ -50,6 +50,8 @@ void FallingLeftState::Jump(double delta_time, physic::Direction direction)
 {
     if (direction == Direction::kLeft)
         character_->ProcessMove(delta_time);
+    else
+        character_->set_state(new FallingRightState(character_));
 }
 
 void FallingLeftState::Stop(double delta_time)
@@ -61,6 +63,8 @@ void FallingLeftState::Move(double delta_time, Direction direction)
 {
     if (direction == Direction::kLeft)
         character_->ProcessMove(delta_time);
+    else
+        character_->set_state(new FallingRightState(character_));
 }
 
 #include <iostream>

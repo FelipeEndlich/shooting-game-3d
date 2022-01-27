@@ -53,6 +53,8 @@ void JumpingRightState::Jump(double delta_time, physic::Direction direction)
         character_->set_state(new FallingRightState(character_));
     else if (direction == Direction::kRight)
         character_->ProcessMove(delta_time);
+    else
+        character_->set_state(new JumpingLeftState(character_));
 }
 
 void JumpingRightState::Stop(double delta_time)
@@ -64,6 +66,8 @@ void JumpingRightState::Move(double delta_time, Direction direction)
 {
     if (direction == Direction::kRight)
         character_->set_state(new FallingRightState(character_));
+    else
+        character_->set_state(new FallingLeftState(character_));
 }
 
 void JumpingRightState::ProcessCollision(ICollidable *collidable)

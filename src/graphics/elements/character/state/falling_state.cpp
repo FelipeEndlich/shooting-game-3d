@@ -32,7 +32,7 @@ FallingState::FallingState(Character *character)
     character->velocity_[0] = 0;
 
     if (character->velocity_[1] < 0)
-        character->velocity_[1] *= -1;
+        character->velocity_[1] *= 0;
 
     character->acceleration_ = Vector::Zero(2);
     character->external_force_ = Vector::Zero(2);

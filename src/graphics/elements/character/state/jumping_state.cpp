@@ -29,7 +29,9 @@ JumpingState::JumpingState(JumpingState &state)
 JumpingState::JumpingState(Character *character)
     : BaseState(character)
 {
-    character->velocity_ = character->initial_jump_velocity_;
+    character->velocity_[0] = 0;
+    if (character->velocity_[1] == 0)
+        character->velocity_ = character->initial_jump_velocity_;
     character->acceleration_ = Vector::Zero(2);
     character->external_force_ = Vector::Zero(2);
 
