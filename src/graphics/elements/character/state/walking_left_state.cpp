@@ -29,6 +29,9 @@ WalkingLeftState::WalkingLeftState(Character *character)
 
     character->acceleration_[0] = 0;
     character->acceleration_[1] = 0;
+    
+    character->external_force_[0] = 0;
+    character->external_force_[1] = -RigidBody::kGravityAcceleration * character->get_mass();
 
     name_ = "WalkingLeftState";
 }

@@ -15,6 +15,9 @@ using physic::Direction;
 using physic::ICollidable;
 using physic::RigidBody;
 
+#include <iostream>
+using namespace std;
+
 WalkingRightState::WalkingRightState(WalkingRightState &state)
     : BaseState(state)
 {
@@ -29,6 +32,9 @@ WalkingRightState::WalkingRightState(Character *character)
 
     character->acceleration_[0] = 0;
     character->acceleration_[1] = 0;
+
+    character->external_force_[0] = 0;
+    character->external_force_[1] = -RigidBody::kGravityAcceleration * character->get_mass();
 
     name_ = "WalkingRightState";
 }
@@ -74,9 +80,6 @@ void WalkingRightState::Move(double delta_time, Direction direction)
         character_->shape_.Translate(translate);
     }
 }
-
-#include <iostream>
-using namespace std;
 
 void WalkingRightState::ProcessCollision(ICollidable *collidable)
 {

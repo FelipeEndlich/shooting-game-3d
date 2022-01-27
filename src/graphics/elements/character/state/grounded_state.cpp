@@ -5,12 +5,14 @@
 #include "./walking_right_state.hpp"
 #include "../../../../physics/direction.hpp"
 #include "../../../../physics/icollidable.hpp"
+#include "../../../../physics/rigid_body.hpp"
 
 using graphics::elements::state::BaseState;
 using graphics::elements::state::Character;
 using graphics::elements::state::GroundedState;
 using physic::Direction;
 using physic::ICollidable;
+using physic::RigidBody;
 
 GroundedState::GroundedState(GroundedState &state)
     : BaseState(state)
@@ -26,6 +28,9 @@ GroundedState::GroundedState(Character *character)
 
     character->acceleration_[0] = 0;
     character->acceleration_[1] = 0;
+
+    character->external_force_[0] = 0;
+    character->external_force_[1] = -RigidBody::kGravityAcceleration * character->get_mass();
 
     name_ = "GroundedState";
 }
