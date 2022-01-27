@@ -1,9 +1,9 @@
 #include "rectangle.hpp"
 
-using ::graphics::shapes::Rectangle;
 using ::graphics::color::RGBA;
-using ::math::Vector;
+using ::graphics::shapes::Rectangle;
 using ::math::Matrix;
+using ::math::Vector;
 
 #pragma region Constructor and Destructor
 Rectangle::Rectangle()
@@ -15,12 +15,16 @@ Rectangle::Rectangle()
 Rectangle::Rectangle(const Vector &origin, double width, double height)
 {
     color_ = RGBA();
+    width_ = width;
+    height_ = height;
     BuildPoints(origin, width, height);
 }
 
 Rectangle::Rectangle(const Vector &origin, double width, double height, const RGBA &color)
 {
     color_ = color;
+    width_ = width;
+    height_ = height;
     BuildPoints(origin, width, height);
 }
 
@@ -28,12 +32,16 @@ Rectangle::Rectangle(const Rectangle &other)
 {
     points_ = other.points_;
     color_ = other.color_;
+    width_ = other.width_;
+    height_ = other.height_;
 }
 
 Rectangle::Rectangle(const Rectangle &&other)
 {
     points_ = other.points_;
     color_ = other.color_;
+    width_ = other.width_;
+    height_ = other.height_;
 }
 #pragma endregion // Constructor and Destructor
 

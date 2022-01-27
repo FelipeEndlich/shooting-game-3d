@@ -104,14 +104,14 @@ Vector Character::get_position()
 
 double Character::get_width()
 {
-    return shape_.get_radius() * 2;
+    return shape_.get_radius();
 }
 
 double Character::get_height()
 {
-    return shape_.get_radius() * 2;
+    return shape_.get_radius();
 }
 void Character::ProcessCollision(ICollidable *collidable)
 {
-    cout << "Character::ProcessCollision()" << endl;
+    state_->ProcessCollision(collidable);
 }

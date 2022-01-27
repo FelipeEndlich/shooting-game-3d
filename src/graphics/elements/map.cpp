@@ -7,30 +7,37 @@ using ::graphics::elements::Map;
 using ::graphics::elements::Obstacle;
 using ::graphics::shapes::Rectangle;
 
-void Map::set_background(const Rectangle &background)
+void Map::set_background(Rectangle *background)
 {
-    this->background_ = background;
+    background_ = background;
+}
+
+Map::~Map()
+{
+    delete background_;
+    for (auto obstacle : obstacles_)
+        delete obstacle;
 }
 
 void Map::Render()
 {
-    background_.Draw();
+    background_->Draw();
 
     for (auto &obstacle : obstacles_)
-        obstacle.Render();
+        obstacle->Render();
 }
 
 double Map::get_width() const
 {
-    return background_.get_width();
+    return background_->get_width();
 }
 
 double Map::get_height() const
 {
-    return background_.get_height();
+    return background_->get_height();
 }
 
-void Map::AddObstacle(const Obstacle &obstacle)
+void Map::AddObstacle(Obstacle *obstacle)
 {
     obstacles_.push_back(obstacle);
 }

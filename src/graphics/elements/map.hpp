@@ -12,17 +12,17 @@ namespace graphics::elements
     {
     public:
         Map() = default;
-        virtual ~Map() = default;
+        virtual ~Map();
 
-        void set_background(const shapes::Rectangle &background);
+        void set_background(shapes::Rectangle *background);
         double get_width() const;
         double get_height() const;
 
-        void AddObstacle(const Obstacle &obstacle);
+        void AddObstacle(Obstacle *obstacle);
         void Render();
 
     private:
-        shapes::Rectangle background_;
-        std::vector<Obstacle> obstacles_;
+        shapes::Rectangle* background_;
+        std::vector<Obstacle*> obstacles_;
     };
 }

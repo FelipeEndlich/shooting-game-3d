@@ -178,8 +178,8 @@ namespace shoot_and_jump
             string fill = circle_element->Attribute("fill");
             if (fill == "green")
                 LoadPlayer(circle_element);
-            else if (fill == "red")
-                LoadEnemy(circle_element);
+            // else if (fill == "red")
+            //     LoadEnemy(circle_element);
 
             circle_element = circle_element->NextSiblingElement("circle");
         }
@@ -198,7 +198,7 @@ namespace shoot_and_jump
 
         RGBA color = RGBAFactory::get_color(fill);
 
-        Rectangle background(origin, width, height, color);
+        Rectangle *background = new Rectangle(origin, width, height, color);
 
         map_.set_background(background);
 
@@ -224,8 +224,9 @@ namespace shoot_and_jump
 
         RGBA color = RGBAFactory::get_color(fill);
 
-        Obstacle obstacle(origin, width, height, color);
+        Obstacle *obstacle = new Obstacle(origin, width, height, color);
         map_.AddObstacle(obstacle);
+        collision_system_.AddToCollisionSystem(obstacle);
     }
 
     void Game::LoadPlayer(tinyxml2::XMLElement *element)

@@ -4,11 +4,13 @@
 #include "./walking_left_state.hpp"
 #include "./walking_right_state.hpp"
 #include "../../../../physics/direction.hpp"
+#include "../../../../physics/icollidable.hpp"
 
 using graphics::elements::state::BaseState;
 using graphics::elements::state::Character;
 using graphics::elements::state::GroundedState;
 using physic::Direction;
+using physic::ICollidable;
 
 GroundedState::GroundedState(GroundedState &state)
     : BaseState(state)
@@ -58,4 +60,8 @@ void GroundedState::Move(double delta_time, Direction direction)
         character_->set_state(new WalkingLeftState(character_));
     else
         character_->set_state(new WalkingRightState(character_));
+}
+
+void GroundedState::ProcessCollision(ICollidable *collidable)
+{
 }

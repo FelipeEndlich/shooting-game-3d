@@ -3,6 +3,7 @@
 #include "base_state.hpp"
 
 #include "../../../../physics/direction.hpp"
+#include "../../../../physics/icollidable.hpp"
 
 namespace graphics::elements::state
 {
@@ -20,5 +21,6 @@ namespace graphics::elements::state
         virtual void Jump(double delta_time) override;
         virtual void Stop(double delta_time) override;
         virtual void Move(double delta_time, physic::Direction direction) override;
+        virtual void ProcessCollision(physic::ICollidable *collidable) override;
     };
 }

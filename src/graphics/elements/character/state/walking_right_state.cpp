@@ -4,6 +4,7 @@
 #include "../../../../math/vector.hpp"
 #include "../../../../physics/rigid_body.hpp"
 #include "../../../../physics/direction.hpp"
+#include "../../../../physics/icollidable.hpp"
 
 using graphics::elements::state::BaseState;
 using graphics::elements::state::Character;
@@ -11,6 +12,7 @@ using graphics::elements::state::WalkingLeftState;
 using graphics::elements::state::WalkingRightState;
 using math::Vector;
 using physic::Direction;
+using physic::ICollidable;
 using physic::RigidBody;
 
 WalkingRightState::WalkingRightState(WalkingRightState &state)
@@ -71,4 +73,21 @@ void WalkingRightState::Move(double delta_time, Direction direction)
 
         character_->shape_.Translate(translate);
     }
+}
+
+#include <iostream>
+using namespace std;
+
+void WalkingRightState::ProcessCollision(ICollidable *collidable)
+{
+    double collidable_x = collidable->get_position()[0];
+    double character_x = character_->get_position()[0] + character_->get_width();
+
+    Vector translate = Vector::Zero(2);
+    translate[0] = collidable_x - character_x;
+
+    character_->shape_.Translate(translate);
+    character_->position_ += translate;
+
+    character_->set_state(new GroundedState(character_));
 }
