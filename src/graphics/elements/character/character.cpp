@@ -29,6 +29,16 @@ Character::Character(Vector &initial_position, double radius, RGBA &color, bool 
     collision_processable_ = collision_processable;
     position_ = initial_position;
     shape_ = Circle(position_, radius, color);
+
+    double time_jump_max = 1000;
+    Vector gravity_acceleration = Vector::Zero(2);
+    gravity_acceleration[1] = 12 * radius / (time_jump_max * time_jump_max);
+    set_gravity_acceleration(gravity_acceleration);
+
+    cout << "gravity_acceleration: " << gravity_acceleration.to_string() << endl;
+
+    initial_jump_velocity_ = gravity_acceleration * time_jump_max * -1;
+
     Allocate();
 }
 
@@ -55,11 +65,6 @@ Character &Character::operator=(const Character &other)
 void Character::Render()
 {
     shape_.Draw();
-}
-
-void Character::Fall(double delta_time)
-{
-    state_->Fall(delta_time);
 }
 
 void Character::Jump(double delta_time)

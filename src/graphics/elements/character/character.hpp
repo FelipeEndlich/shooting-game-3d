@@ -12,6 +12,7 @@
 #include "./state/walking_left_state.hpp"
 #include "./state/walking_right_state.hpp"
 #include "./state/falling_state.hpp"
+#include "./state/jumping_state.hpp"
 
 namespace graphics::elements::state
 {
@@ -27,7 +28,6 @@ namespace graphics::elements::state
 
         void Render();
 
-        void Fall(double delta_time);
         void Jump(double delta_time);
         void Stop(double delta_time);
         void Move(double delta_time, physic::Direction direction);
@@ -39,10 +39,12 @@ namespace graphics::elements::state
         double get_height() override;
         void ProcessCollision(ICollidable *collidable) override;
 
+        inline static double default_horizontal_velocity_ = 0.1;
+
     private:
         graphics::shapes::Circle shape_;
         BaseState *state_;
-
+        math::Vector initial_jump_velocity_;
         bool collision_processable_;
 
         void ProcessMove(double delta_time);
@@ -52,6 +54,7 @@ namespace graphics::elements::state
 
         friend class FallingState;
         friend class GroundedState;
+        friend class JumpingState;
         friend class WalkingLeftState;
         friend class WalkingRightState;
     };

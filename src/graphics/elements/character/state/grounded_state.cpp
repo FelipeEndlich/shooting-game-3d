@@ -2,19 +2,23 @@
 
 #include "../character.hpp"
 #include "./walking_left_state.hpp"
+#include "./jumping_state.hpp"
 #include "./walking_right_state.hpp"
+#include "../../../../math/vector.hpp"
 #include "../../../../physics/direction.hpp"
 #include "../../../../physics/icollidable.hpp"
 #include "../../../../physics/rigid_body.hpp"
 
-using graphics::elements::state::BaseState;
-using graphics::elements::state::Character;
-using graphics::elements::state::GroundedState;
-using graphics::elements::state::WalkingLeftState;
-using graphics::elements::state::WalkingRightState;
-using physic::Direction;
-using physic::ICollidable;
-using physic::RigidBody;
+using ::graphics::elements::state::BaseState;
+using ::graphics::elements::state::Character;
+using ::graphics::elements::state::GroundedState;
+using ::graphics::elements::state::JumpingState;
+using ::graphics::elements::state::WalkingLeftState;
+using ::graphics::elements::state::WalkingRightState;
+using ::math::Vector;
+using ::physic::Direction;
+using ::physic::ICollidable;
+using ::physic::RigidBody;
 
 GroundedState::GroundedState(GroundedState &state)
     : BaseState(state)
@@ -25,14 +29,9 @@ GroundedState::GroundedState(GroundedState &state)
 GroundedState::GroundedState(Character *character)
     : BaseState(character)
 {
-    character->velocity_[0] = 0;
-    character->velocity_[1] = 0;
-
-    character->acceleration_[0] = 0;
-    character->acceleration_[1] = 0;
-
-    character->external_force_[0] = 0;
-    character->external_force_[1] = -RigidBody::kGravityAcceleration * character->get_mass();
+    character->velocity_ = Vector::Zero(2);
+    character->acceleration_ = Vector::Zero(2);
+    character->external_force_ = character->get_weight() * -1;
 
     name_ = "GroundedState";
 }
@@ -46,13 +45,9 @@ BaseState *GroundedState::Clone()
     return new GroundedState(*this);
 }
 
-void GroundedState::Fall(double delta_time)
-{
-}
-
 void GroundedState::Jump(double delta_time)
 {
-    // Switch to jumping state
+    character_->set_state(new JumpingState(character_));
 }
 
 void GroundedState::Stop(double delta_time)

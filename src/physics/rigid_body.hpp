@@ -12,13 +12,15 @@ namespace physic
 
         virtual void Update(double delta_time);
 
-        inline static double default_horizontal_velocity_ = 0.1;
-        inline static double kGravityAcceleration = 0.001;
-
         double get_mass() const;
+        math::Vector get_gravity_acceleration() const;
+        math::Vector get_weight() const;
+
+        void set_gravity_acceleration(math::Vector gravity_acceleration);
 
     protected:
         double mass_;
+        math::Vector gravity_acceleration_;
         math::Vector weight_;
         math::Vector external_force_;
         math::Vector position_;

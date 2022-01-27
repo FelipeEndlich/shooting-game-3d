@@ -37,11 +37,6 @@ BaseState *FallingState::Clone()
     return new FallingState(*this);
 }
 
-void FallingState::Fall(double delta_time)
-{
-    character_->ProcessMove(delta_time);
-}
-
 void FallingState::Jump(double delta_time)
 {
     character_->ProcessMove(delta_time);

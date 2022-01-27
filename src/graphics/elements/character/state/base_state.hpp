@@ -21,7 +21,6 @@ namespace graphics::elements::state
 
         std::string get_name() const;
 
-        virtual void Fall(double delta_time) = 0;
         virtual void Jump(double delta_time) = 0;
         virtual void Stop(double delta_time) = 0;
         virtual void Move(double delta_time, physic::Direction direction) = 0;

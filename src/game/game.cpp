@@ -310,8 +310,8 @@ namespace shoot_and_jump
         if (((!keys_['a'] && !keys_['d']) || (keys_['a'] && keys_['d'])) && !mouse_[GLUT_RIGHT_BUTTON])
             player_->Stop(delta_time_);
 
-        // if (((!keys['a'] && !keys['d']) || (keys['a'] && keys['d'])) && mouse[GLUT_RIGHT_BUTTON])
-        //     cout << "Jump" << endl;
+        if (((!keys_['a'] && !keys_['d']) || (keys_['a'] && keys_['d'])) && mouse_[GLUT_RIGHT_BUTTON])
+            player_->Jump(delta_time_);
 
         // if (mouse[GLUT_LEFT_BUTTON])
         //     cout << "Shoot" << endl;

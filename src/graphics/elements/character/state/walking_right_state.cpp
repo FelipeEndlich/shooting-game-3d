@@ -27,13 +27,11 @@ WalkingRightState::WalkingRightState(WalkingRightState &state)
 WalkingRightState::WalkingRightState(Character *character)
     : BaseState(character)
 {
-    character->velocity_[0] = RigidBody::default_horizontal_velocity_;
+    character->velocity_[0] = Character::default_horizontal_velocity_;
     character->velocity_[1] = 0;
 
     character->acceleration_ = Vector::Zero(2);
-
-    character->external_force_[0] = 0;
-    character->external_force_[1] = -RigidBody::kGravityAcceleration * character->get_mass();
+    character->external_force_ = character->get_weight() * -1;
 
     name_ = "WalkingRightState";
 }
@@ -41,10 +39,6 @@ WalkingRightState::WalkingRightState(Character *character)
 BaseState *WalkingRightState::Clone()
 {
     return new WalkingRightState(*this);
-}
-
-void WalkingRightState::Fall(double delta_time)
-{
 }
 
 void WalkingRightState::Jump(double delta_time)
