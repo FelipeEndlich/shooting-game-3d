@@ -11,6 +11,7 @@
 #include "./state/grounded_state.hpp"
 #include "./state/walking_left_state.hpp"
 #include "./state/walking_right_state.hpp"
+#include "./state/falling_state.hpp"
 
 namespace graphics::elements::state
 {
@@ -47,6 +48,7 @@ namespace graphics::elements::state
         void Allocate();
         void Deallocate();
 
+        friend class FallingState;
         friend class GroundedState;
         friend class WalkingLeftState;
         friend class WalkingRightState;

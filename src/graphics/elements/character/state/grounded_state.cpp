@@ -10,6 +10,8 @@
 using graphics::elements::state::BaseState;
 using graphics::elements::state::Character;
 using graphics::elements::state::GroundedState;
+using graphics::elements::state::WalkingLeftState;
+using graphics::elements::state::WalkingRightState;
 using physic::Direction;
 using physic::ICollidable;
 using physic::RigidBody;

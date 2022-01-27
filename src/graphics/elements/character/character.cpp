@@ -2,13 +2,13 @@
 
 #include <iostream>
 
-#include "./state/grounded_state.hpp"
+#include "./state/falling_state.hpp"
 #include "../../../physics/rigid_body.hpp"
 
 using ::graphics::color::RGBA;
 using ::graphics::elements::state::BaseState;
 using ::graphics::elements::state::Character;
-using ::graphics::elements::state::GroundedState;
+using ::graphics::elements::state::FallingState;
 using ::graphics::shapes::Circle;
 using ::math::Vector;
 using ::physic::Direction;
@@ -86,7 +86,7 @@ void Character::set_state(BaseState *state)
 
 void Character::Allocate()
 {
-    state_ = new GroundedState(this);
+    state_ = new FallingState(this);
 }
 
 void Character::Deallocate()
