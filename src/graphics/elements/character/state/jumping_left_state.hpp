@@ -4,17 +4,18 @@
 
 #include "../../../../physics/direction.hpp"
 #include "../../../../physics/icollidable.hpp"
+#include "../../../../math/vector.hpp"
 
 namespace graphics::elements::state
 {
     class Character;
 
-    class WalkingRightState : public BaseState
+    class JumpingLeftState : public BaseState
     {
     public:
-        WalkingRightState(WalkingRightState &state);
-        WalkingRightState(Character *character);
-        ~WalkingRightState() {}
+        JumpingLeftState(JumpingLeftState &state);
+        JumpingLeftState(Character *character);
+        ~JumpingLeftState() {}
 
         virtual BaseState *Clone() override;
         virtual void Jump(double delta_time) override;

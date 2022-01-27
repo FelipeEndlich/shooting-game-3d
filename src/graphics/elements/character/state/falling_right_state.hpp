@@ -9,12 +9,12 @@ namespace graphics::elements::state
 {
     class Character;
 
-    class WalkingRightState : public BaseState
+    class FallingRightState : public BaseState
     {
     public:
-        WalkingRightState(WalkingRightState &state);
-        WalkingRightState(Character *character);
-        ~WalkingRightState() {}
+        FallingRightState(FallingRightState &state);
+        FallingRightState(Character *character);
+        ~FallingRightState() {}
 
         virtual BaseState *Clone() override;
         virtual void Jump(double delta_time) override;

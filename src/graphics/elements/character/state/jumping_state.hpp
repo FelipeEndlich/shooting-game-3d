@@ -19,6 +19,7 @@ namespace graphics::elements::state
 
         virtual BaseState *Clone() override;
         virtual void Jump(double delta_time) override;
+        virtual void Jump(double delta_time, physic::Direction direction) override;
         virtual void Stop(double delta_time) override;
         virtual void Move(double delta_time, physic::Direction direction) override;
         virtual void ProcessCollision(physic::ICollidable *collidable) override;

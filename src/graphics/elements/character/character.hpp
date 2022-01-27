@@ -12,7 +12,11 @@
 #include "./state/walking_left_state.hpp"
 #include "./state/walking_right_state.hpp"
 #include "./state/falling_state.hpp"
+#include "./state/falling_left_state.hpp"
+#include "./state/falling_right_state.hpp"
 #include "./state/jumping_state.hpp"
+#include "./state/jumping_right_state.hpp"
+#include "./state/jumping_left_state.hpp"
 
 namespace graphics::elements::state
 {
@@ -29,6 +33,7 @@ namespace graphics::elements::state
         void Render();
 
         void Jump(double delta_time);
+        void Jump(double delta_time, physic::Direction direction);
         void Stop(double delta_time);
         void Move(double delta_time, physic::Direction direction);
 
@@ -53,8 +58,12 @@ namespace graphics::elements::state
         void Deallocate();
 
         friend class FallingState;
+        friend class FallingLeftState;
+        friend class FallingRightState;
         friend class GroundedState;
         friend class JumpingState;
+        friend class JumpingLeftState;
+        friend class JumpingRightState;
         friend class WalkingLeftState;
         friend class WalkingRightState;
     };

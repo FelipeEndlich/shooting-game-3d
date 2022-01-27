@@ -2,6 +2,8 @@
 
 #include "../character.hpp"
 #include "./grounded_state.hpp"
+#include "./jumping_left_state.hpp"
+#include "./jumping_right_state.hpp"
 #include "../../../../math/vector.hpp"
 #include "../../../../physics/direction.hpp"
 #include "../../../../physics/icollidable.hpp"
@@ -10,6 +12,8 @@
 using graphics::elements::state::BaseState;
 using graphics::elements::state::Character;
 using graphics::elements::state::GroundedState;
+using graphics::elements::state::JumpingLeftState;
+using graphics::elements::state::JumpingRightState;
 using graphics::elements::state::JumpingState;
 using math::Vector;
 using physic::Direction;
@@ -43,6 +47,14 @@ void JumpingState::Jump(double delta_time)
         character_->set_state(new FallingState(character_));
     else
         character_->ProcessMove(delta_time);
+}
+
+void JumpingState::Jump(double delta_time, physic::Direction direction)
+{
+    if (direction == Direction::kRight)
+        character_->set_state(new JumpingRightState(character_));
+    else
+        character_->set_state(new JumpingLeftState(character_));
 }
 
 void JumpingState::Stop(double delta_time)

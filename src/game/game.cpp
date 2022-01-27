@@ -166,8 +166,8 @@ namespace shoot_and_jump
             string fill = rect_element->Attribute("fill");
             if (fill == "blue")
                 LoadBackground(rect_element);
-            else if (fill == "black")
-                LoadObstacle(rect_element);
+            // else if (fill == "black")
+            //     LoadObstacle(rect_element);
 
             rect_element = rect_element->NextSiblingElement("rect");
         }
@@ -295,14 +295,14 @@ namespace shoot_and_jump
 
     void Game::CheckKeys()
     {
-        // if (keys['a'] && !keys['d'] && mouse[GLUT_RIGHT_BUTTON])
-        //     cout << "Jump Left" << endl;
+        if (keys_['a'] && !keys_['d'] && mouse_[GLUT_RIGHT_BUTTON])
+            player_->Jump(delta_time_, Direction::kLeft);
 
         if (keys_['a'] && !keys_['d'] && !mouse_[GLUT_RIGHT_BUTTON])
             player_->Move(delta_time_, Direction::kLeft);
 
-        // if (!keys['a'] && keys['d'] && mouse[GLUT_RIGHT_BUTTON])
-        //     cout << "Jump Right" << endl;
+        if (!keys_['a'] && keys_['d'] && mouse_[GLUT_RIGHT_BUTTON])
+            player_->Jump(delta_time_, Direction::kRight);
 
         if (!keys_['a'] && keys_['d'] && !mouse_[GLUT_RIGHT_BUTTON])
             player_->Move(delta_time_, Direction::kRight);

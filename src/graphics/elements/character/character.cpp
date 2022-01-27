@@ -72,6 +72,12 @@ void Character::Jump(double delta_time)
     state_->Jump(delta_time);
 }
 
+void Character::Jump(double delta_time, physic::Direction direction)
+{
+    state_->Jump(delta_time, direction);
+}
+
+
 void Character::Stop(double delta_time)
 {
     state_->Stop(delta_time);

@@ -46,6 +46,12 @@ void WalkingRightState::Jump(double delta_time)
     // Switch to jumping state
 }
 
+void WalkingRightState::Jump(double delta_time, physic::Direction direction)
+{
+    if (direction == Direction::kRight)
+        character_->set_state(new JumpingRightState(character_));
+}
+
 void WalkingRightState::Stop(double delta_time)
 {
     character_->set_state(new GroundedState(character_));
