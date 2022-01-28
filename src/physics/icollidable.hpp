@@ -19,6 +19,5 @@ namespace physic
         bool IsColliding(ICollidable *collidable);
 
         virtual void ProcessCollision(ICollidable *collidable) = 0;
-        virtual void ProcessGravity() = 0;
     };
 }

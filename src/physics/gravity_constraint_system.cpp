@@ -17,12 +17,12 @@ void GravityConstraintSystem::RemoveSurface(ICollidable *surface)
     surfaces_.erase(std::remove(surfaces_.begin(), surfaces_.end(), surface), surfaces_.end());
 }
 
-void GravityConstraintSystem::AddCorp(ICollidable *corp)
+void GravityConstraintSystem::AddCorp(IGravityAffectable *corp)
 {
     corps_.push_back(corp);
 }
 
-void GravityConstraintSystem::RemoveCorp(ICollidable *corp)
+void GravityConstraintSystem::RemoveCorp(IGravityAffectable *corp)
 {
     corps_.erase(std::remove(corps_.begin(), corps_.end(), corp), corps_.end());
 }

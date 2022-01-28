@@ -22,6 +22,8 @@ using ::graphics::shapes::Rectangle;
 using ::math::Vector;
 using ::physic::CollisionSystem;
 using ::physic::Direction;
+using ::physic::ICollidable;
+using ::physic::IGravityAffectable;
 using ::std::cout;
 using ::std::endl;
 using ::std::string;

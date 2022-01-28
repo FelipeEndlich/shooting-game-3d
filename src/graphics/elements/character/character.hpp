@@ -3,6 +3,7 @@
 #include "../../../physics/rigid_body.hpp"
 #include "../../../physics/direction.hpp"
 #include "../../../physics/icollidable.hpp"
+#include "../../../physics/igravity_affectable.hpp"
 #include "../../../math/vector.hpp"
 #include "../../color/rgba.hpp"
 #include "../../shapes/rectangle.hpp"
@@ -20,7 +21,7 @@
 
 namespace graphics::elements::state
 {
-    class Character : public physic::RigidBody, public physic::ICollidable
+    class Character : public physic::RigidBody, public physic::IGravityAffectable
     {
 
     public:

@@ -3,6 +3,7 @@
 #include <vector>
 
 #include "icollidable.hpp"
+#include "igravity_affectable.hpp"
 
 namespace physic
 {
@@ -12,13 +13,13 @@ namespace physic
         void AddSurface(ICollidable *surface);
         void RemoveSurface(ICollidable *surface);
 
-        void AddCorp(ICollidable *corp);
-        void RemoveCorp(ICollidable *corp);
+        void AddCorp(IGravityAffectable *corp);
+        void RemoveCorp(IGravityAffectable *corp);
 
         void ProcessGravityEffects();
 
     private:
         std::vector<ICollidable *> surfaces_;
-        std::vector<ICollidable *> corps_;
+        std::vector<IGravityAffectable *> corps_;
     };
 }
