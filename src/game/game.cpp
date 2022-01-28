@@ -166,8 +166,8 @@ namespace shoot_and_jump
             string fill = rect_element->Attribute("fill");
             if (fill == "blue")
                 LoadBackground(rect_element);
-            // else if (fill == "black")
-            //     LoadObstacle(rect_element);
+            else if (fill == "black")
+                LoadObstacle(rect_element);
 
             rect_element = rect_element->NextSiblingElement("rect");
         }

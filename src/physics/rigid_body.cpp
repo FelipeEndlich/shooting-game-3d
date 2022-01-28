@@ -24,6 +24,7 @@ void RigidBody::Update(double dt)
 {
     set_last_position(position_);
     Vector forces = weight_ + external_force_;
+
     acceleration_ = forces / mass_;
     velocity_ += acceleration_ * dt;
     position_ += velocity_ * dt;

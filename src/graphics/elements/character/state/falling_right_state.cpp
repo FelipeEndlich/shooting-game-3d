@@ -72,7 +72,7 @@ using namespace std;
 
 void FallingRightState::ProcessCollision(ICollidable *collidable)
 {
-    if (collidable->IsColliding(character_->get_last_position()[0] + 2 * character_->shape_.get_radius(), character_->get_position()[1], 0, character_->get_height()))
+    if (collidable->IsColliding(character_->get_last_position()[0], character_->get_position()[1], 0, character_->get_height()))
     {
         character_->ProcessCollisionByBottom(collidable);
         character_->set_state(new GroundedState(character_));
