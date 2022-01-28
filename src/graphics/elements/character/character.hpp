@@ -50,6 +50,9 @@ namespace graphics::elements::state
 
     private:
         graphics::shapes::Circle shape_;
+        graphics::shapes::Circle head_;
+        graphics::shapes::Rectangle body_;
+
         BaseState *state_;
         math::Vector initial_jump_velocity_;
         bool collision_processable_;
@@ -59,6 +62,9 @@ namespace graphics::elements::state
         void ProcessCollisionByRight(physic::ICollidable *collidable);
         void ProcessCollisionByTop(physic::ICollidable *collidable);
         void ProcessCollisionByBottom(physic::ICollidable *collidable);
+
+        void Translate(double dx, double dy);
+        void Translate(math::Vector &translation);
 
         void Allocate();
         void Deallocate();

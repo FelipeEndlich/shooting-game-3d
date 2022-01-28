@@ -163,28 +163,28 @@ namespace shoot_and_jump
             throw "Configuration not found";
         }
 
-        tinyxml2::XMLElement *rect_element = root->FirstChildElement("rect");
-        while (rect_element != nullptr)
-        {
-            string fill = rect_element->Attribute("fill");
-            if (fill == "blue")
-                LoadBackground(rect_element);
-            else if (fill == "black")
-                LoadObstacle(rect_element);
-
-            rect_element = rect_element->NextSiblingElement("rect");
-        }
-
         tinyxml2::XMLElement *circle_element = root->FirstChildElement("circle");
         while (circle_element != nullptr)
         {
             string fill = circle_element->Attribute("fill");
             if (fill == "green")
                 LoadPlayer(circle_element);
-            // else if (fill == "red")
-            //     LoadEnemy(circle_element);
+            else if (fill == "red")
+                LoadEnemy(circle_element);
 
             circle_element = circle_element->NextSiblingElement("circle");
+        }
+
+        tinyxml2::XMLElement *rect_element = root->FirstChildElement("rect");
+        while (rect_element != nullptr)
+        {
+            string fill = rect_element->Attribute("fill");
+            if (fill == "blue")
+                LoadBackground(rect_element);
+            // else if (fill == "black")
+            //     LoadObstacle(rect_element);
+
+            rect_element = rect_element->NextSiblingElement("rect");
         }
     }
 
@@ -294,7 +294,7 @@ namespace shoot_and_jump
 
         RGBA color = RGBAFactory::get_color(fill);
 
-        Character *enemy = new Character(origin, radius, color);
+        Character *enemy = new Character(origin, radius, color, false);
         enemies_.push_back(enemy);
         collision_system_.AddToCollisionSystem(enemy);
     }

@@ -4,12 +4,15 @@
 
 #include "./state/falling_state.hpp"
 #include "../../../physics/rigid_body.hpp"
+#include "../../shapes/circle.hpp"
+#include "../../shapes/rectangle.hpp"
 
 using ::graphics::color::RGBA;
 using ::graphics::elements::state::BaseState;
 using ::graphics::elements::state::Character;
 using ::graphics::elements::state::FallingState;
 using ::graphics::shapes::Circle;
+using ::graphics::shapes::Rectangle;
 using ::math::Vector;
 using ::physic::Direction;
 using ::physic::ICollidable;
@@ -29,6 +32,19 @@ Character::Character(Vector &initial_position, double radius, RGBA &color, bool 
     collision_processable_ = collision_processable;
     position_ = initial_position;
     shape_ = Circle(position_, radius, color);
+
+    // Instantiate head
+    Vector head_position = position_;
+    head_position[1] -= radius;
+    head_ = Circle(head_position, radius / 2, color);
+
+    // Instantiate body
+    double body_width = radius / 2;
+    double body_height = radius;
+    Vector body_position = position_;
+    body_position[1] -= radius * 0.55;
+    body_position[0] -= body_width / 2;
+    body_ = Rectangle(body_position, body_width, body_height, color);
 
     double time_jump_max = 1000;
     Vector gravity_acceleration = Vector::Zero(2);
@@ -51,6 +67,8 @@ Character &Character::operator=(const Character &other)
     {
         position_ = other.position_;
         shape_ = other.shape_;
+        head_ = other.head_;
+        body_ = other.body_;
         velocity_ = other.velocity_;
         acceleration_ = other.acceleration_;
         last_position_ = other.last_position_;
@@ -63,7 +81,9 @@ Character &Character::operator=(const Character &other)
 
 void Character::Render()
 {
-    shape_.Draw();
+    //shape_.Draw();
+    head_.Draw();
+    body_.Draw();
 }
 
 void Character::Jump(double delta_time)
@@ -90,7 +110,6 @@ void Character::set_state(BaseState *state)
 {
     Deallocate();
     this->state_ = state;
-    //cout << "Character::setState() " << state->to_string() << endl;
 }
 
 void Character::Allocate()
@@ -121,10 +140,13 @@ double Character::get_height()
 {
     return shape_.get_radius() * 2;
 }
+
 void Character::ProcessCollision(ICollidable *collidable)
 {
     if (collision_processable_)
+    {
         state_->ProcessCollision(collidable);
+    }
 }
 
 void Character::ProcessMove(double delta_time)
@@ -133,57 +155,55 @@ void Character::ProcessMove(double delta_time)
     Update(delta_time);
     Vector translate = position_ - position;
     shape_.Translate(translate);
+    head_.Translate(translate);
+    body_.Translate(translate);
 }
 
 void Character::ProcessCollisionByLeft(ICollidable *collidable)
 {
     double collidable_x = collidable->get_position()[0] + collidable->get_width();
     double character_x = get_position()[0];
-
-    Vector translate = Vector::Zero(2);
-    translate[0] = collidable_x - character_x;
-
-    shape_.Translate(translate);
-    position_ += translate;
+    Translate(collidable_x - character_x, 0);
 }
 
 void Character::ProcessCollisionByRight(ICollidable *collidable)
 {
     double collidable_x = collidable->get_position()[0];
     double character_x = get_position()[0] + get_width();
-
-    Vector translate = Vector::Zero(2);
-    translate[0] = collidable_x - character_x;
-
-    shape_.Translate(translate);
-    position_ += translate;
+    Translate(collidable_x - character_x, 0);
 }
 
 void Character::ProcessCollisionByTop(ICollidable *collidable)
 {
     double collidable_y = collidable->get_position()[1] + collidable->get_height();
     double character_y = get_position()[1];
-
-    Vector translate = Vector::Zero(2);
-    translate[1] = collidable_y - character_y;
-
-    shape_.Translate(translate);
-    position_ += translate;
+    Translate(0, collidable_y - character_y);
 }
 
 void Character::ProcessCollisionByBottom(ICollidable *collidable)
 {
     double collidable_y = collidable->get_position()[1];
     double character_y = get_position()[1] + get_height();
-
-    Vector translate = Vector::Zero(2);
-    translate[1] = collidable_y - character_y;
-
-    shape_.Translate(translate);
-    position_ += translate;
+    Translate(0, collidable_y - character_y);
 }
 
 void Character::ProcessGravity()
 {
     state_->ProcessGravity();
+}
+
+void Character::Translate(double dx, double dy)
+{
+    Vector translation(2);
+    translation[0] = dx;
+    translation[1] = dy;
+    Translate(translation);
+}
+
+void Character::Translate(math::Vector &translation)
+{
+    shape_.Translate(translation);
+    head_.Translate(translation);
+    body_.Translate(translation);
+    position_ += translation;
 }
