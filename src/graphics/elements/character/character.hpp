@@ -52,6 +52,9 @@ namespace graphics::elements::state
         graphics::shapes::Circle shape_;
         graphics::shapes::Circle head_;
         graphics::shapes::Rectangle body_;
+        graphics::shapes::Rectangle left_thig_;
+        graphics::shapes::Rectangle right_thig_;
+        graphics::shapes::Rectangle outline_;
 
         BaseState *state_;
         math::Vector initial_jump_velocity_;

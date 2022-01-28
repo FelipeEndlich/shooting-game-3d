@@ -1,11 +1,13 @@
 #include "./character.hpp"
 
 #include <iostream>
+#include <cmath>
 
 #include "./state/falling_state.hpp"
 #include "../../../physics/rigid_body.hpp"
 #include "../../shapes/circle.hpp"
 #include "../../shapes/rectangle.hpp"
+#include "../../color/rgba_factory.hpp"
 
 using ::graphics::color::RGBA;
 using ::graphics::elements::state::BaseState;
@@ -33,18 +35,44 @@ Character::Character(Vector &initial_position, double radius, RGBA &color, bool 
     position_ = initial_position;
     shape_ = Circle(position_, radius, color);
 
+    outline_ = Rectangle(get_position(), get_width(), get_height(), color::RGBAFactory::get_color("black"));
+
     // Instantiate head
+    double head_radius = radius * 0.3;
     Vector head_position = position_;
-    head_position[1] -= radius;
-    head_ = Circle(head_position, radius / 2, color);
+    head_position[1] += head_radius - radius;
+    head_ = Circle(head_position, head_radius, color);
 
     // Instantiate body
-    double body_width = radius / 2;
-    double body_height = radius;
+    double body_width = radius * 0.3;
+    double body_height = radius * 0.7;
     Vector body_position = position_;
-    body_position[1] -= radius * 0.55;
     body_position[0] -= body_width / 2;
+    body_position[1] = head_position[1] + head_radius;
     body_ = Rectangle(body_position, body_width, body_height, color);
+
+    // Instantiate left thig
+    double left_thig_width = radius * 0.15;
+    double left_thig_height = radius * 0.5;
+    Vector left_thig_position = body_position;
+    left_thig_position[1] += body_height;
+    left_thig_ = Rectangle(left_thig_position, left_thig_width, left_thig_height, color);
+
+    Vector left_thig_center = left_thig_position;
+    left_thig_center[0] += left_thig_width / 2;
+    left_thig_.Rotate(left_thig_center, M_PI / 12);
+
+    // Instantiate left thig
+    double right_thig_width = radius * 0.15;
+    double right_thig_height = radius * 0.5;
+    Vector right_thig_position = body_position;
+    right_thig_position[0] += body_width - right_thig_width;
+    right_thig_position[1] += body_height;
+    right_thig_ = Rectangle(right_thig_position, right_thig_width, right_thig_height, color);
+
+    Vector right_thig_center = left_thig_position;
+    right_thig_center[0] += left_thig_width / 2;
+    right_thig_.Rotate(right_thig_center, -M_PI / 12);
 
     double time_jump_max = 1000;
     Vector gravity_acceleration = Vector::Zero(2);
@@ -69,6 +97,9 @@ Character &Character::operator=(const Character &other)
         shape_ = other.shape_;
         head_ = other.head_;
         body_ = other.body_;
+        outline_ = other.outline_;
+        left_thig_ = other.left_thig_;
+        right_thig_ = other.right_thig_;
         velocity_ = other.velocity_;
         acceleration_ = other.acceleration_;
         last_position_ = other.last_position_;
@@ -81,9 +112,12 @@ Character &Character::operator=(const Character &other)
 
 void Character::Render()
 {
+    outline_.Draw();
     //shape_.Draw();
     head_.Draw();
     body_.Draw();
+    left_thig_.Draw();
+    right_thig_.Draw();
 }
 
 void Character::Jump(double delta_time)
@@ -154,9 +188,12 @@ void Character::ProcessMove(double delta_time)
     Vector position = position_;
     Update(delta_time);
     Vector translate = position_ - position;
+    outline_.Translate(translate);
     shape_.Translate(translate);
     head_.Translate(translate);
     body_.Translate(translate);
+    left_thig_.Translate(translate);
+    right_thig_.Translate(translate);
 }
 
 void Character::ProcessCollisionByLeft(ICollidable *collidable)
@@ -205,5 +242,8 @@ void Character::Translate(math::Vector &translation)
     shape_.Translate(translation);
     head_.Translate(translation);
     body_.Translate(translation);
+    outline_.Translate(translation);
+    left_thig_.Translate(translation);
+    right_thig_.Translate(translation);
     position_ += translation;
 }

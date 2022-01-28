@@ -5,10 +5,10 @@
 
 #include <GL/glut.h>
 
+using ::graphics::color::RGBA;
 using ::graphics::shapes::Model2D;
 using ::math::Matrix;
 using ::math::Vector;
-using ::graphics::color::RGBA;
 
 #pragma region Constructors and Destructors
 Model2D::Model2D()
@@ -50,38 +50,14 @@ void Model2D::Translate(const Vector &vector)
 
 void Model2D::Scale(const Vector &center, const Vector &vector)
 {
-    Matrix translate_matrix = Matrix::Identity(3, 3);
-    translate_matrix[0][2] = -center[0];
-    translate_matrix[1][2] = -center[1];
-
-    Matrix scale_matrix = Matrix::Identity(3, 3);
-    scale_matrix[0][0] = vector[0];
-    scale_matrix[1][1] = vector[1];
-
-    Matrix translate_back_matrix = translate_matrix;
-    translate_back_matrix[0][2] *= -1;
-    translate_back_matrix[1][2] *= -1;
-
-    Transform(translate_matrix * scale_matrix * translate_back_matrix);
+    Transform(center, vector, 0);
 }
 
+#include <iostream>
+using namespace std;
 void Model2D::Rotate(const Vector &center, double radians)
 {
-    Matrix translate_matrix = Matrix::Identity(3, 3);
-    translate_matrix[0][2] = -center[0];
-    translate_matrix[1][2] = -center[1];
-
-    Matrix rotate_matrix = Matrix::Identity(3, 3);
-    rotate_matrix[0][0] = cos(radians);
-    rotate_matrix[0][1] = -sin(radians);
-    rotate_matrix[1][0] = sin(radians);
-    rotate_matrix[1][1] = cos(radians);
-
-    Matrix translate_back_matrix = translate_matrix;
-    translate_back_matrix[0][2] *= -1;
-    translate_back_matrix[1][2] *= -1;
-
-    Transform(translate_matrix * rotate_matrix * translate_back_matrix);
+    Transform(center, Vector::Zero(2), radians);
 }
 
 void Model2D::Transform(const Matrix &matrix)
@@ -115,11 +91,11 @@ void Model2D::Transform(const Vector &center, const Vector &scale, double radian
     rotate_matrix[1][0] = sin(radians);
     rotate_matrix[1][1] = cos(radians);
 
-    Matrix translate_back_matrix = translate_matrix;
-    translate_back_matrix[0][2] *= -1;
-    translate_back_matrix[1][2] *= -1;
+    Matrix translate_back_matrix = Matrix::Identity(3, 3);
+    translate_back_matrix[0][2] = center[0];
+    translate_back_matrix[1][2] = center[1];
 
-    Transform(translate_matrix * scale_matrix * rotate_matrix * translate_back_matrix);
+    Transform(translate_back_matrix * rotate_matrix * translate_matrix);
 }
 
 void Model2D::Draw()
