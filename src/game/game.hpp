@@ -4,6 +4,7 @@
 #include "../graphics/elements/map.hpp"
 #include "../graphics/elements/character/character.hpp"
 #include "../physics/collision_system.hpp"
+#include "../physics/gravity_constraint_system.hpp"
 #include <vector>
 #include <map>
 
@@ -43,6 +44,7 @@ namespace shoot_and_jump
         double ortho_far_;
 
         physic::CollisionSystem collision_system_;
+        physic::GravityConstraintSystem gravity_constraint_system_;
 
         void Allocate();
         void Deallocate();

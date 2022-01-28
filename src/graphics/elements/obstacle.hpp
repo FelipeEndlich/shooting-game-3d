@@ -21,6 +21,7 @@ namespace graphics::elements
         double get_width() override;
         double get_height() override;
         void ProcessCollision(ICollidable *collidable) override;
+        void ProcessGravity() override;
 
     private:
         graphics::shapes::Rectangle* shape_;

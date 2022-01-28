@@ -67,9 +67,6 @@ void FallingLeftState::Move(double delta_time, Direction direction)
         character_->set_state(new FallingRightState(character_));
 }
 
-#include <iostream>
-using namespace std;
-
 void FallingLeftState::ProcessCollision(ICollidable *collidable)
 {
     if (collidable->IsColliding(character_->get_last_position()[0], character_->get_position()[1], character_->get_width(), character_->get_height()))
@@ -82,4 +79,9 @@ void FallingLeftState::ProcessCollision(ICollidable *collidable)
         character_->ProcessCollisionByLeft(collidable);
         character_->set_state(new FallingState(character_));
     }
+}
+
+void FallingLeftState::ProcessGravity()
+{
+    
 }

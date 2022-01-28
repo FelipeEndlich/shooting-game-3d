@@ -71,11 +71,12 @@ void FallingState::Move(double delta_time, Direction direction)
         character_->set_state(new FallingLeftState(character_));
 }
 
-#include <iostream>
-using namespace std;
-
 void FallingState::ProcessCollision(ICollidable *collidable)
 {
     character_->ProcessCollisionByBottom(collidable);
     character_->set_state(new GroundedState(character_));
+}
+
+void FallingState::ProcessGravity()
+{
 }

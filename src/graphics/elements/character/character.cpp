@@ -35,8 +35,6 @@ Character::Character(Vector &initial_position, double radius, RGBA &color, bool 
     gravity_acceleration[1] = 12 * radius / (time_jump_max * time_jump_max);
     set_gravity_acceleration(gravity_acceleration);
 
-    cout << "gravity_acceleration: " << gravity_acceleration.to_string() << endl;
-
     initial_jump_velocity_ = gravity_acceleration * time_jump_max * -1;
 
     Allocate();
@@ -183,4 +181,9 @@ void Character::ProcessCollisionByBottom(ICollidable *collidable)
 
     shape_.Translate(translate);
     position_ += translate;
+}
+
+void Character::ProcessGravity()
+{
+    state_->ProcessGravity();
 }

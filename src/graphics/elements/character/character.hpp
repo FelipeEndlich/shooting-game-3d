@@ -43,6 +43,7 @@ namespace graphics::elements::state
         double get_width() override;
         double get_height() override;
         void ProcessCollision(ICollidable *collidable) override;
+        void ProcessGravity() override;
 
         inline static double default_horizontal_velocity_ = 0.1;
 

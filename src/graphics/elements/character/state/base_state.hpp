@@ -26,6 +26,7 @@ namespace graphics::elements::state
         virtual void Stop(double delta_time) = 0;
         virtual void Move(double delta_time, physic::Direction direction) = 0;
         virtual void ProcessCollision(physic::ICollidable *collidable) = 0;
+        virtual void ProcessGravity() = 0;
 
         virtual BaseState *Clone() = 0;
 

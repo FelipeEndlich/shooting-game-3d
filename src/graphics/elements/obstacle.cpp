@@ -44,3 +44,7 @@ double Obstacle::get_height()
 void Obstacle::ProcessCollision(ICollidable *collidable)
 {
 }
+
+void Obstacle::ProcessGravity()
+{
+}

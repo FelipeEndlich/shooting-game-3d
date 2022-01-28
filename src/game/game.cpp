@@ -115,6 +115,7 @@ namespace shoot_and_jump
             this->current_time_ = current_time;
             CheckKeys();
             collision_system_.ProcessCollisions();
+            gravity_constraint_system_.ProcessGravityEffects();
             glutPostRedisplay();
         }
     }
@@ -218,6 +219,7 @@ namespace shoot_and_jump
         Obstacle *bottom_limit_obstacle = new Obstacle(bottom_limit, width, obstacle_stroke, obstacle_color);
         map_.AddObstacle(bottom_limit_obstacle);
         collision_system_.AddToCollisionSystem(bottom_limit_obstacle);
+        gravity_constraint_system_.AddSurface(bottom_limit_obstacle);
 
         Vector top_limit = Vector(origin);
         top_limit[1] -= obstacle_stroke;
@@ -255,6 +257,7 @@ namespace shoot_and_jump
         Obstacle *obstacle = new Obstacle(origin, width, height, color);
         map_.AddObstacle(obstacle);
         collision_system_.AddToCollisionSystem(obstacle);
+        gravity_constraint_system_.AddSurface(obstacle);
     }
 
     void Game::LoadPlayer(tinyxml2::XMLElement *element)
@@ -273,6 +276,7 @@ namespace shoot_and_jump
         Character *player = new Character(origin, radius, color);
         this->player_ = player;
         collision_system_.AddToCollisionSystem(player);
+        gravity_constraint_system_.AddCorp(player);
     }
 
     void Game::LoadEnemy(tinyxml2::XMLElement *element)

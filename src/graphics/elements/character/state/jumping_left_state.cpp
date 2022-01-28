@@ -82,3 +82,7 @@ void JumpingLeftState::ProcessCollision(ICollidable *collidable)
         character_->set_state(new JumpingState(character_));
     }
 }
+
+void JumpingLeftState::ProcessGravity()
+{
+}

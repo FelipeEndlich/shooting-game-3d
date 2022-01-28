@@ -30,6 +30,9 @@ GroundedState::GroundedState(GroundedState &state)
     name_ = "GroundedState";
 }
 
+#include <iostream>
+using namespace std;
+
 GroundedState::GroundedState(Character *character)
     : BaseState(character)
 {
@@ -81,4 +84,9 @@ void GroundedState::Move(double delta_time, Direction direction)
 
 void GroundedState::ProcessCollision(ICollidable *collidable)
 {
+}
+
+void GroundedState::ProcessGravity()
+{
+    //character_->set_state(new FallingState(character_));
 }

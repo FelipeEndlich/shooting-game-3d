@@ -73,3 +73,8 @@ void WalkingLeftState::ProcessCollision(ICollidable *collidable)
     character_->ProcessCollisionByLeft(collidable);
     character_->set_state(new GroundedState(character_));
 }
+
+void WalkingLeftState::ProcessGravity()
+{
+    character_->set_state(new FallingLeftState(character_));
+}
