@@ -63,17 +63,8 @@ void JumpingState::Stop(double delta_time)
 {
     character_->set_state(new FallingState(character_));
 }
-
-void JumpingState::Move(double delta_time, Direction direction)
-{
-}
-
 void JumpingState::ProcessCollision(ICollidable *collidable)
 {
     character_->ProcessCollisionByTop(collidable);
     character_->set_state(new FallingState(character_));
-}
-
-void JumpingState::ProcessGravity()
-{
 }

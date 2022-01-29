@@ -41,11 +41,6 @@ BaseState *WalkingRightState::Clone()
     return new WalkingRightState(*this);
 }
 
-void WalkingRightState::Jump(double delta_time)
-{
-    // Switch to jumping state
-}
-
 void WalkingRightState::Jump(double delta_time, physic::Direction direction)
 {
     if (direction == Direction::kRight)

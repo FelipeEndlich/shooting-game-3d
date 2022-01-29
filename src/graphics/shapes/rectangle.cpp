@@ -7,12 +7,14 @@ using ::math::Vector;
 
 #pragma region Constructor and Destructor
 Rectangle::Rectangle()
+    : Model2D()
 {
     color_ = RGBA();
     BuildPoints(Vector::Zero(2), 0, 0);
 }
 
 Rectangle::Rectangle(const Vector &origin, double width, double height)
+    : Model2D()
 {
     color_ = RGBA();
     width_ = width;
@@ -21,6 +23,7 @@ Rectangle::Rectangle(const Vector &origin, double width, double height)
 }
 
 Rectangle::Rectangle(const Vector &origin, double width, double height, const RGBA &color)
+    : Model2D()
 {
     color_ = color;
     width_ = width;
@@ -29,6 +32,7 @@ Rectangle::Rectangle(const Vector &origin, double width, double height, const RG
 }
 
 Rectangle::Rectangle(const Rectangle &other)
+    : Model2D(other)
 {
     points_ = other.points_;
     color_ = other.color_;
@@ -37,6 +41,7 @@ Rectangle::Rectangle(const Rectangle &other)
 }
 
 Rectangle::Rectangle(const Rectangle &&other)
+    : Model2D(other)
 {
     points_ = other.points_;
     color_ = other.color_;

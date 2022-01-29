@@ -43,10 +43,6 @@ GroundedState::GroundedState(Character *character)
     name_ = "GroundedState";
 }
 
-GroundedState::~GroundedState()
-{
-}
-
 BaseState *GroundedState::Clone()
 {
     return new GroundedState(*this);
@@ -65,10 +61,6 @@ void GroundedState::Jump(double delta_time, physic::Direction direction)
         character_->set_state(new JumpingLeftState(character_));
 }
 
-void GroundedState::Stop(double delta_time)
-{
-}
-
 void GroundedState::Move(double delta_time, Direction direction)
 {
     //TODO: if direction is different than current direction then mirror the character
@@ -80,13 +72,4 @@ void GroundedState::Move(double delta_time, Direction direction)
     {
         character_->set_state(new WalkingRightState(character_));
     }
-}
-
-void GroundedState::ProcessCollision(ICollidable *collidable)
-{
-}
-
-void GroundedState::ProcessGravity()
-{
-    //character_->set_state(new FallingState(character_));
 }

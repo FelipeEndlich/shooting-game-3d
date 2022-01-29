@@ -38,11 +38,6 @@ BaseState *WalkingLeftState::Clone()
     return new WalkingLeftState(*this);
 }
 
-void WalkingLeftState::Jump(double delta_time)
-{
-    // Switch to jumping state
-}
-
 void WalkingLeftState::Jump(double delta_time, physic::Direction direction)
 {
     if (direction == Direction::kLeft)
@@ -64,9 +59,6 @@ void WalkingLeftState::Move(double delta_time, Direction direction)
         character_->ProcessMove(delta_time);
     }
 }
-
-#include <iostream>
-using namespace std;
 
 void WalkingLeftState::ProcessCollision(ICollidable *collidable)
 {

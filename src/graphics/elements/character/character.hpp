@@ -46,7 +46,7 @@ namespace graphics::elements::state
         void ProcessCollision(ICollidable *collidable) override;
         void ProcessGravity() override;
 
-        inline static double default_horizontal_velocity_ = 0.1;
+        inline static double default_horizontal_velocity_ = 0.05;
 
     private:
         graphics::shapes::Circle shape_;

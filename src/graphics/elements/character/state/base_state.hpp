@@ -21,12 +21,12 @@ namespace graphics::elements::state
 
         std::string get_name() const;
 
-        virtual void Jump(double delta_time) = 0;
-        virtual void Jump(double delta_time, physic::Direction direction) = 0;
-        virtual void Stop(double delta_time) = 0;
-        virtual void Move(double delta_time, physic::Direction direction) = 0;
-        virtual void ProcessCollision(physic::ICollidable *collidable) = 0;
-        virtual void ProcessGravity() = 0;
+        virtual void Jump(double delta_time){};
+        virtual void Jump(double delta_time, physic::Direction direction){};
+        virtual void Stop(double delta_time){};
+        virtual void Move(double delta_time, physic::Direction direction){};
+        virtual void ProcessCollision(physic::ICollidable *collidable){};
+        virtual void ProcessGravity(){};
 
         virtual BaseState *Clone() = 0;
 

@@ -27,6 +27,7 @@ CC_FLAGS=-c         \
          -pedantic  \
 		 -std=c++17  \
 		 -Wno-unknown-pragmas \
+		 -Wno-unused-parameter \
 
 LFLAGS = -lGLU -lGL -lglut -lm
 

@@ -9,12 +9,14 @@ using ::math::Vector;
 
 #pragma region Constructor and Destructor
 Circle::Circle()
+    : Model2D()
 {
     color_ = RGBA();
     BuildPoints(Vector::Zero(2), 0);
 }
 
 Circle::Circle(const Vector &origin, double radius)
+    : Model2D()
 {
     color_ = RGBA();
     radius_ = radius;
@@ -22,6 +24,7 @@ Circle::Circle(const Vector &origin, double radius)
 }
 
 Circle::Circle(const Vector &origin, double radius, const RGBA &color)
+    : Model2D()
 {
     color_ = color;
     radius_ = radius;
@@ -29,6 +32,7 @@ Circle::Circle(const Vector &origin, double radius, const RGBA &color)
 }
 
 Circle::Circle(const Circle &other)
+    : Model2D(other)
 {
     points_ = other.points_;
     radius_ = other.radius_;
@@ -36,6 +40,7 @@ Circle::Circle(const Circle &other)
 }
 
 Circle::Circle(const Circle &&other)
+    : Model2D(other)
 {
     points_ = other.points_;
     radius_ = other.radius_;

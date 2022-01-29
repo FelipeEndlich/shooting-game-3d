@@ -14,14 +14,10 @@ namespace graphics::elements::state
     public:
         GroundedState(GroundedState &state);
         GroundedState(Character *character);
-        virtual ~GroundedState();
 
         virtual BaseState *Clone() override;
         virtual void Jump(double delta_time) override;
         virtual void Jump(double delta_time, physic::Direction direction) override;
-        virtual void Stop(double delta_time) override;
         virtual void Move(double delta_time, physic::Direction direction) override;
-        virtual void ProcessCollision(physic::ICollidable *collidable) override;
-        virtual void ProcessGravity() override;
     };
 }
