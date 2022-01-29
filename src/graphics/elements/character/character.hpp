@@ -52,9 +52,16 @@ namespace graphics::elements::state
         graphics::shapes::Circle shape_;
         graphics::shapes::Circle head_;
         graphics::shapes::Rectangle body_;
+        graphics::shapes::Rectangle left_arm_;
         graphics::shapes::Rectangle left_thig_;
+        graphics::shapes::Rectangle left_calf_;
+        graphics::shapes::Rectangle right_arm_;
         graphics::shapes::Rectangle right_thig_;
+        graphics::shapes::Rectangle right_calf_;
         graphics::shapes::Rectangle outline_;
+
+        double width_;
+        double height_;
 
         BaseState *state_;
         math::Vector initial_jump_velocity_;
@@ -71,6 +78,8 @@ namespace graphics::elements::state
 
         void Allocate();
         void Deallocate();
+
+        void InstantiateCharacter(double radius, graphics::color::RGBA &color);
 
         friend class FallingState;
         friend class FallingLeftState;
