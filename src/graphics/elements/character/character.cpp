@@ -62,7 +62,7 @@ void Character::InstantiateCharacter(double radius, graphics::color::RGBA &color
     double arm_height_factor = 0.7;
 
     // Width factors
-    double body_width_factor = 0.3;
+    double body_width_factor = 0.15;
     double leg_width_factor = 0.15;
     double arm_width_factor = 0.15;
 
@@ -88,8 +88,7 @@ void Character::InstantiateCharacter(double radius, graphics::color::RGBA &color
     double left_arm_width = radius * arm_width_factor;
     double left_arm_height = radius * arm_height_factor;
     Vector left_arm_position = body_position;
-    left_arm_position[0] -= left_arm_width / 2;
-    left_arm_position[1] += body_height * 0.2;
+    left_arm_position[0] += (body_width - left_arm_width) / 2;
     left_arm_ = Rectangle(left_arm_position, left_arm_width, left_arm_height, color);
 
     Vector left_arm_center = left_arm_position;
@@ -100,6 +99,7 @@ void Character::InstantiateCharacter(double radius, graphics::color::RGBA &color
     double left_thig_width = radius * leg_width_factor;
     double left_thig_height = radius * leg_height_factor;
     Vector left_thig_position = body_position;
+    left_thig_position[0] += (body_width - left_thig_width) / 2;
     left_thig_position[1] += body_height;
     left_thig_ = Rectangle(left_thig_position, left_thig_width, left_thig_height, color);
 
@@ -118,8 +118,7 @@ void Character::InstantiateCharacter(double radius, graphics::color::RGBA &color
     double right_arm_width = radius * arm_width_factor;
     double right_arm_height = radius * arm_height_factor;
     Vector right_arm_position = body_position;
-    right_arm_position[0] += body_width - right_arm_width / 2;
-    right_arm_position[1] += body_height * 0.2;
+    right_arm_position[0] += (body_width - right_arm_width) / 2;
     right_arm_ = Rectangle(right_arm_position, right_arm_width, right_arm_height, color);
 
     Vector right_arm_center = right_arm_position;
@@ -130,7 +129,7 @@ void Character::InstantiateCharacter(double radius, graphics::color::RGBA &color
     double right_thig_width = radius * leg_width_factor;
     double right_thig_height = radius * leg_height_factor;
     Vector right_thig_position = body_position;
-    right_thig_position[0] += body_width - right_thig_width;
+    right_thig_position[0] += (body_width - right_thig_width) / 2;
     right_thig_position[1] += body_height;
     right_thig_ = Rectangle(right_thig_position, right_thig_width, right_thig_height, color);
 
@@ -318,4 +317,13 @@ void Character::Translate(math::Vector &translation, bool translate_position)
 
     if (translate_position)
         position_ += translation;
+}
+
+void Character::WalkAnimationArms(double delta_time, Direction direction)
+{
+}
+
+void Character::WalkAnimationLegs(double delta_time, physic::Direction direction)
+{
+    cout << "Animating leg" << endl;
 }

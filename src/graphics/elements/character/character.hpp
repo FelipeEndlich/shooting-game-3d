@@ -76,6 +76,9 @@ namespace graphics::elements::state
         void Translate(double dx, double dy, bool translate_position = true);
         void Translate(math::Vector &translation, bool translate_position = true);
 
+        void WalkAnimationArms(double delta_time, physic::Direction direction);
+        void WalkAnimationLegs(double delta_time, physic::Direction direction);
+
         void Allocate();
         void Deallocate();
 

@@ -96,7 +96,7 @@ namespace shoot_and_jump
         glClearColor(scren_color.get_red(), scren_color.get_green(), scren_color.get_blue(), scren_color.get_alpha());
 
         glLoadIdentity();
-        glOrtho(ortho_left_ - 50, ortho_right_ + 50, ortho_bottom_ + 50, ortho_top_ - 50, ortho_near_, ortho_far_);
+        glOrtho(ortho_left_, ortho_right_, ortho_bottom_, ortho_top_, ortho_near_, ortho_far_);
 
         glutSetKeyRepeat(GLUT_KEY_REPEAT_OFF);
         glutMouseFunc(mouseFunc);
@@ -115,9 +115,16 @@ namespace shoot_and_jump
         if (delta_time_ > 0.1)
         {
             this->current_time_ = current_time;
+
+            Vector old_position = player_->get_position();
+
             CheckKeys();
             collision_system_.ProcessCollisions();
             gravity_constraint_system_.ProcessGravityEffects();
+
+            Vector translation = old_position - player_->get_position();
+            glTranslated(translation[0], 0, 0);
+
             glutPostRedisplay();
         }
     }
@@ -181,8 +188,8 @@ namespace shoot_and_jump
             string fill = rect_element->Attribute("fill");
             if (fill == "blue")
                 LoadBackground(rect_element);
-            // else if (fill == "black")
-            //     LoadObstacle(rect_element);
+            else if (fill == "black")
+                LoadObstacle(rect_element);
 
             rect_element = rect_element->NextSiblingElement("rect");
         }
@@ -205,14 +212,16 @@ namespace shoot_and_jump
 
         map_.set_background(background);
 
-        ortho_left_ = x;
-        ortho_right_ = x + width;
+        Vector player_position = player_->get_position();
+
+        ortho_left_ = player_position[0] - height / 2;
+        ortho_right_ = player_position[0] + height / 2;
         ortho_top_ = y;
         ortho_bottom_ = y + height;
         ortho_near_ = 20.0;
         ortho_far_ = 0.0;
 
-        RGBA obstacle_color = RGBAFactory::get_color("red");
+        RGBA obstacle_color = RGBAFactory::get_color("black");
 
         double obstacle_stroke = 1;
 

@@ -59,8 +59,8 @@ void WalkingRightState::Move(double delta_time, Direction direction)
         character_->set_state(new WalkingLeftState(character_));
     else
     {
-
         character_->ProcessMove(delta_time);
+        character_->WalkAnimationLegs(delta_time, direction);
     }
 }
 
