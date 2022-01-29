@@ -66,8 +66,8 @@ namespace graphics::elements::state
         void ProcessCollisionByTop(physic::ICollidable *collidable);
         void ProcessCollisionByBottom(physic::ICollidable *collidable);
 
-        void Translate(double dx, double dy);
-        void Translate(math::Vector &translation);
+        void Translate(double dx, double dy, bool translate_position = true);
+        void Translate(math::Vector &translation, bool translate_position = true);
 
         void Allocate();
         void Deallocate();

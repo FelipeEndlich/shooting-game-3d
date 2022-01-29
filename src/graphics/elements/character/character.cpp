@@ -187,13 +187,8 @@ void Character::ProcessMove(double delta_time)
 {
     Vector position = position_;
     Update(delta_time);
-    Vector translate = position_ - position;
-    outline_.Translate(translate);
-    shape_.Translate(translate);
-    head_.Translate(translate);
-    body_.Translate(translate);
-    left_thig_.Translate(translate);
-    right_thig_.Translate(translate);
+    Vector translation = position_ - position;
+    Translate(translation, false);
 }
 
 void Character::ProcessCollisionByLeft(ICollidable *collidable)
@@ -229,15 +224,15 @@ void Character::ProcessGravity()
     state_->ProcessGravity();
 }
 
-void Character::Translate(double dx, double dy)
+void Character::Translate(double dx, double dy, bool translate_position)
 {
     Vector translation(2);
     translation[0] = dx;
     translation[1] = dy;
-    Translate(translation);
+    Translate(translation, translate_position);
 }
 
-void Character::Translate(math::Vector &translation)
+void Character::Translate(math::Vector &translation, bool translate_position)
 {
     shape_.Translate(translation);
     head_.Translate(translation);
@@ -245,5 +240,7 @@ void Character::Translate(math::Vector &translation)
     outline_.Translate(translation);
     left_thig_.Translate(translation);
     right_thig_.Translate(translation);
-    position_ += translation;
+
+    if (translate_position)
+        position_ += translation;
 }
