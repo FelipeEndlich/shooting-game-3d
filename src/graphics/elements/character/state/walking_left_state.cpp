@@ -4,12 +4,14 @@
 #include "../../../../math/vector.hpp"
 #include "../../../../physics/rigid_body.hpp"
 #include "../../../../physics/direction.hpp"
-#include "../../../../physics/icollidable.hpp"
+#include "../../../../physics/direction.hpp"
+#include "walk_phase.hpp"
 
-using graphics::elements::state::BaseState;
-using graphics::elements::state::Character;
-using graphics::elements::state::WalkingLeftState;
-using graphics::elements::state::WalkingRightState;
+using graphics::elements::character::BaseState;
+using graphics::elements::character::Character;
+using graphics::elements::character::WalkingLeftState;
+using graphics::elements::character::WalkingRightState;
+using graphics::elements::character::WalkPhase;
 using math::Vector;
 using physic::Direction;
 using physic::ICollidable;
@@ -19,6 +21,7 @@ WalkingLeftState::WalkingLeftState(WalkingLeftState &state)
     : BaseState(state)
 {
     name_ = "WalkingLeftState";
+    phase_ = WalkPhase::kContact;
 }
 
 WalkingLeftState::WalkingLeftState(Character *character)
@@ -29,6 +32,8 @@ WalkingLeftState::WalkingLeftState(Character *character)
 
     character->acceleration_ = Vector::Zero(2);
     character->external_force_ = character->get_weight() * -1;
+    
+    phase_ = WalkPhase::kContact;
 
     name_ = "WalkingLeftState";
 }

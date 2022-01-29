@@ -30,8 +30,8 @@ namespace shoot_and_jump
         double current_time_;
 
         graphics::elements::Map map_;
-        graphics::elements::state::Character *player_;
-        std::vector<graphics::elements::state::Character *> enemies_;
+        graphics::elements::character::Character *player_;
+        std::vector<graphics::elements::character::Character *> enemies_;
 
         std::map<char, bool> keys_;
         std::map<int, bool> mouse_;

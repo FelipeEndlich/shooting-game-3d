@@ -10,9 +10,9 @@
 #include "../../color/rgba_factory.hpp"
 
 using ::graphics::color::RGBA;
-using ::graphics::elements::state::BaseState;
-using ::graphics::elements::state::Character;
-using ::graphics::elements::state::FallingState;
+using ::graphics::elements::character::BaseState;
+using ::graphics::elements::character::Character;
+using ::graphics::elements::character::FallingState;
 using ::graphics::shapes::Circle;
 using ::graphics::shapes::Rectangle;
 using ::math::Vector;
@@ -62,7 +62,7 @@ void Character::InstantiateCharacter(double radius, graphics::color::RGBA &color
     double arm_height_factor = 0.7;
 
     // Width factors
-    double body_width_factor = 0.15;
+    double body_width_factor = 0.20;
     double leg_width_factor = 0.15;
     double arm_width_factor = 0.15;
 
@@ -74,14 +74,13 @@ void Character::InstantiateCharacter(double radius, graphics::color::RGBA &color
     double head_radius = radius * head_radius_factor;
     Vector head_position = position_;
     head_position[1] += head_radius - radius;
-    head_ = Circle(head_position, head_radius, color);
+    head_ = new Head(head_position, head_radius, color);
 
     // Instantiate body
     double body_width = radius * body_width_factor;
     double body_height = radius * body_height_factor;
-    Vector body_position = position_;
+    Vector body_position = head_->TorsoAnchorPoint();
     body_position[0] -= body_width / 2;
-    body_position[1] = head_position[1] + head_radius;
     body_ = Rectangle(body_position, body_width, body_height, color);
 
     // Instantiate left arm
@@ -90,10 +89,6 @@ void Character::InstantiateCharacter(double radius, graphics::color::RGBA &color
     Vector left_arm_position = body_position;
     left_arm_position[0] += (body_width - left_arm_width) / 2;
     left_arm_ = Rectangle(left_arm_position, left_arm_width, left_arm_height, color);
-
-    Vector left_arm_center = left_arm_position;
-    left_arm_center[0] += left_arm_width / 2;
-    left_arm_.Rotate(left_arm_center, arm_rotate_factor);
 
     // Instantiate left leg
     double left_thig_width = radius * leg_width_factor;
@@ -109,21 +104,12 @@ void Character::InstantiateCharacter(double radius, graphics::color::RGBA &color
     left_calf_position[1] += left_thig_height;
     left_calf_ = Rectangle(left_calf_position, left_calf_width, left_calf_height, color);
 
-    Vector left_thig_center = left_thig_position;
-    left_thig_center[0] += left_thig_width / 2;
-    left_thig_.Rotate(left_thig_center, leg_rotate_factor);
-    left_calf_.Rotate(left_thig_center, leg_rotate_factor);
-
     // Instantiate right arm
     double right_arm_width = radius * arm_width_factor;
     double right_arm_height = radius * arm_height_factor;
     Vector right_arm_position = body_position;
     right_arm_position[0] += (body_width - right_arm_width) / 2;
     right_arm_ = Rectangle(right_arm_position, right_arm_width, right_arm_height, color);
-
-    Vector right_arm_center = right_arm_position;
-    right_arm_center[0] += right_arm_width / 2;
-    right_arm_.Rotate(right_arm_center, -arm_rotate_factor);
 
     // Instantiate right leg
     double right_thig_width = radius * leg_width_factor;
@@ -138,11 +124,6 @@ void Character::InstantiateCharacter(double radius, graphics::color::RGBA &color
     Vector right_calf_position = right_thig_position;
     right_calf_position[1] += right_thig_height;
     right_calf_ = Rectangle(right_calf_position, right_calf_width, right_calf_height, color);
-
-    Vector right_thig_center = left_thig_position;
-    right_thig_center[0] += left_thig_width / 2;
-    right_thig_.Rotate(right_thig_center, -leg_rotate_factor);
-    right_calf_.Rotate(right_thig_center, -leg_rotate_factor);
 
     // Set characters width and height
     width_ = body_width;
@@ -179,7 +160,7 @@ Character &Character::operator=(const Character &other)
 void Character::Render()
 {
     //outline_.Draw();
-    head_.Draw();
+    head_->Draw();
     body_.Draw();
     left_arm_.Draw();
     left_thig_.Draw();
@@ -211,7 +192,7 @@ void Character::Move(double delta_time, Direction direction)
 
 void Character::set_state(BaseState *state)
 {
-    Deallocate();
+    delete state_;
     this->state_ = state;
 }
 
@@ -224,6 +205,7 @@ void Character::Allocate()
 void Character::Deallocate()
 {
     delete state_;
+    delete head_;
 }
 
 Vector Character::get_position()
@@ -305,7 +287,7 @@ void Character::Translate(double dx, double dy, bool translate_position)
 void Character::Translate(math::Vector &translation, bool translate_position)
 {
     shape_.Translate(translation);
-    head_.Translate(translation);
+    head_->Translate(translation);
     body_.Translate(translation);
     outline_.Translate(translation);
     left_arm_.Translate(translation);
@@ -317,13 +299,4 @@ void Character::Translate(math::Vector &translation, bool translate_position)
 
     if (translate_position)
         position_ += translation;
-}
-
-void Character::WalkAnimationArms(double delta_time, Direction direction)
-{
-}
-
-void Character::WalkAnimationLegs(double delta_time, physic::Direction direction)
-{
-    cout << "Animating leg" << endl;
 }

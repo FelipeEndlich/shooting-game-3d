@@ -1,6 +1,6 @@
 #include "base_state.hpp"
 
-using ::graphics::elements::state::BaseState;
+using ::graphics::elements::character::BaseState;
 using ::std::string;
 
 string BaseState::get_name() const

@@ -5,7 +5,7 @@
 #include "../../../../physics/direction.hpp"
 #include "../../../../physics/icollidable.hpp"
 
-namespace graphics::elements::state
+namespace graphics::elements::character
 {
     class Character;
 

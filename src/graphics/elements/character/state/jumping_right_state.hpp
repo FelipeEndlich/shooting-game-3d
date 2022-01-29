@@ -6,7 +6,7 @@
 #include "../../../../physics/icollidable.hpp"
 #include "../../../../math/vector.hpp"
 
-namespace graphics::elements::state
+namespace graphics::elements::character
 {
     class Character;
 

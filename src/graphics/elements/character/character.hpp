@@ -18,8 +18,9 @@
 #include "./state/jumping_state.hpp"
 #include "./state/jumping_right_state.hpp"
 #include "./state/jumping_left_state.hpp"
+#include "./body_part/head.hpp"
 
-namespace graphics::elements::state
+namespace graphics::elements::character
 {
     class Character : public physic::RigidBody, public physic::IGravityAffectable
     {
@@ -50,7 +51,9 @@ namespace graphics::elements::state
 
     private:
         graphics::shapes::Circle shape_;
-        graphics::shapes::Circle head_;
+
+        Head *head_;
+
         graphics::shapes::Rectangle body_;
         graphics::shapes::Rectangle left_arm_;
         graphics::shapes::Rectangle left_thig_;
@@ -75,9 +78,6 @@ namespace graphics::elements::state
 
         void Translate(double dx, double dy, bool translate_position = true);
         void Translate(math::Vector &translation, bool translate_position = true);
-
-        void WalkAnimationArms(double delta_time, physic::Direction direction);
-        void WalkAnimationLegs(double delta_time, physic::Direction direction);
 
         void Allocate();
         void Deallocate();

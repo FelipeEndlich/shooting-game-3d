@@ -7,11 +7,11 @@
 #include "../../../../physics/icollidable.hpp"
 #include "../../../../physics/rigid_body.hpp"
 
-using graphics::elements::state::BaseState;
-using graphics::elements::state::Character;
-using graphics::elements::state::FallingRightState;
-using graphics::elements::state::FallingState;
-using graphics::elements::state::GroundedState;
+using graphics::elements::character::BaseState;
+using graphics::elements::character::Character;
+using graphics::elements::character::FallingRightState;
+using graphics::elements::character::FallingState;
+using graphics::elements::character::GroundedState;
 using math::Vector;
 using physic::Direction;
 using physic::ICollidable;

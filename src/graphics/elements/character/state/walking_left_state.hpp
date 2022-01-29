@@ -4,8 +4,9 @@
 
 #include "../../../../physics/direction.hpp"
 #include "../../../../physics/icollidable.hpp"
+#include "walk_phase.hpp"
 
-namespace graphics::elements::state
+namespace graphics::elements::character
 {
     class Character;
 
@@ -22,5 +23,8 @@ namespace graphics::elements::state
         virtual void Move(double delta_time, physic::Direction direction) override;
         virtual void ProcessCollision(physic::ICollidable *collidable) override;
         virtual void ProcessGravity() override;
+
+    private:
+        WalkPhase phase_;
     };
 }

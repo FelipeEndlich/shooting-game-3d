@@ -12,15 +12,17 @@ namespace graphics::shapes
         Circle(const math::Vector &origin, double radius, const graphics::color::RGBA &color);
         Circle(const Circle &other);
         Circle(const Circle &&other);
-        ~Circle() = default;
+        virtual ~Circle() = default;
 
         Circle &operator=(const Circle &other);
         Circle &operator=(const Circle &&other);
 
         double get_radius() const;
 
-    private:
+    protected:
         double radius_;
+
+    private:
         static inline double segments_ = 32;
 
         void BuildPoints(const math::Vector &origin, double radius);

@@ -14,36 +14,44 @@ using ::math::Vector;
 Model2D::Model2D()
     : Model()
 {
+    angle_ = 0;
 }
 
 Model2D::Model2D(const Matrix &matrix)
     : Model(matrix)
 {
+    angle_ = 0;
     ValidateMatrix(points_);
 }
 
 Model2D::Model2D(const Matrix &matrix, const RGBA &color)
     : Model(matrix, color)
 {
+    angle_ = 0;
     ValidateMatrix(points_);
 }
 
 Model2D::Model2D(const Model2D &other)
     : Model(other)
 {
+    angle_ = 0;
     ValidateMatrix(points_);
 }
 
 Model2D::Model2D(const Model2D &&other)
     : Model(other)
 {
+    angle_ = 0;
     ValidateMatrix(points_);
 }
 #pragma endregion // Constructors and Destructors
 
 #pragma region Methods
+
 void Model2D::Translate(const Vector &vector)
 {
+    // cout << "Vector" << vector.to_string() << endl;
+    // cout << "Center Position" << center_position_.to_string() << endl;
     for (int i = 0; i < points_.get_rows(); i++)
         points_[i] += vector;
 }
@@ -53,11 +61,10 @@ void Model2D::Scale(const Vector &center, const Vector &vector)
     Transform(center, vector, 0);
 }
 
-#include <iostream>
-using namespace std;
 void Model2D::Rotate(const Vector &center, double radians)
 {
     Transform(center, Vector::Zero(2), radians);
+    angle_ = fmod(angle_ + radians, 2 * M_PI);
 }
 
 void Model2D::Transform(const Matrix &matrix)
@@ -123,3 +130,18 @@ void Model2D::ValidateMatrix(const math::Matrix &matrix)
     }
 }
 #pragma endregion // Private Methods
+
+double Model2D::get_angle() const
+{
+    return angle_;
+}
+
+Vector Model2D::get_center_position() const
+{
+    return center_position_;
+}
+
+void Model2D::set_center_position(const Vector &position)
+{
+    center_position_ = position;
+}
