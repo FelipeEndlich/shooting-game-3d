@@ -87,6 +87,8 @@ namespace graphics::elements::character
 
         void InstantiateCharacter(double radius, graphics::color::RGBA &color);
 
+        void ResetAnimation();
+
         friend class FallingState;
         friend class FallingLeftState;
         friend class FallingRightState;

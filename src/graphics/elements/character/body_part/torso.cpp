@@ -29,7 +29,7 @@ Vector Torso::LeftArmAnchorPoint() const
     return position;
 }
 
-Vector Torso::LeftThighAnchorPoint() const
+Vector Torso::LeftThigAnchorPoint() const
 {
     Vector position = center_position_;
 
@@ -45,7 +45,7 @@ Vector Torso::RightArmAnchorPoint() const
     return LeftArmAnchorPoint();
 }
 
-Vector Torso::RightThighAnchorPoint() const
+Vector Torso::RightThigAnchorPoint() const
 {
-    return LeftThighAnchorPoint();
+    return LeftThigAnchorPoint();
 }

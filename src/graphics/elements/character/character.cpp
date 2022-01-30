@@ -129,7 +129,8 @@ void Character::InstantiateCharacter(double radius, graphics::color::RGBA &color
     width_ = body_width;
     height_ = radius * 2;
 
-    outline_ = new Rectangle(get_position(), get_width(), get_height(), color::RGBAFactory::get_color("black"));
+    // outline_ = new Rectangle(get_position(), get_width(), get_height(), color::RGBAFactory::get_color("black"));
+    outline_ = new Circle(head_->TorsoAnchorPoint(), 0.3, color::RGBAFactory::get_color("black"));
 }
 
 Character &Character::operator=(const Character &other)
@@ -161,12 +162,15 @@ void Character::Render()
 {
     head_->Draw();
     torso_->Draw();
-    left_arm_->Draw();
-    right_arm_->Draw();
-    left_thig_->Draw();
+
+    // left_arm_->Draw();
+    // right_arm_->Draw();
+
     right_thig_->Draw();
-    left_calf_->Draw();
     right_calf_->Draw();
+
+    left_thig_->Draw();
+    left_calf_->Draw();
 
     // outline_->Draw();
 }
@@ -214,6 +218,7 @@ void Character::Deallocate()
     delete right_thig_;
     delete left_calf_;
     delete right_calf_;
+    delete outline_;
 }
 
 Vector Character::get_position()
@@ -307,4 +312,37 @@ void Character::Translate(math::Vector &translation, bool translate_position)
 
     if (translate_position)
         position_ += translation;
+}
+
+void Character::ResetAnimation()
+{
+    head_->Rotate(head_->get_center_position(), 2 * M_PI - head_->get_angle());
+
+    torso_->Rotate(torso_->get_center_position(), 2 * M_PI - torso_->get_angle());
+    Vector torso_translation = head_->TorsoAnchorPoint() - torso_->HeadAnchorPoint();
+    torso_->Translate(torso_translation);
+
+    left_arm_->Rotate(left_arm_->get_center_position(), 2 * M_PI - left_arm_->get_angle());
+    Vector left_arm_translation = torso_->LeftArmAnchorPoint() - left_arm_->TorsoAnchorPoint();
+    left_arm_->Translate(left_arm_translation);
+
+    right_arm_->Rotate(right_arm_->get_center_position(), 2 * M_PI - right_arm_->get_angle());
+    Vector right_arm_translation = torso_->RightArmAnchorPoint() - right_arm_->TorsoAnchorPoint();
+    right_arm_->Translate(right_arm_translation);
+
+    left_thig_->Rotate(left_thig_->get_center_position(), 2 * M_PI - left_thig_->get_angle());
+    Vector left_thig_translation = torso_->LeftThigAnchorPoint() - left_thig_->TorsoAnchorPoint();
+    left_thig_->Translate(left_thig_translation);
+
+    right_thig_->Rotate(right_thig_->get_center_position(), 2 * M_PI - right_thig_->get_angle());
+    Vector right_thig_translation = torso_->RightThigAnchorPoint() - right_thig_->TorsoAnchorPoint();
+    right_thig_->Translate(right_thig_translation);
+
+    left_calf_->Rotate(left_calf_->get_center_position(), 2 * M_PI - left_calf_->get_angle());
+    Vector left_calf_translation = left_thig_->CalfAnchorPoint() - left_calf_->ThigAnchorPoint();
+    left_calf_->Translate(left_calf_translation);
+
+    right_calf_->Rotate(right_calf_->get_center_position(), 2 * M_PI - right_calf_->get_angle());
+    Vector right_calf_translation = right_thig_->CalfAnchorPoint() - right_calf_->ThigAnchorPoint();
+    right_calf_->Translate(right_calf_translation);
 }

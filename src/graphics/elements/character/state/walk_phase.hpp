@@ -4,6 +4,7 @@ namespace graphics::elements::character
 {
     enum WalkPhase
     {
+        kStarting,
         kContact,
         kDown,
         kPassing,

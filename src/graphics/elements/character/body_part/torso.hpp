@@ -16,8 +16,8 @@ namespace graphics::elements::character
 
         math::Vector HeadAnchorPoint() const;
         math::Vector LeftArmAnchorPoint() const;
-        math::Vector LeftThighAnchorPoint() const;
+        math::Vector LeftThigAnchorPoint() const;
         math::Vector RightArmAnchorPoint() const;
-        math::Vector RightThighAnchorPoint() const;
+        math::Vector RightThigAnchorPoint() const;
     };
 }
