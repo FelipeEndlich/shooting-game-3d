@@ -51,7 +51,10 @@ void FallingLeftState::Jump(double delta_time, physic::Direction direction)
     if (direction == Direction::kLeft)
         character_->ProcessMove(delta_time);
     else
+    {
+        character_->Mirror();
         character_->set_state(new FallingRightState(character_));
+    }
 }
 
 void FallingLeftState::Stop(double delta_time)
@@ -64,7 +67,10 @@ void FallingLeftState::Move(double delta_time, Direction direction)
     if (direction == Direction::kLeft)
         character_->ProcessMove(delta_time);
     else
+    {
+        character_->Mirror();
         character_->set_state(new FallingRightState(character_));
+    }
 }
 
 void FallingLeftState::ProcessCollision(ICollidable *collidable)

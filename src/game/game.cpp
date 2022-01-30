@@ -176,8 +176,8 @@ namespace shoot_and_jump
             string fill = circle_element->Attribute("fill");
             if (fill == "green")
                 LoadPlayer(circle_element);
-            // else if (fill == "red")
-            //     LoadEnemy(circle_element);
+            else if (fill == "red")
+                LoadEnemy(circle_element);
 
             circle_element = circle_element->NextSiblingElement("circle");
         }
@@ -188,8 +188,8 @@ namespace shoot_and_jump
             string fill = rect_element->Attribute("fill");
             if (fill == "blue")
                 LoadBackground(rect_element);
-            // else if (fill == "black")
-            //     LoadObstacle(rect_element);
+            else if (fill == "black")
+                LoadObstacle(rect_element);
 
             rect_element = rect_element->NextSiblingElement("rect");
         }

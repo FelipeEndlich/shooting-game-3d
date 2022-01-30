@@ -54,9 +54,19 @@ void JumpingState::Jump(double delta_time)
 void JumpingState::Jump(double delta_time, physic::Direction direction)
 {
     if (direction == Direction::kRight)
+    {
+        if (!character_->looking_right_)
+            character_->Mirror();
+
         character_->set_state(new JumpingRightState(character_));
+    }
     else
+    {
+        if (character_->looking_right_)
+            character_->Mirror();
+
         character_->set_state(new JumpingLeftState(character_));
+    }
 }
 
 void JumpingState::Stop(double delta_time)
