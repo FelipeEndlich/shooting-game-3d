@@ -7,7 +7,7 @@
 
 #include "../../../../physics/direction.hpp"
 #include "../../../../physics/icollidable.hpp"
-#include "walk_phase.hpp"
+#include "../animation/walking_animation_system.hpp"
 
 namespace graphics::elements::character
 {
@@ -28,13 +28,7 @@ namespace graphics::elements::character
         virtual void ProcessGravity() override;
 
     private:
-        WalkPhase phase_;
-        std::map<std::string, std::map<WalkPhase, std::tuple<double, double>>> phase_info_;
-        bool right_front_leg_ = true;
-
-        double CalculateIncrement(std::tuple<double, double> angles);
-        bool IsDoubleEq(double a, double b, double epsilon);
-
+        WalkingAnimationSystem animation_system_;
         void Animate();
     };
 }

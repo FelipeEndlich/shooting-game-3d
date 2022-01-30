@@ -23,6 +23,7 @@
 #include "./body_part/arm.hpp"
 #include "./body_part/thig.hpp"
 #include "./body_part/calf.hpp"
+#include "./animation/walking_animation_system.hpp"
 
 namespace graphics::elements::character
 {
@@ -100,5 +101,6 @@ namespace graphics::elements::character
         friend class JumpingRightState;
         friend class WalkingLeftState;
         friend class WalkingRightState;
+        friend class WalkingAnimationSystem;
     };
 }
