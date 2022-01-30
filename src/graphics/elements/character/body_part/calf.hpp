@@ -15,5 +15,6 @@ namespace graphics::elements::character
         ~Calf() = default;
 
         math::Vector ThigAnchorPoint() const;
+        void Mirror(math::Vector &mirror_point);
     };
 }

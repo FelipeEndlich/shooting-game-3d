@@ -9,7 +9,7 @@ using ::math::Vector;
 
 Vector Thig::TorsoAnchorPoint() const
 {
-    Vector position = center_position_;
+    Vector position = get_center_position();
 
     double radius = height_ / 2;
 
@@ -21,7 +21,7 @@ Vector Thig::TorsoAnchorPoint() const
 
 Vector Thig::CalfAnchorPoint() const
 {
-    Vector position = center_position_;
+    Vector position = get_center_position();
 
     double radius = height_ / 2;
 
@@ -29,4 +29,10 @@ Vector Thig::CalfAnchorPoint() const
     position[1] += radius * sin(angle_ + M_PI / 2);
 
     return position;
+}
+
+void Thig::Mirror(math::Vector &mirror_point)
+{
+    Scale(mirror_point, -1, 1);
+    angle_ *= -1;
 }

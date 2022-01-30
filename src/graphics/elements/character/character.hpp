@@ -77,7 +77,7 @@ namespace graphics::elements
             double height_;
 
             BaseState *state_;
-            bool looking_right_ = false;
+            bool looking_right_ = true;
             math::Vector initial_jump_velocity_;
             bool collision_processable_;
 

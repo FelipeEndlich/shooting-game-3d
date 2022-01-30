@@ -20,6 +20,8 @@ namespace graphics::elements
         void Translate(math::Vector &translation, bool translate_position);
         void Scale(math::Vector &scale, double sx, double sy);
 
+        void Mirror(math::Vector &mirror_point);
+
         math::Vector get_position();
         double get_width();
         double get_height();

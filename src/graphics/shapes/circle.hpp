@@ -18,6 +18,7 @@ namespace graphics::shapes
         Circle &operator=(const Circle &&other);
 
         double get_radius() const;
+        math::Vector get_center_position() const override;
 
     protected:
         double radius_;

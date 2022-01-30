@@ -18,8 +18,8 @@ Gun::Gun(Vector &initial_position, double width, double height)
     : RigidBody(2)
 {
     Vector body_initial_position = initial_position;
-
-    body_ = new Rectangle(initial_position, width, height, RGBAFactory::get_color("black"));
+    body_initial_position[1] -= height / 2;
+    body_ = new Rectangle(body_initial_position, width, height, RGBAFactory::get_color("black"));
 
     double barrel_width = body_->get_width() / 2;
     double barrel_height = body_->get_height() / 2;

@@ -20,6 +20,8 @@ namespace graphics::shapes
         double get_width() const;
         double get_height() const;
 
+        virtual math::Vector get_center_position() const override;
+
     protected:
         double width_;
         double height_;

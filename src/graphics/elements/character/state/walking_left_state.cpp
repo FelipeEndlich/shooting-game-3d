@@ -52,14 +52,12 @@ void WalkingLeftState::Jump(double delta_time, physic::Direction direction)
 {
     if (direction == Direction::kLeft)
     {
-        character_->ResetAnimation();
         character_->set_state(new JumpingLeftState(character_));
     }
 }
 
 void WalkingLeftState::Stop(double delta_time)
 {
-    character_->ResetAnimation();
     character_->set_state(new GroundedState(character_));
 }
 
@@ -67,8 +65,6 @@ void WalkingLeftState::Move(double delta_time, Direction direction)
 {
     if (direction == Direction::kRight)
     {
-        character_->looking_right_ = true;
-        character_->ResetAnimation();
         character_->Mirror();
         character_->set_state(new WalkingRightState(character_));
     }
@@ -82,13 +78,11 @@ void WalkingLeftState::Move(double delta_time, Direction direction)
 void WalkingLeftState::ProcessCollision(ICollidable *collidable)
 {
     character_->ProcessCollisionByLeft(collidable);
-    character_->ResetAnimation();
     character_->set_state(new GroundedState(character_));
 }
 
 void WalkingLeftState::ProcessGravity()
 {
-    character_->ResetAnimation();
     character_->set_state(new FallingLeftState(character_));
 }
 

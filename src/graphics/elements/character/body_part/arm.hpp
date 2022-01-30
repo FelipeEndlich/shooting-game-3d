@@ -15,5 +15,6 @@ namespace graphics::elements::character
         ~Arm() = default;
 
         math::Vector TorsoAnchorPoint() const;
+        void Mirror(math::Vector &mirror_point);
     };
 }

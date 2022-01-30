@@ -19,5 +19,7 @@ namespace graphics::elements::character
         math::Vector LeftThigAnchorPoint() const;
         math::Vector RightArmAnchorPoint() const;
         math::Vector RightThigAnchorPoint() const;
+
+        void Mirror(math::Vector &mirror_point);
     };
 }

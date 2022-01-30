@@ -18,7 +18,6 @@ Model2D::Model2D()
     : Model()
 {
     angle_ = 0;
-    center_position_ = Vector::Zero(2);
 }
 
 Model2D::Model2D(const Matrix &matrix)
@@ -26,7 +25,6 @@ Model2D::Model2D(const Matrix &matrix)
 {
     angle_ = 0;
     ValidateMatrix(points_);
-    center_position_ = Vector::Zero(2);
 }
 
 Model2D::Model2D(const Matrix &matrix, const RGBA &color)
@@ -34,14 +32,12 @@ Model2D::Model2D(const Matrix &matrix, const RGBA &color)
 {
     angle_ = 0;
     ValidateMatrix(points_);
-    center_position_ = Vector::Zero(2);
 }
 
 Model2D::Model2D(const Model2D &other)
     : Model(other)
 {
     angle_ = other.angle_;
-    center_position_ = other.center_position_;
     color_ = other.color_;
     points_ = other.points_;
 }
@@ -50,7 +46,6 @@ Model2D::Model2D(const Model2D &&other)
     : Model(other)
 {
     angle_ = other.angle_;
-    center_position_ = other.center_position_;
     color_ = other.color_;
     points_ = other.points_;
 }
@@ -69,7 +64,6 @@ void Model2D::Translate(const Vector &vector)
 {
     for (int i = 0; i < points_.get_rows(); i++)
         points_[i] += vector;
-    center_position_ += vector;
 }
 
 void Model2D::Scale(double x, double y, double sx, double sy)
@@ -114,7 +108,7 @@ void Model2D::Rotate(double x, double y, double radians)
 void Model2D::Rotate(const Vector &center, double radians)
 {
     Transform(center, Vector::Fill(2, 1), radians);
-    angle_ = fmod(angle_ + radians, 2 * M_PI);
+    angle_ += radians;
 }
 
 void Model2D::Transform(const Matrix &matrix)
@@ -130,15 +124,6 @@ void Model2D::Transform(const Matrix &matrix)
         points_[i][0] = point[0];
         points_[i][1] = point[1];
     }
-
-    Vector point = Vector::Fill(3, 1);
-    point[0] = center_position_[0];
-    point[1] = center_position_[1];
-
-    point = matrix * point;
-
-    center_position_[0] = point[0];
-    center_position_[1] = point[1];
 }
 
 void Model2D::Transform(double x, double y, double sx, double sy, double radians)
@@ -185,7 +170,7 @@ void Model2D::Transform(const Vector &center, const Vector &scale, double radian
     translate_back_matrix[0][2] = center[0];
     translate_back_matrix[1][2] = center[1];
 
-    Transform(translate_back_matrix * rotate_matrix * scale_matrix * translate_matrix);
+    Transform(translate_back_matrix * scale_matrix * rotate_matrix * translate_matrix);
 }
 
 void Model2D::Draw()
@@ -217,14 +202,4 @@ void Model2D::ValidateMatrix(const math::Matrix &matrix)
 double Model2D::get_angle() const
 {
     return angle_;
-}
-
-Vector Model2D::get_center_position() const
-{
-    return center_position_;
-}
-
-void Model2D::set_center_position(const Vector &position)
-{
-    center_position_ = position;
 }

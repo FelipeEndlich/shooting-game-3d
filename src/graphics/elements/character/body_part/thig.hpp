@@ -16,5 +16,7 @@ namespace graphics::elements::character
 
         math::Vector TorsoAnchorPoint() const;
         math::Vector CalfAnchorPoint() const;
+
+        void Mirror(math::Vector &mirror_point);
     };
 }

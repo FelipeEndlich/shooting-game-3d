@@ -39,7 +39,7 @@ GroundedState::GroundedState(Character *character)
     character->velocity_ = Vector::Zero(2);
     character->acceleration_ = Vector::Zero(2);
     character->external_force_ = character->get_weight() * -1;
-
+    character_->ResetAnimation();
     name_ = "GroundedState";
 }
 
@@ -66,20 +66,14 @@ void GroundedState::Move(double delta_time, Direction direction)
     if (direction == Direction::kLeft)
     {
         if (character_->looking_right_)
-        {
             character_->Mirror();
-            character_->looking_right_ = false;
-        }
 
         character_->set_state(new WalkingLeftState(character_));
     }
     else if (direction == Direction::kRight)
     {
         if (!character_->looking_right_)
-        {
             character_->Mirror();
-            character_->looking_right_ = true;
-        }
 
         character_->set_state(new WalkingRightState(character_));
     }

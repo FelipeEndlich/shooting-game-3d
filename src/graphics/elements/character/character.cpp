@@ -43,7 +43,6 @@ Character::Character(Vector &initial_position, double radius, RGBA &color, bool 
     set_gravity_acceleration(gravity_acceleration);
 
     initial_jump_velocity_ = gravity_acceleration * time_jump_max * -1;
-    looking_right_ = true;
 
     InstantiateCharacter(radius, color);
     Vector gun_initial_position = torso_->get_center_position();
@@ -91,8 +90,8 @@ void Character::InstantiateCharacter(double radius, graphics::color::RGBA &color
     // Instantiate left arm
     double left_arm_width = radius * arm_width_factor;
     double left_arm_height = radius * arm_height_factor;
-    Vector left_arm_position = body_position;
-    left_arm_position[0] += (body_width - left_arm_width) / 2;
+    Vector left_arm_position = torso_->LeftArmAnchorPoint();
+    left_arm_position[0] -= left_arm_width / 2;
     left_arm_ = new Arm(left_arm_position, left_arm_width, left_arm_height, color);
 
     // Instantiate left leg
@@ -130,12 +129,15 @@ void Character::InstantiateCharacter(double radius, graphics::color::RGBA &color
     right_calf_position[1] += right_thig_height;
     right_calf_ = new Calf(right_calf_position, right_calf_width, right_calf_height, color);
 
+    left_arm_->Rotate(left_arm_->TorsoAnchorPoint(), -0.80);
+    right_arm_->Rotate(right_arm_->TorsoAnchorPoint(), -0.20);
+
     // Set characters width and height
     width_ = body_width;
     height_ = radius * 2;
 
     // outline_ = new Rectangle(get_position(), get_width(), get_height(), color::RGBAFactory::get_color("black"));
-    outline_ = new Circle(head_->TorsoAnchorPoint(), 0.3, color::RGBAFactory::get_color("black"));
+    outline_ = new Circle(left_arm_->TorsoAnchorPoint(), 0.3, color::RGBAFactory::get_color("red"));
 }
 
 Character &Character::operator=(const Character &other)
@@ -187,8 +189,6 @@ void Character::Render()
 
     left_thig_->Draw();
     left_calf_->Draw();
-
-    // outline_->Draw();
 }
 
 void Character::Jump(double delta_time)
@@ -335,49 +335,65 @@ void Character::Translate(math::Vector &translation, bool translate_position)
 
 void Character::ResetAnimation()
 {
-    head_->Rotate(head_->get_center_position(), 2 * M_PI - head_->get_angle());
+    head_->Rotate(head_->get_center_position(), -head_->get_angle());
 
-    torso_->Rotate(torso_->get_center_position(), 2 * M_PI - torso_->get_angle());
+    torso_->Rotate(torso_->get_center_position(), -torso_->get_angle());
     Vector torso_translation = head_->TorsoAnchorPoint() - torso_->HeadAnchorPoint();
     torso_->Translate(torso_translation);
 
-    left_arm_->Rotate(left_arm_->get_center_position(), 2 * M_PI - left_arm_->get_angle());
-    Vector left_arm_translation = torso_->LeftArmAnchorPoint() - left_arm_->TorsoAnchorPoint();
-    left_arm_->Translate(left_arm_translation);
-
-    right_arm_->Rotate(right_arm_->get_center_position(), 2 * M_PI - right_arm_->get_angle());
+    right_arm_->Rotate(right_arm_->get_center_position(), -right_arm_->get_angle());
     Vector right_arm_translation = torso_->RightArmAnchorPoint() - right_arm_->TorsoAnchorPoint();
     right_arm_->Translate(right_arm_translation);
 
-    left_thig_->Rotate(left_thig_->get_center_position(), 2 * M_PI - left_thig_->get_angle());
+    left_thig_->Rotate(left_thig_->get_center_position(), -left_thig_->get_angle());
     Vector left_thig_translation = torso_->LeftThigAnchorPoint() - left_thig_->TorsoAnchorPoint();
     left_thig_->Translate(left_thig_translation);
 
-    right_thig_->Rotate(right_thig_->get_center_position(), 2 * M_PI - right_thig_->get_angle());
+    right_thig_->Rotate(right_thig_->get_center_position(), -right_thig_->get_angle());
     Vector right_thig_translation = torso_->RightThigAnchorPoint() - right_thig_->TorsoAnchorPoint();
     right_thig_->Translate(right_thig_translation);
 
-    left_calf_->Rotate(left_calf_->get_center_position(), 2 * M_PI - left_calf_->get_angle());
+    left_calf_->Rotate(left_calf_->get_center_position(), -left_calf_->get_angle());
     Vector left_calf_translation = left_thig_->CalfAnchorPoint() - left_calf_->ThigAnchorPoint();
     left_calf_->Translate(left_calf_translation);
 
-    right_calf_->Rotate(right_calf_->get_center_position(), 2 * M_PI - right_calf_->get_angle());
+    right_calf_->Rotate(right_calf_->get_center_position(), -right_calf_->get_angle());
     Vector right_calf_translation = right_thig_->CalfAnchorPoint() - right_calf_->ThigAnchorPoint();
     right_calf_->Translate(right_calf_translation);
+
+    left_arm_->Rotate(left_arm_->get_center_position(), -left_arm_->get_angle());
+    Vector left_arm_translation = torso_->LeftArmAnchorPoint() - left_arm_->TorsoAnchorPoint();
+    left_arm_->Translate(left_arm_translation);
+
+    if (looking_right_)
+    {
+        left_arm_->Rotate(left_arm_->TorsoAnchorPoint(), -0.80);
+        right_arm_->Rotate(right_arm_->TorsoAnchorPoint(), -0.20);
+    }
+    else
+    {
+        right_arm_->Rotate(right_arm_->TorsoAnchorPoint(), 0.80);
+        left_arm_->Rotate(left_arm_->TorsoAnchorPoint(), 0.20);
+    }
 }
 
 void Character::Mirror()
 {
-    shape_.Scale(position_, -1, 1);
-    head_->Scale(position_, -1, 1);
-    torso_->Scale(position_, -1, 1);
-    outline_->Scale(position_, -1, 1);
-    left_arm_->Scale(position_, -1, 1);
-    right_arm_->Scale(position_, -1, 1);
-    left_thig_->Scale(position_, -1, 1);
-    right_thig_->Scale(position_, -1, 1);
-    left_calf_->Scale(position_, -1, 1);
-    right_calf_->Scale(position_, -1, 1);
+    Vector center = torso_->get_center_position();
 
-    gun_->Scale(position_, -1, 1);
+    outline_->Scale(center, -1, 1);
+    shape_.Scale(center, -1, 1);
+
+    head_->Mirror(center);
+    torso_->Mirror(center);
+    left_arm_->Mirror(center);
+    right_arm_->Mirror(center);
+    left_thig_->Mirror(center);
+    right_thig_->Mirror(center);
+    left_calf_->Mirror(center);
+    right_calf_->Mirror(center);
+
+    looking_right_ = !looking_right_;
+
+    gun_->Scale(center, -1, 1);
 }

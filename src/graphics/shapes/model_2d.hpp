@@ -29,12 +29,10 @@ namespace graphics::shapes
         virtual void Draw();
 
         virtual double get_angle() const;
-        math::Vector get_center_position() const;
-        void set_center_position(const math::Vector &position);
-        
+        virtual math::Vector get_center_position() const = 0;
+
     protected:
         double angle_;
-        math::Vector center_position_;
 
     private:
         void ValidateMatrix(const math::Matrix &matrix);
