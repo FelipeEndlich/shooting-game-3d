@@ -15,6 +15,7 @@ Model2D::Model2D()
     : Model()
 {
     angle_ = 0;
+    center_position_ = Vector::Zero(2);
 }
 
 Model2D::Model2D(const Matrix &matrix)
@@ -22,6 +23,7 @@ Model2D::Model2D(const Matrix &matrix)
 {
     angle_ = 0;
     ValidateMatrix(points_);
+    center_position_ = Vector::Zero(2);
 }
 
 Model2D::Model2D(const Matrix &matrix, const RGBA &color)
@@ -29,20 +31,25 @@ Model2D::Model2D(const Matrix &matrix, const RGBA &color)
 {
     angle_ = 0;
     ValidateMatrix(points_);
+    center_position_ = Vector::Zero(2);
 }
 
 Model2D::Model2D(const Model2D &other)
     : Model(other)
 {
-    angle_ = 0;
-    ValidateMatrix(points_);
+    angle_ = other.angle_;
+    center_position_ = other.center_position_;
+    color_ = other.color_;
+    points_ = other.points_;
 }
 
 Model2D::Model2D(const Model2D &&other)
     : Model(other)
 {
-    angle_ = 0;
-    ValidateMatrix(points_);
+    angle_ = other.angle_;
+    center_position_ = other.center_position_;
+    color_ = other.color_;
+    points_ = other.points_;
 }
 #pragma endregion // Constructors and Destructors
 
@@ -50,10 +57,9 @@ Model2D::Model2D(const Model2D &&other)
 
 void Model2D::Translate(const Vector &vector)
 {
-    // cout << "Vector" << vector.to_string() << endl;
-    // cout << "Center Position" << center_position_.to_string() << endl;
     for (int i = 0; i < points_.get_rows(); i++)
         points_[i] += vector;
+    center_position_ += vector;
 }
 
 void Model2D::Scale(const Vector &center, const Vector &vector)
@@ -80,6 +86,15 @@ void Model2D::Transform(const Matrix &matrix)
         points_[i][0] = point[0];
         points_[i][1] = point[1];
     }
+
+    Vector point = Vector::Fill(3, 1);
+    point[0] = center_position_[0];
+    point[1] = center_position_[1];
+
+    point = matrix * point;
+
+    center_position_[0] = point[0];
+    center_position_[1] = point[1];
 }
 
 void Model2D::Transform(const Vector &center, const Vector &scale, double radians)

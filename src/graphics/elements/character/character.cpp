@@ -81,7 +81,7 @@ void Character::InstantiateCharacter(double radius, graphics::color::RGBA &color
     double body_height = radius * body_height_factor;
     Vector body_position = head_->TorsoAnchorPoint();
     body_position[0] -= body_width / 2;
-    body_ = Rectangle(body_position, body_width, body_height, color);
+    torso_ = new Torso(body_position, body_width, body_height, color);
 
     // Instantiate left arm
     double left_arm_width = radius * arm_width_factor;
@@ -129,7 +129,9 @@ void Character::InstantiateCharacter(double radius, graphics::color::RGBA &color
     width_ = body_width;
     height_ = radius * 2;
 
-    outline_ = Rectangle(get_position(), get_width(), get_height(), color::RGBAFactory::get_color("black"));
+    // outline_ = Rectangle(get_position(), get_width(), get_height(), color::RGBAFactory::get_color("black"));
+    // torso_->Rotate(torso_->LeftThighAnchorPoint(), M_PI / 3);
+    outline_ = new Circle(torso_->LeftThighAnchorPoint(), 0.3, color::RGBAFactory::get_color("black"));
 }
 
 Character &Character::operator=(const Character &other)
@@ -139,7 +141,7 @@ Character &Character::operator=(const Character &other)
         position_ = other.position_;
         shape_ = other.shape_;
         head_ = other.head_;
-        body_ = other.body_;
+        torso_ = other.torso_;
         outline_ = other.outline_;
         left_arm_ = other.left_arm_;
         left_thig_ = other.left_thig_;
@@ -159,15 +161,16 @@ Character &Character::operator=(const Character &other)
 
 void Character::Render()
 {
-    //outline_.Draw();
     head_->Draw();
-    body_.Draw();
-    left_arm_.Draw();
-    left_thig_.Draw();
-    left_calf_.Draw();
-    right_arm_.Draw();
-    right_thig_.Draw();
-    right_calf_.Draw();
+    torso_->Draw();
+    // left_arm_.Draw();
+    // left_thig_.Draw();
+    // left_calf_.Draw();
+    // right_arm_.Draw();
+    // right_thig_.Draw();
+    // right_calf_.Draw();
+
+    outline_->Draw();
 }
 
 void Character::Jump(double delta_time)
@@ -206,6 +209,7 @@ void Character::Deallocate()
 {
     delete state_;
     delete head_;
+    delete torso_;
 }
 
 Vector Character::get_position()
@@ -288,8 +292,8 @@ void Character::Translate(math::Vector &translation, bool translate_position)
 {
     shape_.Translate(translation);
     head_->Translate(translation);
-    body_.Translate(translation);
-    outline_.Translate(translation);
+    torso_->Translate(translation);
+    outline_->Translate(translation);
     left_arm_.Translate(translation);
     left_thig_.Translate(translation);
     left_calf_.Translate(translation);

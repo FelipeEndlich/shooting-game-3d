@@ -19,6 +19,7 @@
 #include "./state/jumping_right_state.hpp"
 #include "./state/jumping_left_state.hpp"
 #include "./body_part/head.hpp"
+#include "./body_part/torso.hpp"
 
 namespace graphics::elements::character
 {
@@ -52,16 +53,16 @@ namespace graphics::elements::character
     private:
         graphics::shapes::Circle shape_;
 
+        graphics::shapes::Model2D *outline_;
         Head *head_;
+        Torso *torso_;
 
-        graphics::shapes::Rectangle body_;
         graphics::shapes::Rectangle left_arm_;
         graphics::shapes::Rectangle left_thig_;
         graphics::shapes::Rectangle left_calf_;
         graphics::shapes::Rectangle right_arm_;
         graphics::shapes::Rectangle right_thig_;
         graphics::shapes::Rectangle right_calf_;
-        graphics::shapes::Rectangle outline_;
 
         double width_;
         double height_;

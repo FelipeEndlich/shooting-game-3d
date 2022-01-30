@@ -12,8 +12,10 @@ Circle::Circle()
     : Model2D()
 {
     color_ = RGBA();
-    BuildPoints(Vector::Zero(2), 0);
     center_position_ = Vector::Zero(2);
+    radius_ = 0;
+    angle_ = 0;
+    BuildPoints(Vector::Zero(2), 0);
 }
 
 Circle::Circle(const Vector &origin, double radius)

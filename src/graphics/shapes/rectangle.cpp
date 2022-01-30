@@ -10,6 +10,8 @@ Rectangle::Rectangle()
     : Model2D()
 {
     color_ = RGBA();
+    angle_ = 0;
+    center_position_ = Vector::Zero(2);
     BuildPoints(Vector::Zero(2), 0, 0);
 }
 
@@ -19,6 +21,12 @@ Rectangle::Rectangle(const Vector &origin, double width, double height)
     color_ = RGBA();
     width_ = width;
     height_ = height;
+
+    angle_ = 0;
+    center_position_ = origin;
+    center_position_[0] += width / 2;
+    center_position_[1] += height / 2;
+
     BuildPoints(origin, width, height);
 }
 
@@ -28,25 +36,23 @@ Rectangle::Rectangle(const Vector &origin, double width, double height, const RG
     color_ = color;
     width_ = width;
     height_ = height;
+    angle_ = 0;
+    center_position_ = origin;
+    center_position_[0] += width / 2;
+    center_position_[1] += height / 2;
     BuildPoints(origin, width, height);
 }
 
 Rectangle::Rectangle(const Rectangle &other)
     : Model2D(other)
 {
-    points_ = other.points_;
-    color_ = other.color_;
-    width_ = other.width_;
-    height_ = other.height_;
+    *this = other;
 }
 
 Rectangle::Rectangle(const Rectangle &&other)
     : Model2D(other)
 {
-    points_ = other.points_;
-    color_ = other.color_;
-    width_ = other.width_;
-    height_ = other.height_;
+    *this = other;
 }
 #pragma endregion // Constructor and Destructor
 
@@ -55,6 +61,10 @@ Rectangle &Rectangle::operator=(const Rectangle &other)
 {
     points_ = other.points_;
     color_ = other.color_;
+    width_ = other.width_;
+    height_ = other.height_;
+    angle_ = other.angle_;
+    center_position_ = other.center_position_;
     return *this;
 }
 
@@ -62,6 +72,10 @@ Rectangle &Rectangle::operator=(const Rectangle &&other)
 {
     points_ = other.points_;
     color_ = other.color_;
+    width_ = other.width_;
+    height_ = other.height_;
+    angle_ = other.angle_;
+    center_position_ = other.center_position_;
     return *this;
 }
 #pragma endregion // Operator Overloads

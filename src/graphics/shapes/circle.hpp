@@ -22,9 +22,9 @@ namespace graphics::shapes
     protected:
         double radius_;
 
+        void BuildPoints(const math::Vector &origin, double radius);
+
     private:
         static inline double segments_ = 32;
-
-        void BuildPoints(const math::Vector &origin, double radius);
     };
 }

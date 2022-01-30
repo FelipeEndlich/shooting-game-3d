@@ -20,10 +20,11 @@ namespace graphics::shapes
         double get_width() const;
         double get_height() const;
 
-    private:
+    protected:
         double width_;
         double height_;
 
+    private:
         void BuildPoints(const math::Vector &origin, double width, double height);
     };
 }
