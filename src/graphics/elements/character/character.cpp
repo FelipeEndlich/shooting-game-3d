@@ -88,7 +88,7 @@ void Character::InstantiateCharacter(double radius, graphics::color::RGBA &color
     double left_arm_height = radius * arm_height_factor;
     Vector left_arm_position = body_position;
     left_arm_position[0] += (body_width - left_arm_width) / 2;
-    left_arm_ = Rectangle(left_arm_position, left_arm_width, left_arm_height, color);
+    left_arm_ = new Arm(left_arm_position, left_arm_width, left_arm_height, color);
 
     // Instantiate left leg
     double left_thig_width = radius * leg_width_factor;
@@ -109,7 +109,7 @@ void Character::InstantiateCharacter(double radius, graphics::color::RGBA &color
     double right_arm_height = radius * arm_height_factor;
     Vector right_arm_position = body_position;
     right_arm_position[0] += (body_width - right_arm_width) / 2;
-    right_arm_ = Rectangle(right_arm_position, right_arm_width, right_arm_height, color);
+    right_arm_ = new Arm(right_arm_position, right_arm_width, right_arm_height, color);
 
     // Instantiate right leg
     double right_thig_width = radius * leg_width_factor;
@@ -131,7 +131,7 @@ void Character::InstantiateCharacter(double radius, graphics::color::RGBA &color
 
     // outline_ = Rectangle(get_position(), get_width(), get_height(), color::RGBAFactory::get_color("black"));
     // torso_->Rotate(torso_->LeftThighAnchorPoint(), M_PI / 3);
-    outline_ = new Circle(torso_->LeftThighAnchorPoint(), 0.3, color::RGBAFactory::get_color("black"));
+    outline_ = new Circle(left_arm_->TorsoAnchorPoint(), 0.3, color::RGBAFactory::get_color("black"));
 }
 
 Character &Character::operator=(const Character &other)
@@ -162,11 +162,11 @@ Character &Character::operator=(const Character &other)
 void Character::Render()
 {
     head_->Draw();
-    torso_->Draw();
-    // left_arm_.Draw();
+    // torso_->Draw();
+    left_arm_->Draw();
+    right_arm_->Draw();
     // left_thig_.Draw();
     // left_calf_.Draw();
-    // right_arm_.Draw();
     // right_thig_.Draw();
     // right_calf_.Draw();
 
@@ -210,6 +210,8 @@ void Character::Deallocate()
     delete state_;
     delete head_;
     delete torso_;
+    delete left_arm_;
+    delete right_arm_;
 }
 
 Vector Character::get_position()
@@ -294,10 +296,11 @@ void Character::Translate(math::Vector &translation, bool translate_position)
     head_->Translate(translation);
     torso_->Translate(translation);
     outline_->Translate(translation);
-    left_arm_.Translate(translation);
+    left_arm_->Translate(translation);
+    right_arm_->Translate(translation);
+
     left_thig_.Translate(translation);
     left_calf_.Translate(translation);
-    right_arm_.Translate(translation);
     right_thig_.Translate(translation);
     right_calf_.Translate(translation);
 

@@ -20,6 +20,7 @@
 #include "./state/jumping_left_state.hpp"
 #include "./body_part/head.hpp"
 #include "./body_part/torso.hpp"
+#include "./body_part/arm.hpp"
 
 namespace graphics::elements::character
 {
@@ -56,11 +57,11 @@ namespace graphics::elements::character
         graphics::shapes::Model2D *outline_;
         Head *head_;
         Torso *torso_;
+        Arm* left_arm_;
+        Arm* right_arm_;
 
-        graphics::shapes::Rectangle left_arm_;
         graphics::shapes::Rectangle left_thig_;
         graphics::shapes::Rectangle left_calf_;
-        graphics::shapes::Rectangle right_arm_;
         graphics::shapes::Rectangle right_thig_;
         graphics::shapes::Rectangle right_calf_;
 
