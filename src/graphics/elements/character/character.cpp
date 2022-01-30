@@ -8,8 +8,10 @@
 #include "../../shapes/circle.hpp"
 #include "../../shapes/rectangle.hpp"
 #include "../../color/rgba_factory.hpp"
+#include "../gun.hpp"
 
 using ::graphics::color::RGBA;
+using ::graphics::elements::Gun;
 using ::graphics::elements::character::BaseState;
 using ::graphics::elements::character::Character;
 using ::graphics::elements::character::FallingState;
@@ -44,6 +46,8 @@ Character::Character(Vector &initial_position, double radius, RGBA &color, bool 
     looking_right_ = true;
 
     InstantiateCharacter(radius, color);
+    Vector gun_initial_position = torso_->get_center_position();
+    gun_ = new Gun(gun_initial_position, torso_->get_height(), head_->get_radius());
     Allocate();
 }
 
@@ -165,8 +169,18 @@ void Character::Render()
     head_->Draw();
     torso_->Draw();
 
-    // left_arm_->Draw();
-    // right_arm_->Draw();
+    if (looking_right_)
+    {
+        left_arm_->Draw();
+        gun_->Render();
+        right_arm_->Draw();
+    }
+    else
+    {
+        right_arm_->Draw();
+        gun_->Render();
+        left_arm_->Draw();
+    }
 
     right_thig_->Draw();
     right_calf_->Draw();
@@ -220,6 +234,7 @@ void Character::Deallocate()
     delete right_thig_;
     delete left_calf_;
     delete right_calf_;
+    delete gun_;
     delete outline_;
 }
 
@@ -312,6 +327,8 @@ void Character::Translate(math::Vector &translation, bool translate_position)
     left_calf_->Translate(translation);
     right_calf_->Translate(translation);
 
+    gun_->Translate(translation, translate_position);
+
     if (translate_position)
         position_ += translation;
 }
@@ -361,4 +378,6 @@ void Character::Mirror()
     right_thig_->Scale(position_, -1, 1);
     left_calf_->Scale(position_, -1, 1);
     right_calf_->Scale(position_, -1, 1);
+
+    gun_->Scale(position_, -1, 1);
 }

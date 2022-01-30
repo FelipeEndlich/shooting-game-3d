@@ -25,82 +25,90 @@
 #include "./body_part/calf.hpp"
 #include "./animation/walking_animation_system.hpp"
 
-namespace graphics::elements::character
+namespace graphics::elements
 {
-    class Character : public physic::RigidBody, public physic::IGravityAffectable
+    class Gun;
+
+    namespace character
     {
+        class Character : public physic::RigidBody, public physic::IGravityAffectable
+        {
 
-    public:
-        Character(bool collision_processable = true);
-        Character(math::Vector &initial_position, double radius, graphics::color::RGBA &color, bool collision_processable = true);
-        ~Character();
+        public:
+            Character(bool collision_processable = true);
+            Character(math::Vector &initial_position, double radius, graphics::color::RGBA &color, bool collision_processable = true);
+            ~Character();
 
-        Character &operator=(const Character &other);
+            Character &operator=(const Character &other);
 
-        void Render();
+            void Render();
 
-        void Jump(double delta_time);
-        void Jump(double delta_time, physic::Direction direction);
-        void Stop(double delta_time);
-        void Move(double delta_time, physic::Direction direction);
+            void Jump(double delta_time);
+            void Jump(double delta_time, physic::Direction direction);
+            void Stop(double delta_time);
+            void Move(double delta_time, physic::Direction direction);
 
-        void set_state(BaseState *state);
+            void set_state(BaseState *state);
 
-        math::Vector get_position() override;
-        double get_width() override;
-        double get_height() override;
-        void ProcessCollision(ICollidable *collidable) override;
-        void ProcessGravity() override;
+            math::Vector get_position() override;
+            double get_width() override;
+            double get_height() override;
+            void ProcessCollision(ICollidable *collidable) override;
+            void ProcessGravity() override;
 
-        inline static double default_horizontal_velocity_ = 0.05;
+            inline static double default_horizontal_velocity_ = 0.05;
 
-    private:
-        graphics::shapes::Circle shape_;
+        private:
+            graphics::shapes::Circle shape_;
 
-        graphics::shapes::Model2D *outline_;
-        Head *head_;
-        Torso *torso_;
-        Arm *left_arm_;
-        Arm *right_arm_;
-        Thig *left_thig_;
-        Thig *right_thig_;
-        Calf *left_calf_;
-        Calf *right_calf_;
+            graphics::shapes::Model2D *outline_;
+            Head *head_;
+            Torso *torso_;
+            Arm *left_arm_;
+            Arm *right_arm_;
+            Thig *left_thig_;
+            Thig *right_thig_;
+            Calf *left_calf_;
+            Calf *right_calf_;
 
-        double width_;
-        double height_;
+            Gun *gun_;
 
-        BaseState *state_;
-        bool looking_right_ = false;
-        math::Vector initial_jump_velocity_;
-        bool collision_processable_;
+            double width_;
+            double height_;
 
-        void ProcessMove(double delta_time);
-        void ProcessCollisionByLeft(physic::ICollidable *collidable);
-        void ProcessCollisionByRight(physic::ICollidable *collidable);
-        void ProcessCollisionByTop(physic::ICollidable *collidable);
-        void ProcessCollisionByBottom(physic::ICollidable *collidable);
+            BaseState *state_;
+            bool looking_right_ = false;
+            math::Vector initial_jump_velocity_;
+            bool collision_processable_;
 
-        void Translate(double dx, double dy, bool translate_position = true);
-        void Translate(math::Vector &translation, bool translate_position = true);
+            void ProcessMove(double delta_time);
+            void ProcessCollisionByLeft(physic::ICollidable *collidable);
+            void ProcessCollisionByRight(physic::ICollidable *collidable);
+            void ProcessCollisionByTop(physic::ICollidable *collidable);
+            void ProcessCollisionByBottom(physic::ICollidable *collidable);
 
-        void Allocate();
-        void Deallocate();
+            void Translate(double dx, double dy, bool translate_position = true);
+            void Translate(math::Vector &translation, bool translate_position = true);
 
-        void InstantiateCharacter(double radius, graphics::color::RGBA &color);
+            void Allocate();
+            void Deallocate();
 
-        void ResetAnimation();
-        void Mirror();
+            void InstantiateCharacter(double radius, graphics::color::RGBA &color);
 
-        friend class FallingState;
-        friend class FallingLeftState;
-        friend class FallingRightState;
-        friend class GroundedState;
-        friend class JumpingState;
-        friend class JumpingLeftState;
-        friend class JumpingRightState;
-        friend class WalkingLeftState;
-        friend class WalkingRightState;
-        friend class WalkingAnimationSystem;
-    };
+            void ResetAnimation();
+            void Mirror();
+
+            friend class FallingState;
+            friend class FallingLeftState;
+            friend class FallingRightState;
+            friend class GroundedState;
+            friend class JumpingState;
+            friend class JumpingLeftState;
+            friend class JumpingRightState;
+            friend class WalkingLeftState;
+            friend class WalkingRightState;
+            friend class WalkingAnimationSystem;
+        };
+
+    }
 }
