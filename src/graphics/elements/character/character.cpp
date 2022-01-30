@@ -96,13 +96,13 @@ void Character::InstantiateCharacter(double radius, graphics::color::RGBA &color
     Vector left_thig_position = body_position;
     left_thig_position[0] += (body_width - left_thig_width) / 2;
     left_thig_position[1] += body_height;
-    left_thig_ = Rectangle(left_thig_position, left_thig_width, left_thig_height, color);
+    left_thig_ = new Thig(left_thig_position, left_thig_width, left_thig_height, color);
 
     double left_calf_width = radius * leg_width_factor;
     double left_calf_height = radius * leg_height_factor;
     Vector left_calf_position = left_thig_position;
     left_calf_position[1] += left_thig_height;
-    left_calf_ = Rectangle(left_calf_position, left_calf_width, left_calf_height, color);
+    left_calf_ = new Calf(left_calf_position, left_calf_width, left_calf_height, color);
 
     // Instantiate right arm
     double right_arm_width = radius * arm_width_factor;
@@ -117,21 +117,19 @@ void Character::InstantiateCharacter(double radius, graphics::color::RGBA &color
     Vector right_thig_position = body_position;
     right_thig_position[0] += (body_width - right_thig_width) / 2;
     right_thig_position[1] += body_height;
-    right_thig_ = Rectangle(right_thig_position, right_thig_width, right_thig_height, color);
+    right_thig_ = new Thig(right_thig_position, right_thig_width, right_thig_height, color);
 
     double right_calf_width = radius * leg_width_factor;
     double right_calf_height = radius * leg_height_factor;
     Vector right_calf_position = right_thig_position;
     right_calf_position[1] += right_thig_height;
-    right_calf_ = Rectangle(right_calf_position, right_calf_width, right_calf_height, color);
+    right_calf_ = new Calf(right_calf_position, right_calf_width, right_calf_height, color);
 
     // Set characters width and height
     width_ = body_width;
     height_ = radius * 2;
 
-    // outline_ = Rectangle(get_position(), get_width(), get_height(), color::RGBAFactory::get_color("black"));
-    // torso_->Rotate(torso_->LeftThighAnchorPoint(), M_PI / 3);
-    outline_ = new Circle(left_arm_->TorsoAnchorPoint(), 0.3, color::RGBAFactory::get_color("black"));
+    outline_ = new Rectangle(get_position(), get_width(), get_height(), color::RGBAFactory::get_color("black"));
 }
 
 Character &Character::operator=(const Character &other)
@@ -162,15 +160,15 @@ Character &Character::operator=(const Character &other)
 void Character::Render()
 {
     head_->Draw();
-    // torso_->Draw();
+    torso_->Draw();
     left_arm_->Draw();
     right_arm_->Draw();
-    // left_thig_.Draw();
-    // left_calf_.Draw();
-    // right_thig_.Draw();
-    // right_calf_.Draw();
+    left_thig_->Draw();
+    right_thig_->Draw();
+    left_calf_->Draw();
+    right_calf_->Draw();
 
-    outline_->Draw();
+    // outline_->Draw();
 }
 
 void Character::Jump(double delta_time)
@@ -212,6 +210,10 @@ void Character::Deallocate()
     delete torso_;
     delete left_arm_;
     delete right_arm_;
+    delete left_thig_;
+    delete right_thig_;
+    delete left_calf_;
+    delete right_calf_;
 }
 
 Vector Character::get_position()
@@ -298,11 +300,10 @@ void Character::Translate(math::Vector &translation, bool translate_position)
     outline_->Translate(translation);
     left_arm_->Translate(translation);
     right_arm_->Translate(translation);
-
-    left_thig_.Translate(translation);
-    left_calf_.Translate(translation);
-    right_thig_.Translate(translation);
-    right_calf_.Translate(translation);
+    left_thig_->Translate(translation);
+    right_thig_->Translate(translation);
+    left_calf_->Translate(translation);
+    right_calf_->Translate(translation);
 
     if (translate_position)
         position_ += translation;

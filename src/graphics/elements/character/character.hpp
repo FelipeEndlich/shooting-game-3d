@@ -21,6 +21,8 @@
 #include "./body_part/head.hpp"
 #include "./body_part/torso.hpp"
 #include "./body_part/arm.hpp"
+#include "./body_part/thig.hpp"
+#include "./body_part/calf.hpp"
 
 namespace graphics::elements::character
 {
@@ -57,13 +59,12 @@ namespace graphics::elements::character
         graphics::shapes::Model2D *outline_;
         Head *head_;
         Torso *torso_;
-        Arm* left_arm_;
-        Arm* right_arm_;
-
-        graphics::shapes::Rectangle left_thig_;
-        graphics::shapes::Rectangle left_calf_;
-        graphics::shapes::Rectangle right_thig_;
-        graphics::shapes::Rectangle right_calf_;
+        Arm *left_arm_;
+        Arm *right_arm_;
+        Thig *left_thig_;
+        Thig *right_thig_;
+        Calf *left_calf_;
+        Calf *right_calf_;
 
         double width_;
         double height_;
