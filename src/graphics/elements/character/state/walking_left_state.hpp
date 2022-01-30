@@ -32,8 +32,8 @@ namespace graphics::elements::character
         std::map<std::string, std::map<WalkPhase, std::tuple<double, double>>> phase_info_;
         bool right_front_leg_ = true;
 
-        double calculateIncrement(std::tuple<double, double> angles);
-        bool isDoubleEq(double a, double b, double epsilon);
+        double CalculateIncrement(std::tuple<double, double> angles);
+        bool IsDoubleEq(double a, double b, double epsilon);
 
         void Animate();
     };

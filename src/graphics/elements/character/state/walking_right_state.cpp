@@ -22,12 +22,12 @@ using physic::RigidBody;
 #include <iostream>
 using namespace std;
 
-bool WalkingRightState::isDoubleEq(double a, double b, double epsilon)
+bool WalkingRightState::IsDoubleEq(double a, double b, double epsilon)
 {
     return ((a - b) < epsilon) && ((b - a) < epsilon);
 }
 
-double WalkingRightState::calculateIncrement(std::tuple<double, double> angles)
+double WalkingRightState::CalculateIncrement(std::tuple<double, double> angles)
 {
     double initial_angle = std::get<0>(angles);
     double final_angle = std::get<1>(angles);
@@ -162,17 +162,17 @@ void WalkingRightState::Animate()
     if (phase_ == WalkPhase::kContact)
     {
         double front_calf_final_angle = std::get<1>(phase_info_["front_calf"][WalkPhase::kContact]);
-        double front_calf_increment = calculateIncrement(phase_info_["front_calf"][WalkPhase::kContact]);
+        double front_calf_increment = CalculateIncrement(phase_info_["front_calf"][WalkPhase::kContact]);
 
-        if (!isDoubleEq(front_calf->get_angle(), front_calf_final_angle, 0.01))
+        if (!IsDoubleEq(front_calf->get_angle(), front_calf_final_angle, 0.01))
         {
             front_calf->Rotate(front_calf->ThigAnchorPoint(), front_calf_increment);
 
-            double back_thig_increment = calculateIncrement(phase_info_["back_thig"][WalkPhase::kContact]);
+            double back_thig_increment = CalculateIncrement(phase_info_["back_thig"][WalkPhase::kContact]);
             back_thig->Rotate(back_thig->TorsoAnchorPoint(), back_thig_increment);
             back_calf->Rotate(back_thig->TorsoAnchorPoint(), back_thig_increment);
 
-            double back_calf_increment = calculateIncrement(phase_info_["back_calf"][WalkPhase::kContact]) - back_thig_increment;
+            double back_calf_increment = CalculateIncrement(phase_info_["back_calf"][WalkPhase::kContact]) - back_thig_increment;
             back_calf->Rotate(back_calf->ThigAnchorPoint(), back_calf_increment);
         }
         else
@@ -183,17 +183,17 @@ void WalkingRightState::Animate()
     else if (phase_ == WalkPhase::kDown)
     {
         double front_calf_final_angle = std::get<1>(phase_info_["front_calf"][WalkPhase::kDown]);
-        double front_calf_increment = calculateIncrement(phase_info_["front_calf"][WalkPhase::kDown]);
+        double front_calf_increment = CalculateIncrement(phase_info_["front_calf"][WalkPhase::kDown]);
 
-        if (!isDoubleEq(front_calf->get_angle(), front_calf_final_angle, 0.01))
+        if (!IsDoubleEq(front_calf->get_angle(), front_calf_final_angle, 0.01))
         {
             front_calf->Rotate(front_calf->ThigAnchorPoint(), front_calf_increment);
 
-            double back_thig_increment = calculateIncrement(phase_info_["back_thig"][WalkPhase::kDown]);
+            double back_thig_increment = CalculateIncrement(phase_info_["back_thig"][WalkPhase::kDown]);
             back_thig->Rotate(back_thig->TorsoAnchorPoint(), back_thig_increment);
             back_calf->Rotate(back_thig->TorsoAnchorPoint(), back_thig_increment);
 
-            double back_calf_increment = calculateIncrement(phase_info_["back_calf"][WalkPhase::kDown]) - back_thig_increment;
+            double back_calf_increment = CalculateIncrement(phase_info_["back_calf"][WalkPhase::kDown]) - back_thig_increment;
             back_calf->Rotate(back_calf->ThigAnchorPoint(), back_calf_increment);
         }
         else
@@ -204,9 +204,9 @@ void WalkingRightState::Animate()
     else if (phase_ == WalkPhase::kPassing)
     {
         double front_thig_final_angle = std::get<1>(phase_info_["front_thig"][WalkPhase::kPassing]);
-        double front_thig_increment = calculateIncrement(phase_info_["front_thig"][WalkPhase::kPassing]);
+        double front_thig_increment = CalculateIncrement(phase_info_["front_thig"][WalkPhase::kPassing]);
 
-        if (!isDoubleEq(front_thig->get_angle(), front_thig_final_angle, 0.01))
+        if (!IsDoubleEq(front_thig->get_angle(), front_thig_final_angle, 0.01))
         {
             front_thig->Rotate(front_thig->TorsoAnchorPoint(), front_thig_increment);
             front_calf->Rotate(front_thig->TorsoAnchorPoint(), front_thig_increment);
@@ -214,7 +214,7 @@ void WalkingRightState::Animate()
             double front_calf_increment = -front_thig_increment;
             front_calf->Rotate(front_calf->ThigAnchorPoint(), front_calf_increment);
 
-            double back_thig_increment = calculateIncrement(phase_info_["back_thig"][WalkPhase::kPassing]);
+            double back_thig_increment = CalculateIncrement(phase_info_["back_thig"][WalkPhase::kPassing]);
             back_thig->Rotate(back_thig->TorsoAnchorPoint(), back_thig_increment);
             back_calf->Rotate(back_thig->TorsoAnchorPoint(), back_thig_increment);
         }
@@ -228,21 +228,21 @@ void WalkingRightState::Animate()
     else if (phase_ == WalkPhase::kUp)
     {
         double front_thig_final_angle = std::get<1>(phase_info_["front_thig"][WalkPhase::kUp]);
-        double front_thig_increment = calculateIncrement(phase_info_["front_thig"][WalkPhase::kUp]);
+        double front_thig_increment = CalculateIncrement(phase_info_["front_thig"][WalkPhase::kUp]);
 
-        if (!isDoubleEq(front_thig->get_angle(), front_thig_final_angle, 0.01))
+        if (!IsDoubleEq(front_thig->get_angle(), front_thig_final_angle, 0.01))
         {
             front_thig->Rotate(front_thig->TorsoAnchorPoint(), front_thig_increment);
             front_calf->Rotate(front_thig->TorsoAnchorPoint(), front_thig_increment);
 
-            double front_calf_increment = calculateIncrement(phase_info_["front_calf"][WalkPhase::kUp]) - front_thig_increment;
+            double front_calf_increment = CalculateIncrement(phase_info_["front_calf"][WalkPhase::kUp]) - front_thig_increment;
             front_calf->Rotate(front_calf->ThigAnchorPoint(), front_calf_increment);
 
-            double back_thig_increment = calculateIncrement(phase_info_["back_thig"][WalkPhase::kUp]);
+            double back_thig_increment = CalculateIncrement(phase_info_["back_thig"][WalkPhase::kUp]);
             back_thig->Rotate(back_thig->TorsoAnchorPoint(), back_thig_increment);
             back_calf->Rotate(back_thig->TorsoAnchorPoint(), back_thig_increment);
 
-            double back_calf_increment = calculateIncrement(phase_info_["back_calf"][WalkPhase::kUp]) - back_thig_increment;
+            double back_calf_increment = CalculateIncrement(phase_info_["back_calf"][WalkPhase::kUp]) - back_thig_increment;
             back_calf->Rotate(back_calf->ThigAnchorPoint(), back_calf_increment);
         }
         else
@@ -253,9 +253,9 @@ void WalkingRightState::Animate()
     else if (phase_ == WalkPhase::kStarting)
     {
         double head_final_angle = std::get<1>(phase_info_["head"][WalkPhase::kStarting]);
-        double head_increment = calculateIncrement(phase_info_["head"][WalkPhase::kStarting]);
+        double head_increment = CalculateIncrement(phase_info_["head"][WalkPhase::kStarting]);
 
-        if (!isDoubleEq(head->get_angle(), head_final_angle, 0.01))
+        if (!IsDoubleEq(head->get_angle(), head_final_angle, 0.01))
         {
             head->Rotate(head->get_center_position(), head_increment);
             torso->Rotate(head->get_center_position(), head_increment);
@@ -264,18 +264,18 @@ void WalkingRightState::Animate()
             front_thig->Rotate(head->get_center_position(), head_increment);
             front_calf->Rotate(head->get_center_position(), head_increment);
 
-            double back_thig_increment = calculateIncrement(phase_info_["back_thig"][WalkPhase::kStarting]) - head_increment;
+            double back_thig_increment = CalculateIncrement(phase_info_["back_thig"][WalkPhase::kStarting]) - head_increment;
             back_thig->Rotate(back_thig->TorsoAnchorPoint(), back_thig_increment);
             back_calf->Rotate(back_thig->TorsoAnchorPoint(), back_thig_increment);
 
-            double back_calf_increment = calculateIncrement(phase_info_["back_calf"][WalkPhase::kStarting]) - back_thig_increment - head_increment;
+            double back_calf_increment = CalculateIncrement(phase_info_["back_calf"][WalkPhase::kStarting]) - back_thig_increment - head_increment;
             back_calf->Rotate(back_calf->ThigAnchorPoint(), back_calf_increment);
 
-            double front_thig_increment = calculateIncrement(phase_info_["front_thig"][WalkPhase::kStarting]) - head_increment;
+            double front_thig_increment = CalculateIncrement(phase_info_["front_thig"][WalkPhase::kStarting]) - head_increment;
             front_thig->Rotate(front_thig->TorsoAnchorPoint(), front_thig_increment);
             front_calf->Rotate(front_thig->TorsoAnchorPoint(), front_thig_increment);
 
-            double front_calf_increment = calculateIncrement(phase_info_["front_calf"][WalkPhase::kStarting]) - front_thig_increment - head_increment;
+            double front_calf_increment = CalculateIncrement(phase_info_["front_calf"][WalkPhase::kStarting]) - front_thig_increment - head_increment;
             front_calf->Rotate(front_calf->ThigAnchorPoint(), front_calf_increment);
         }
         else
@@ -286,21 +286,21 @@ void WalkingRightState::Animate()
     else if (phase_ == WalkPhase::kAir)
     {
         double back_thig_final_angle = std::get<1>(phase_info_["back_thig"][WalkPhase::kAir]);
-        double back_thig_increment = calculateIncrement(phase_info_["back_thig"][WalkPhase::kAir]);
+        double back_thig_increment = CalculateIncrement(phase_info_["back_thig"][WalkPhase::kAir]);
 
-        if (!isDoubleEq(back_thig->get_angle(), back_thig_final_angle, 0.01))
+        if (!IsDoubleEq(back_thig->get_angle(), back_thig_final_angle, 0.01))
         {
             back_thig->Rotate(back_thig->TorsoAnchorPoint(), back_thig_increment);
             back_calf->Rotate(back_thig->TorsoAnchorPoint(), back_thig_increment);
 
-            double back_calf_increment = calculateIncrement(phase_info_["back_calf"][WalkPhase::kAir]) - back_thig_increment;
+            double back_calf_increment = CalculateIncrement(phase_info_["back_calf"][WalkPhase::kAir]) - back_thig_increment;
             back_calf->Rotate(back_calf->ThigAnchorPoint(), back_calf_increment);
 
-            double front_thig_increment = calculateIncrement(phase_info_["front_thig"][WalkPhase::kAir]);
+            double front_thig_increment = CalculateIncrement(phase_info_["front_thig"][WalkPhase::kAir]);
             front_thig->Rotate(front_thig->TorsoAnchorPoint(), front_thig_increment);
             front_calf->Rotate(front_thig->TorsoAnchorPoint(), front_thig_increment);
 
-            double front_calf_increment = calculateIncrement(phase_info_["front_calf"][WalkPhase::kAir]) - front_thig_increment;
+            double front_calf_increment = CalculateIncrement(phase_info_["front_calf"][WalkPhase::kAir]) - front_thig_increment;
             front_calf->Rotate(front_calf->ThigAnchorPoint(), front_calf_increment);
         }
         else
