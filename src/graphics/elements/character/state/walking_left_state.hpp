@@ -2,6 +2,9 @@
 
 #include "base_state.hpp"
 
+#include <map>
+#include <tuple>
+
 #include "../../../../physics/direction.hpp"
 #include "../../../../physics/icollidable.hpp"
 #include "walk_phase.hpp"
@@ -26,7 +29,11 @@ namespace graphics::elements::character
 
     private:
         WalkPhase phase_;
+        std::map<std::string, std::map<WalkPhase, std::tuple<double, double>>> phase_info_;
         bool right_front_leg_ = true;
+
+        double calculateIncrement(std::tuple<double, double> angles);
+        bool isDoubleEq(double a, double b, double epsilon);
 
         void Animate();
     };
