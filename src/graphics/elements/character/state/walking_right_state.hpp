@@ -26,7 +26,6 @@ namespace graphics::elements::character
 
     private:
         WalkPhase phase_;
-
         bool right_front_leg_ = true;
 
         void Animate();

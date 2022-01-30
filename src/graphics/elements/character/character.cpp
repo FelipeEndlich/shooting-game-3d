@@ -41,6 +41,7 @@ Character::Character(Vector &initial_position, double radius, RGBA &color, bool 
     set_gravity_acceleration(gravity_acceleration);
 
     initial_jump_velocity_ = gravity_acceleration * time_jump_max * -1;
+    looking_right_ = true;
 
     InstantiateCharacter(radius, color);
     Allocate();
@@ -151,6 +152,7 @@ Character &Character::operator=(const Character &other)
         velocity_ = other.velocity_;
         acceleration_ = other.acceleration_;
         last_position_ = other.last_position_;
+        looking_right_ = other.looking_right_;
 
         Deallocate();
         this->state_ = other.state_->Clone();
@@ -345,4 +347,18 @@ void Character::ResetAnimation()
     right_calf_->Rotate(right_calf_->get_center_position(), 2 * M_PI - right_calf_->get_angle());
     Vector right_calf_translation = right_thig_->CalfAnchorPoint() - right_calf_->ThigAnchorPoint();
     right_calf_->Translate(right_calf_translation);
+}
+
+void Character::Mirror()
+{
+    shape_.Scale(position_, -1, 1);
+    head_->Scale(position_, -1, 1);
+    torso_->Scale(position_, -1, 1);
+    outline_->Scale(position_, -1, 1);
+    left_arm_->Scale(position_, -1, 1);
+    right_arm_->Scale(position_, -1, 1);
+    left_thig_->Scale(position_, -1, 1);
+    right_thig_->Scale(position_, -1, 1);
+    left_calf_->Scale(position_, -1, 1);
+    right_calf_->Scale(position_, -1, 1);
 }

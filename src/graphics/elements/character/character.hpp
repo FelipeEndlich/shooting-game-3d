@@ -70,6 +70,7 @@ namespace graphics::elements::character
         double height_;
 
         BaseState *state_;
+        bool looking_right_ = false;
         math::Vector initial_jump_velocity_;
         bool collision_processable_;
 
@@ -88,6 +89,7 @@ namespace graphics::elements::character
         void InstantiateCharacter(double radius, graphics::color::RGBA &color);
 
         void ResetAnimation();
+        void Mirror();
 
         friend class FallingState;
         friend class FallingLeftState;

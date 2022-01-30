@@ -63,13 +63,24 @@ void GroundedState::Jump(double delta_time, physic::Direction direction)
 
 void GroundedState::Move(double delta_time, Direction direction)
 {
-    //TODO: if direction is different than current direction then mirror the character
     if (direction == Direction::kLeft)
     {
+        if (character_->looking_right_)
+        {
+            character_->Mirror();
+            character_->looking_right_ = false;
+        }
+
         character_->set_state(new WalkingLeftState(character_));
     }
     else if (direction == Direction::kRight)
     {
+        if (!character_->looking_right_)
+        {
+            character_->Mirror();
+            character_->looking_right_ = true;
+        }
+
         character_->set_state(new WalkingRightState(character_));
     }
 }
