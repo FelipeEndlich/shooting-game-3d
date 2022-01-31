@@ -48,6 +48,8 @@ namespace graphics::elements
             void Stop(double delta_time);
             void Move(double delta_time, physic::Direction direction);
 
+            void Aim(double angle);
+
             void set_state(BaseState *state);
 
             math::Vector get_position() override;
@@ -55,6 +57,8 @@ namespace graphics::elements
             double get_height() override;
             void ProcessCollision(ICollidable *collidable) override;
             void ProcessGravity() override;
+
+            bool IsLookingRight();
 
             inline static double default_horizontal_velocity_ = 0.05;
 

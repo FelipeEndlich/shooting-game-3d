@@ -1,5 +1,7 @@
 #include "gun.hpp"
 
+#include <cmath>
+
 #include "../../physics/rigid_body.hpp"
 #include "../../math/vector.hpp"
 #include "../color/rgba.hpp"
@@ -41,6 +43,8 @@ Gun::Gun(Vector &initial_position, double width, double height)
     magazine_initial_position[0] -= (body_->get_width() - magazine_width * 4) / 2;
     magazine_initial_position[1] += body_->get_height() / 2;
     magazine_ = new Rectangle(magazine_initial_position, magazine_width, magazine_height, RGBAFactory::get_color("black"));
+
+    angle_ = 0;
 }
 
 Gun::~Gun()
@@ -63,7 +67,7 @@ void Gun::Render()
     magazine_->Draw();
 }
 
-void Gun::Translate(math::Vector &translation, bool translate_position)
+void Gun::Translate(const math::Vector &translation, bool translate_position)
 {
     body_->Translate(translation);
     barrel_->Translate(translation);
@@ -74,12 +78,22 @@ void Gun::Translate(math::Vector &translation, bool translate_position)
         position_ += translation;
 }
 
-void Gun::Scale(math::Vector &scale, double sx, double sy)
+void Gun::Scale(const math::Vector &center, double sx, double sy)
 {
-    body_->Scale(scale, sx, sy);
-    barrel_->Scale(scale, sx, sy);
-    grip_->Scale(scale, sx, sy);
-    magazine_->Scale(scale, sx, sy);
+    body_->Scale(center, sx, sy);
+    barrel_->Scale(center, sx, sy);
+    grip_->Scale(center, sx, sy);
+    magazine_->Scale(center, sx, sy);
+}
+
+void Gun::Rotate(const math::Vector &center, double angle)
+{
+    body_->Rotate(center, angle);
+    barrel_->Rotate(center, angle);
+    grip_->Rotate(center, angle);
+    magazine_->Rotate(center, angle);
+
+    angle_ = fmod(angle_ + angle, M_PI * 2);
 }
 
 Vector Gun::get_position()
@@ -95,4 +109,15 @@ double Gun::get_width()
 double Gun::get_height()
 {
     return height_;
+}
+
+double Gun::get_angle()
+{
+    return angle_;
+}
+
+void Gun::Mirror(math::Vector &mirror_point)
+{
+    Scale(mirror_point, -1, 1);
+    angle_ = -angle_;
 }

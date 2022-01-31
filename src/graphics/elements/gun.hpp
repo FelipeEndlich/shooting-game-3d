@@ -17,18 +17,21 @@ namespace graphics::elements
 
         void Shoot();
         void Render();
-        void Translate(math::Vector &translation, bool translate_position);
-        void Scale(math::Vector &scale, double sx, double sy);
+        void Translate(const math::Vector &translation, bool translate_position);
+        void Scale(const math::Vector &center, double sx, double sy);
+        void Rotate(const math::Vector &center, double angle);
 
         void Mirror(math::Vector &mirror_point);
 
         math::Vector get_position();
         double get_width();
         double get_height();
+        double get_angle();
 
     private:
         double width_;
         double height_;
+        double angle_;
 
         graphics::shapes::Rectangle *body_;
         graphics::shapes::Rectangle *barrel_;

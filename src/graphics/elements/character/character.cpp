@@ -47,6 +47,7 @@ Character::Character(Vector &initial_position, double radius, RGBA &color, bool 
     InstantiateCharacter(radius, color);
     Vector gun_initial_position = torso_->get_center_position();
     gun_ = new Gun(gun_initial_position, torso_->get_height(), head_->get_radius());
+
     Allocate();
 }
 
@@ -217,6 +218,29 @@ void Character::set_state(BaseState *state)
     this->state_ = state;
 }
 
+void Character::Aim(double angle)
+{
+    if (looking_right_)
+    {
+
+        double increment = angle - gun_->get_angle();
+        Vector position = left_arm_->TorsoAnchorPoint();
+
+        left_arm_->Rotate(position, increment);
+        right_arm_->Rotate(position, increment);
+        gun_->Rotate(position, increment);
+    }
+    else
+    {
+        double increment = angle - gun_->get_angle();
+        Vector position = left_arm_->TorsoAnchorPoint();
+
+        left_arm_->Rotate(position, increment);
+        right_arm_->Rotate(position, increment);
+        gun_->Rotate(position, increment);
+    }
+}
+
 void Character::Allocate()
 {
     graphics::shapes::Rectangle left_arm_;
@@ -255,6 +279,11 @@ double Character::get_width()
 double Character::get_height()
 {
     return height_;
+}
+
+bool Character::IsLookingRight()
+{
+    return looking_right_;
 }
 
 void Character::ProcessCollision(ICollidable *collidable)
@@ -365,6 +394,8 @@ void Character::ResetAnimation()
     Vector left_arm_translation = torso_->LeftArmAnchorPoint() - left_arm_->TorsoAnchorPoint();
     left_arm_->Translate(left_arm_translation);
 
+    gun_->Rotate(torso_->LeftArmAnchorPoint(), -gun_->get_angle());
+
     if (looking_right_)
     {
         left_arm_->Rotate(left_arm_->TorsoAnchorPoint(), -0.80);
@@ -392,8 +423,7 @@ void Character::Mirror()
     right_thig_->Mirror(center);
     left_calf_->Mirror(center);
     right_calf_->Mirror(center);
+    gun_->Mirror(center);
 
     looking_right_ = !looking_right_;
-
-    gun_->Scale(center, -1, 1);
 }

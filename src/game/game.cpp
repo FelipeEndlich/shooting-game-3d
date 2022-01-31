@@ -1,6 +1,9 @@
 #include "game.hpp"
 
 #include <iostream>
+#include <algorithm>
+#include <cmath>
+#include <tuple>
 
 #include <GL/glut.h>
 
@@ -26,6 +29,9 @@ using ::physic::ICollidable;
 using ::physic::IGravityAffectable;
 using ::std::cout;
 using ::std::endl;
+using ::std::get;
+using ::std::max;
+using ::std::min;
 using ::std::string;
 
 namespace shoot_and_jump
@@ -54,7 +60,12 @@ namespace shoot_and_jump
 
     void mouseFunc(int button, int state, int x, int y)
     {
-        instance->BindMouse(button, state, x, y);
+        instance->BindMouseButton(button, state, x, y);
+    }
+
+    void motionPassifeFunc(int x, int y)
+    {
+        instance->BindMouseMotion(x, y);
     }
 
 #pragma region Constructors and Destructors
@@ -63,6 +74,9 @@ namespace shoot_and_jump
         instance = this;
         Allocate();
         LoadMap(path);
+        get<0>(mouse_position_) = 1;
+        window_width_ = 500;
+        window_height_ = 500;
     }
 
     Game::~Game()
@@ -87,7 +101,7 @@ namespace shoot_and_jump
     {
         glutInit(&argc, argv);
         glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
-        glutInitWindowSize(500, 500);
+        glutInitWindowSize(window_width_, window_height_);
         glutInitWindowPosition(100, 100);
         glutCreateWindow("2D GAME");
 
@@ -100,6 +114,7 @@ namespace shoot_and_jump
 
         glutSetKeyRepeat(GLUT_KEY_REPEAT_OFF);
         glutMouseFunc(mouseFunc);
+        glutPassiveMotionFunc(motionPassifeFunc);
         glutKeyboardFunc(keyPressedFunc);
         glutKeyboardUpFunc(keyReleasedFunc);
         glutDisplayFunc(displayFunc);
@@ -124,6 +139,27 @@ namespace shoot_and_jump
 
             Vector translation = old_position - player_->get_position();
             glTranslated(translation[0], 0, 0);
+
+            Vector mouse_position(2);
+            mouse_position[0] = get<0>(mouse_position_);
+
+            if (player_->IsLookingRight())
+                mouse_position[1] = ((ortho_bottom_ - player_->get_position()[1]) / (ortho_bottom_ - ortho_top_)) * window_height_ - get<1>(mouse_position_);
+            else
+                mouse_position[1] = get<1>(mouse_position_) - ((ortho_bottom_ - player_->get_position()[1]) / (ortho_bottom_ - ortho_top_)) * window_height_;
+
+            double angle = atan2(mouse_position[1], mouse_position[0]);
+
+            if (angle > M_PI / 2)
+                angle = M_PI - angle;
+
+            if (angle < -M_PI / 2)
+                angle = -M_PI - angle;
+
+            angle = max(angle, -M_PI / 4);
+            angle = min(angle, M_PI / 4);
+
+            player_->Aim(angle);
 
             glutPostRedisplay();
         }
@@ -151,9 +187,15 @@ namespace shoot_and_jump
         keys_[key] = false;
     }
 
-    void Game::BindMouse(int button, int state, int x, int y)
+    void Game::BindMouseButton(int button, int state, int x, int y)
     {
         mouse_[button] = state == GLUT_DOWN;
+    }
+
+    void Game::BindMouseMotion(int x, int y)
+    {
+        get<0>(mouse_position_) = x - window_width_ / 2;
+        get<1>(mouse_position_) = window_height_ - y;
     }
 #pragma endregion // Public Methods
 
