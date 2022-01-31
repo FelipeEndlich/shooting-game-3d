@@ -40,6 +40,7 @@ namespace shoot_and_jump
         std::map<char, bool> keys_;
         std::map<int, bool> mouse_;
         std::tuple<int, int> mouse_position_;
+        bool shoot_processed_ = false;
 
         double ortho_left_;
         double ortho_right_;

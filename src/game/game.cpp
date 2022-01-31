@@ -190,6 +190,9 @@ namespace shoot_and_jump
     void Game::BindMouseButton(int button, int state, int x, int y)
     {
         mouse_[button] = state == GLUT_DOWN;
+
+        if (mouse_[GLUT_LEFT_BUTTON] && !state == GLUT_UP)
+            shoot_processed_ = false;
     }
 
     void Game::BindMouseMotion(int x, int y)
@@ -370,8 +373,11 @@ namespace shoot_and_jump
         if (((!keys_['a'] && !keys_['d']) || (keys_['a'] && keys_['d'])) && mouse_[GLUT_RIGHT_BUTTON])
             player_->Jump(delta_time_);
 
-        // if (mouse[GLUT_LEFT_BUTTON])
-        //     cout << "Shoot" << endl;
+        if (mouse_[GLUT_LEFT_BUTTON] && !shoot_processed_)
+        {
+            shoot_processed_ = true;
+            player_->Shoot();
+        }
     }
 #pragma endregion // Private Methods
 }

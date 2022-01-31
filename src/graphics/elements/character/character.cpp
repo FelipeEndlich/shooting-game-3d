@@ -427,3 +427,8 @@ void Character::Mirror()
 
     looking_right_ = !looking_right_;
 }
+
+void Character::Shoot()
+{
+    cout << "Character::Shoot()" << std::endl;
+}

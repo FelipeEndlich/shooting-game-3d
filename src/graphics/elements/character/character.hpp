@@ -49,6 +49,7 @@ namespace graphics::elements
             void Move(double delta_time, physic::Direction direction);
 
             void Aim(double angle);
+            void Shoot();
 
             void set_state(BaseState *state);
 
