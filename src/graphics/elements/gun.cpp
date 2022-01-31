@@ -57,10 +57,13 @@ Gun::~Gun()
     delete magazine_;
 }
 
-Bullet *Gun::Shoot()
+Bullet *Gun::Shoot(bool invert)
 {
+    double velocity_module = invert ? -0.05 : 0.05;
+
     Vector velocity = Vector::Zero(2);
-    velocity[0] = 0.05;
+    velocity[0] = velocity_module * std::cos(angle_);
+    velocity[1] = velocity_module * std::sin(angle_);
     return new Bullet(barrel_->get_center_position(), velocity, 0.5);
 }
 

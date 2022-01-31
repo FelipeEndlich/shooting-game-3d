@@ -16,7 +16,7 @@ namespace graphics::elements
         Gun(math::Vector &initial_position, double width, double height);
         ~Gun();
 
-        Bullet *Shoot();
+        Bullet *Shoot(bool invert);
 
         void Render();
         void Translate(const math::Vector &translation, bool translate_position);

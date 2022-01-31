@@ -12,8 +12,8 @@
 #include "../bullet.hpp"
 
 using ::graphics::color::RGBA;
-using ::graphics::elements::Gun;
 using ::graphics::elements::Bullet;
+using ::graphics::elements::Gun;
 using ::graphics::elements::character::BaseState;
 using ::graphics::elements::character::Character;
 using ::graphics::elements::character::FallingState;
@@ -430,7 +430,7 @@ void Character::Mirror()
     looking_right_ = !looking_right_;
 }
 
-Bullet* Character::Shoot()
+Bullet *Character::Shoot()
 {
-    return gun_->Shoot();
+    return gun_->Shoot(!looking_right_);
 }
