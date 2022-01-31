@@ -8,9 +8,11 @@
 #include "../color/rgba_factory.hpp"
 #include "../shapes/rectangle.hpp"
 #include "./character/character.hpp"
+#include "bullet.hpp"
 
 using ::graphics::color::RGBA;
 using ::graphics::color::RGBAFactory;
+using ::graphics::elements::Bullet;
 using ::graphics::elements::Gun;
 using ::graphics::elements::character::Character;
 using ::graphics::shapes::Rectangle;
@@ -55,8 +57,11 @@ Gun::~Gun()
     delete magazine_;
 }
 
-void Gun::Shoot()
+Bullet *Gun::Shoot()
 {
+    Vector velocity = Vector::Zero(2);
+    velocity[0] = 0.05;
+    return new Bullet(barrel_->get_center_position(), velocity, 0.5);
 }
 
 void Gun::Render()

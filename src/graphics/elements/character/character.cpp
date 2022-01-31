@@ -9,9 +9,11 @@
 #include "../../shapes/rectangle.hpp"
 #include "../../color/rgba_factory.hpp"
 #include "../gun.hpp"
+#include "../bullet.hpp"
 
 using ::graphics::color::RGBA;
 using ::graphics::elements::Gun;
+using ::graphics::elements::Bullet;
 using ::graphics::elements::character::BaseState;
 using ::graphics::elements::character::Character;
 using ::graphics::elements::character::FallingState;
@@ -428,7 +430,7 @@ void Character::Mirror()
     looking_right_ = !looking_right_;
 }
 
-void Character::Shoot()
+Bullet* Character::Shoot()
 {
-    cout << "Character::Shoot()" << std::endl;
+    return gun_->Shoot();
 }

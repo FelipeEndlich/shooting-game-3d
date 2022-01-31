@@ -8,6 +8,7 @@
 #include "../ext/tinyxml2.hpp"
 #include "../graphics/elements/map.hpp"
 #include "../graphics/elements/character/character.hpp"
+#include "../graphics/elements/bullet.hpp"
 #include "../physics/collision_system.hpp"
 #include "../physics/gravity_constraint_system.hpp"
 
@@ -36,6 +37,7 @@ namespace shoot_and_jump
         graphics::elements::Map map_;
         graphics::elements::character::Character *player_;
         std::vector<graphics::elements::character::Character *> enemies_;
+        std::vector<graphics::elements::Bullet *> bullets_;
 
         std::map<char, bool> keys_;
         std::map<int, bool> mouse_;

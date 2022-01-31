@@ -8,6 +8,7 @@
 #include "../../color/rgba.hpp"
 #include "../../shapes/rectangle.hpp"
 #include "../../shapes/circle.hpp"
+#include "../bullet.hpp"
 #include "./state/base_state.hpp"
 #include "./state/grounded_state.hpp"
 #include "./state/walking_left_state.hpp"
@@ -49,7 +50,7 @@ namespace graphics::elements
             void Move(double delta_time, physic::Direction direction);
 
             void Aim(double angle);
-            void Shoot();
+            Bullet* Shoot();
 
             void set_state(BaseState *state);
 

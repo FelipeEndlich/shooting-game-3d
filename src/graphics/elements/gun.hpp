@@ -5,6 +5,7 @@
 #include "../color/rgba.hpp"
 #include "../shapes/rectangle.hpp"
 #include "./character/character.hpp"
+#include "bullet.hpp"
 
 namespace graphics::elements
 {
@@ -15,7 +16,8 @@ namespace graphics::elements
         Gun(math::Vector &initial_position, double width, double height);
         ~Gun();
 
-        void Shoot();
+        Bullet *Shoot();
+
         void Render();
         void Translate(const math::Vector &translation, bool translate_position);
         void Scale(const math::Vector &center, double sx, double sy);

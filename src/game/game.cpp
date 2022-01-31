@@ -13,11 +13,13 @@
 #include "../graphics/shapes/circle.hpp"
 #include "../graphics/shapes/rectangle.hpp"
 #include "../graphics/elements/obstacle.hpp"
+#include "../graphics/elements/bullet.hpp"
 #include "../physics/direction.hpp"
 
 using ::graphics::color::ColorOption;
 using ::graphics::color::RGBA;
 using ::graphics::color::RGBAFactory;
+using ::graphics::elements::Bullet;
 using ::graphics::elements::Obstacle;
 using ::graphics::elements::character::Character;
 using ::graphics::shapes::Circle;
@@ -134,6 +136,10 @@ namespace shoot_and_jump
             Vector old_position = player_->get_position();
 
             CheckKeys();
+
+            for (auto bullet : bullets_)
+                bullet->Update(delta_time_);
+
             collision_system_.ProcessCollisions();
             gravity_constraint_system_.ProcessGravityEffects();
 
@@ -171,8 +177,12 @@ namespace shoot_and_jump
 
         map_.Render();
         player_->Render();
+        
         for (auto &enemy : enemies_)
             enemy->Render();
+
+        for (auto &bullet : bullets_)
+            bullet->Render();
 
         glutSwapBuffers();
     }
@@ -376,7 +386,7 @@ namespace shoot_and_jump
         if (mouse_[GLUT_LEFT_BUTTON] && !shoot_processed_)
         {
             shoot_processed_ = true;
-            player_->Shoot();
+            bullets_.push_back(player_->Shoot());
         }
     }
 #pragma endregion // Private Methods
