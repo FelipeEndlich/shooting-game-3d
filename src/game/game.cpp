@@ -34,6 +34,7 @@ using ::std::endl;
 using ::std::get;
 using ::std::max;
 using ::std::min;
+using ::std::remove;
 using ::std::string;
 
 namespace shoot_and_jump
@@ -132,43 +133,58 @@ namespace shoot_and_jump
         if (delta_time_ > 0.1)
         {
             this->current_time_ = current_time;
-
             Vector old_position = player_->get_position();
-
             CheckKeys();
+
+            ProcessAiming();
 
             for (auto bullet : bullets_)
                 bullet->Update(delta_time_);
 
             collision_system_.ProcessCollisions();
             gravity_constraint_system_.ProcessGravityEffects();
+            shooting_system_.ProcessShoots();
+
+            for (auto &bullet : shooting_system_.hit_bullets_)
+                bullets_.erase(remove(bullets_.begin(), bullets_.end(), bullet), bullets_.end());
+            shooting_system_.hit_bullets_.clear();
+
+            for (auto &enemy : shooting_system_.hit_enemies_)
+            {
+                collision_system_.RemoveFromCollisionSystem(enemy);
+                enemies_.erase(remove(enemies_.begin(), enemies_.end(), enemy), enemies_.end());
+            }
+            shooting_system_.hit_enemies_.clear();
 
             Vector translation = old_position - player_->get_position();
             glTranslated(translation[0], 0, 0);
 
-            Vector mouse_position(2);
-            mouse_position[0] = get<0>(mouse_position_);
-
-            if (player_->IsLookingRight())
-                mouse_position[1] = ((ortho_bottom_ - player_->get_position()[1]) / (ortho_bottom_ - ortho_top_)) * window_height_ - get<1>(mouse_position_);
-            else
-                mouse_position[1] = get<1>(mouse_position_) - ((ortho_bottom_ - player_->get_position()[1]) / (ortho_bottom_ - ortho_top_)) * window_height_;
-
-            double angle = atan2(mouse_position[1], mouse_position[0]);
-
-            if (angle > M_PI / 2)
-                angle = M_PI - angle;
-
-            if (angle < -M_PI / 2)
-                angle = -M_PI - angle;
-
-            angle = max(angle, -M_PI / 4);
-            angle = min(angle, M_PI / 4);
-
-            player_->Aim(angle);
-
             glutPostRedisplay();
         }
+    }
+
+    void Game::ProcessAiming()
+    {
+        Vector mouse_position(2);
+        mouse_position[0] = get<0>(mouse_position_);
+
+        if (player_->IsLookingRight())
+            mouse_position[1] = ((ortho_bottom_ - player_->get_position()[1]) / (ortho_bottom_ - ortho_top_)) * window_height_ - get<1>(mouse_position_);
+        else
+            mouse_position[1] = get<1>(mouse_position_) - ((ortho_bottom_ - player_->get_position()[1]) / (ortho_bottom_ - ortho_top_)) * window_height_;
+
+        double angle = atan2(mouse_position[1], mouse_position[0]);
+
+        if (angle > M_PI / 2)
+            angle = M_PI - angle;
+
+        if (angle < -M_PI / 2)
+            angle = -M_PI - angle;
+
+        angle = max(angle, -M_PI / 4);
+        angle = min(angle, M_PI / 4);
+
+        player_->Aim(angle);
     }
 
     void Game::Display()
@@ -177,7 +193,7 @@ namespace shoot_and_jump
 
         map_.Render();
         player_->Render();
-        
+
         for (auto &enemy : enemies_)
             enemy->Render();
 
@@ -286,24 +302,28 @@ namespace shoot_and_jump
         map_.AddObstacle(bottom_limit_obstacle);
         collision_system_.AddToCollisionSystem(bottom_limit_obstacle);
         gravity_constraint_system_.AddSurface(bottom_limit_obstacle);
+        shooting_system_.AddObstacle(bottom_limit_obstacle);
 
         Vector top_limit = Vector(origin);
         top_limit[1] -= obstacle_stroke;
         Obstacle *top_limit_obstacle = new Obstacle(top_limit, width, obstacle_stroke, obstacle_color);
         map_.AddObstacle(top_limit_obstacle);
         collision_system_.AddToCollisionSystem(top_limit_obstacle);
+        shooting_system_.AddObstacle(top_limit_obstacle);
 
         Vector left_limit = Vector(origin);
         left_limit[0] -= obstacle_stroke;
         Obstacle *left_limit_obstacle = new Obstacle(left_limit, obstacle_stroke, height, obstacle_color);
         map_.AddObstacle(left_limit_obstacle);
         collision_system_.AddToCollisionSystem(left_limit_obstacle);
+        shooting_system_.AddObstacle(left_limit_obstacle);
 
         Vector right_limit = Vector(origin);
         right_limit[0] += width;
         Obstacle *right_limit_obstacle = new Obstacle(right_limit, obstacle_stroke, height, obstacle_color);
         map_.AddObstacle(right_limit_obstacle);
         collision_system_.AddToCollisionSystem(right_limit_obstacle);
+        shooting_system_.AddObstacle(right_limit_obstacle);
     }
 
     void Game::LoadObstacle(tinyxml2::XMLElement *element)
@@ -324,6 +344,7 @@ namespace shoot_and_jump
         map_.AddObstacle(obstacle);
         collision_system_.AddToCollisionSystem(obstacle);
         gravity_constraint_system_.AddSurface(obstacle);
+        shooting_system_.AddObstacle(obstacle);
     }
 
     void Game::LoadPlayer(tinyxml2::XMLElement *element)
@@ -343,6 +364,7 @@ namespace shoot_and_jump
         this->player_ = player;
         collision_system_.AddToCollisionSystem(player);
         gravity_constraint_system_.AddCorp(player);
+        shooting_system_.set_player(player);
     }
 
     void Game::LoadEnemy(tinyxml2::XMLElement *element)
@@ -361,6 +383,7 @@ namespace shoot_and_jump
         Character *enemy = new Character(origin, radius, color, false);
         enemies_.push_back(enemy);
         collision_system_.AddToCollisionSystem(enemy);
+        shooting_system_.AddEnemy(enemy);
     }
 
     void Game::CheckKeys()
@@ -386,7 +409,9 @@ namespace shoot_and_jump
         if (mouse_[GLUT_LEFT_BUTTON] && !shoot_processed_)
         {
             shoot_processed_ = true;
-            bullets_.push_back(player_->Shoot());
+            Bullet *bullet = player_->Shoot();
+            bullets_.push_back(bullet);
+            shooting_system_.AddBullet(bullet);
         }
     }
 #pragma endregion // Private Methods

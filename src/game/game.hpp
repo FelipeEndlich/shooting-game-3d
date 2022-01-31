@@ -9,6 +9,7 @@
 #include "../graphics/elements/map.hpp"
 #include "../graphics/elements/character/character.hpp"
 #include "../graphics/elements/bullet.hpp"
+#include "../graphics/elements/shooting_system.hpp"
 #include "../physics/collision_system.hpp"
 #include "../physics/gravity_constraint_system.hpp"
 
@@ -56,6 +57,7 @@ namespace shoot_and_jump
 
         physic::CollisionSystem collision_system_;
         physic::GravityConstraintSystem gravity_constraint_system_;
+        graphics::elements::ShootingSystem shooting_system_;
 
         void Allocate();
         void Deallocate();
@@ -67,5 +69,6 @@ namespace shoot_and_jump
         void LoadEnemy(tinyxml2::XMLElement *enemy);
 
         void CheckKeys();
+        void ProcessAiming();
     };
 }
