@@ -1,5 +1,5 @@
 # Name of the project
-PROJ_NAME=2DGame
+PROJ_NAME=trabalhocg
 
 # Source directory
 SOURCE_DIR=./src

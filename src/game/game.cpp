@@ -217,7 +217,7 @@ namespace shoot_and_jump
     {
         mouse_[button] = state == GLUT_DOWN;
 
-        if (mouse_[GLUT_LEFT_BUTTON] && !state == GLUT_UP)
+        if (mouse_[GLUT_LEFT_BUTTON] && state != GLUT_UP)
             shoot_processed_ = false;
     }
 
