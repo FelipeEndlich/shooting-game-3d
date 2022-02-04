@@ -13,10 +13,6 @@ namespace graphics::shapes
     public:
         Cuboid(double width, double height, double depth);
         Cuboid(double width, double height, double depth, const math::Vector &initial_position);
-        //Cuboid(const math::Matrix &matrix);
-        //Cuboid(const math::Matrix &matrix, const graphics::color::RGBA &color);
-        //Cuboid(const Cuboid &other);
-        //Cuboid(const Cuboid &&other);
         virtual ~Cuboid() = default;
 
         math::Vector get_center_position() const override;
@@ -25,6 +21,7 @@ namespace graphics::shapes
         float width;
         float height;
         float depth;
+        math::Vector * initial_position;
 
         void BuildPoints(double width, double height, double depth, const math::Vector &initial_position);
     };
