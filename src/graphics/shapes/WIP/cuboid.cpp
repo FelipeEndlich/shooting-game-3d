@@ -12,9 +12,9 @@
 #include "./../../math/vector.hpp"
 
 using ::graphics::color::RGBA;
+using ::graphics::shapes::Cuboid;
 using ::graphics::shapes::Model;
 using ::graphics::shapes::Model3D;
-using ::graphics::shapes::Cuboid;
 using ::math::Matrix;
 using ::math::Vector;
 
@@ -24,19 +24,20 @@ Cuboid::Cuboid(double width, double height, double depth)
     this->width = width;
     this->height = height;
     this->depth = depth;
+
+    BuildPoints(width, height, depth, Vector::Zero(3));
 }
 
-Cuboid::Cuboid(double width, double height, double depth, const math::Matrix& matrix)
-    : Model3D(matrix)
+Cuboid::Cuboid(double width, double height, double depth, const math::Vector &initial_position)
+    : Model3D()
 {
     this->width = width;
     this->height = height;
     this->depth = depth;
+
+    BuildPoints(width, height, depth, initial_position);
 }
 
-void Cuboid::Draw()
+void Cuboid::BuildPoints(double width, double height, double depth, const math::Vector &initial_position)
 {
-    glBegin(GL_LINES);
-
-    glEnd();
 }

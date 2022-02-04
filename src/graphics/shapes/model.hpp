@@ -19,10 +19,10 @@ namespace graphics::shapes
         Model &operator=(const Model &&other);
 
         virtual void Translate(const math::Vector &vector) = 0;
-        virtual void Scale(const math::Vector &center, const math::Vector &vector) = 0;
-        virtual void Rotate(const math::Vector &center, double radians) = 0;
+        virtual void Scale(const math::Vector &center, const math::Vector &scale_vector) = 0;
+        virtual void Rotate(const math::Vector &center, const math::Vector &radians) = 0;
         virtual void Transform(const math::Matrix &matrix) = 0;
-        virtual void Transform(const math::Vector &center, const math::Vector &scale, double radians) = 0;
+        virtual void Transform(const math::Vector &center, const math::Vector &scale, const math::Vector &radians) = 0;
 
         virtual void Draw() = 0;
 

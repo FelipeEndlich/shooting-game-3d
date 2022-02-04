@@ -92,7 +92,7 @@ void Model3D::Rotate(const math::Vector &center, double phi, double psi, double 
     Transform(center, 1, 1, 1, phi, psi, theta);
 }
 
-void Model3D::Rotate(const math::Vector &center, math::Vector &radians)
+void Model3D::Rotate(const math::Vector &center, const math::Vector &radians)
 {
     Transform(center, 1, 1, 1, radians);
 }
