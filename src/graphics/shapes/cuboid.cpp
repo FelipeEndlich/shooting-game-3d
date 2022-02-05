@@ -13,9 +13,9 @@
 #include <memory>
 
 using ::graphics::color::RGBA;
+using ::graphics::shapes::Cuboid;
 using ::graphics::shapes::Model;
 using ::graphics::shapes::Model3D;
-using ::graphics::shapes::Cuboid;
 using ::math::Matrix;
 using ::math::Vector;
 
@@ -47,26 +47,28 @@ math::Vector Cuboid::get_center_position() const
     return math::Vector::ThreeDimPoint(
         this->initial_position[0] + this->width / 2,
         this->initial_position[1] - this->height / 2,
-        this->initial_position[2] + this->depth / 2
-    );
+        this->initial_position[2] + this->depth / 2);
 }
 
 void Cuboid::BuildPoints(double width, double height, double depth, const math::Vector &initial_position)
 {
-
 }
 
-void Cuboid::Draw() {
+void Cuboid::Draw()
+{
     double z0;
-    glBegin(GL_LINES);
-        glColor3f(1, 0, 0);
-        this->__draw_face(z0 = this->initial_position[2]);
-        this->__draw_face(z0 + this->depth);
-        this->__draw_interface();
+    glBegin(GL_POLYGON);
+    glColor3f(1, 0, 0);
+    this->__draw_face(z0 = this->initial_position[2]);
+    glColor3f(0, 1, 0);
+    this->__draw_face(z0 + this->depth);
+    glColor3f(0, 0, 1);
+    this->__draw_interface();
     glEnd();
 }
 
-void Cuboid::__draw_interface() {
+void Cuboid::__draw_interface()
+{
     // Start points
     double x0, y0, z0;
     x0 = this->initial_position[0];
@@ -101,7 +103,8 @@ void Cuboid::__draw_face(double z)
     this->__draw_line(x0, y1, z, x0, y0, z);
 }
 
-void Cuboid::__draw_line(double xi, double yi, double zi, double xf, double yf, double zf) {
+void Cuboid::__draw_line(double xi, double yi, double zi, double xf, double yf, double zf)
+{
     glVertex3f(xi, yi, zi);
     glVertex3f(xf, yf, zf);
 }

@@ -7,6 +7,7 @@ using namespace std;
 #include "./graphics/color/rgba.hpp"
 #include "./graphics/color/rgba_factory.hpp"
 #include "./graphics/shapes/sphere.hpp"
+#include "./graphics/shapes/cuboid.hpp"
 #include <cmath>
 #include "./math/matrix.hpp"
 #include "./math/vector.hpp"
@@ -14,9 +15,9 @@ using namespace std;
 using ::graphics::color::ColorOption;
 using ::graphics::color::RGBA;
 using ::graphics::color::RGBAFactory;
+using ::graphics::shapes::Cuboid;
 using ::graphics::shapes::Sphere;
 using ::math::Vector;
-// using ::graphics::shapes::Cuboid;
 
 void displayFunc(void)
 {
@@ -26,7 +27,7 @@ void displayFunc(void)
     glRotatef(0.1, 0, 1, 0); // Rotate y axis
     glRotatef(0.1, 0, 0, 1); // Rotate z axis
 
-    Sphere sphere(30, Vector::Zero(3), RGBAFactory::get_color(ColorOption::kWhite));
+    Cuboid sphere(15, 15, 15, Vector::Zero(3));
     sphere.Draw();
 
     glutSwapBuffers();
