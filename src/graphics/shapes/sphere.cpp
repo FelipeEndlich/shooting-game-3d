@@ -59,8 +59,6 @@ void Sphere::BuildPoints(const Vector &initial_position)
             points_[i * stacks_ + j] = point + initial_position;
         }
     }
-
-    // points_[sector_ * stacks_] = initial_position + Vector::Fill(3, radius_);
 }
 
 void Sphere::Draw()
