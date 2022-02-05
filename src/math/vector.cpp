@@ -196,6 +196,16 @@ Vector Vector::Zero(int dimension)
     return Vector::Fill(dimension, 0.0);
 }
 
+Vector Vector::ThreeDimPoint(double x, double y, double z)
+{
+    Vector point(3);
+    point.values_[0] = x;
+    point.values_[1] = y;
+    point.values_[2] = z;
+    
+    return point;
+}
+
 Vector Vector::Fill(int dimension, double value)
 {
     Vector result(dimension);
