@@ -18,6 +18,8 @@ RGBA RGBAFactory::get_color(ColorOption color)
         return RGBA(255, 0, 0);
     case kGreen:
         return RGBA(0, 255, 0);
+    case kWhite:
+        return RGBA(255, 255, 255);
     default:
         return RGBA(0, 0, 0);
     }
@@ -37,6 +39,8 @@ RGBA RGBAFactory::get_color(std::string str_color)
         color = kRed;
     else if (str_color == "green")
         color = kGreen;
+    else if (str_color == "white")
+        color = kWhite;
 
     return get_color(color);
 }

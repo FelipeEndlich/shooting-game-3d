@@ -5,6 +5,7 @@ namespace graphics::color
         kBlack,
         kBlue,
         kRed,
-        kGreen
+        kGreen,
+        kWhite
     };
 }
