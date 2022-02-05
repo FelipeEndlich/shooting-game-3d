@@ -57,12 +57,12 @@ void Cuboid::BuildPoints(double width, double height, double depth, const math::
 void Cuboid::Draw()
 {
     double z0;
-    glBegin(GL_POLYGON);
+    glBegin(GL_QUADS);
     glColor3f(1, 0, 0);
     this->__draw_face(z0 = this->initial_position[2]);
-    glColor3f(0, 1, 0);
+    //glColor3f(0, 1, 0);
     this->__draw_face(z0 + this->depth);
-    glColor3f(0, 0, 1);
+    //glColor3f(0, 0, 1);
     this->__draw_interface();
     glEnd();
 }
