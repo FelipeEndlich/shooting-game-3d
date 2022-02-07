@@ -17,6 +17,7 @@ namespace graphics::shapes
 
         math::Vector get_center_position() const override;
         virtual void Draw() override;
+        void DrawLines();
 
     private:
         double width;
@@ -27,6 +28,7 @@ namespace graphics::shapes
         void __draw_interface();
         void __draw_face(double z);
         void __draw_line(double xi, double yi, double zi, double xf, double yf, double zf);
+        void __draw_quad_face(math::Vector p1, math::Vector p2, math::Vector p3, math::Vector p4);
         void BuildPoints(double width, double height, double depth, const math::Vector &initial_position);
     };
 }

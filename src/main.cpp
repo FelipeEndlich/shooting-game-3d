@@ -108,9 +108,9 @@ void displayFunc(void)
     glDisable(GL_LIGHTING);
 
     Cuboid sphere(15, 15, 15, Vector::Zero(3));
+    glEnable(GL_DEPTH_TEST);
     sphere.Draw();
 
-    glEnable(GL_LIGHTING);
     glRotatef(-rz, 0, 0, 1);
     glRotatef(-ry, 0, 1, 0);
     glRotatef(-rx, 1, 0, 0);
