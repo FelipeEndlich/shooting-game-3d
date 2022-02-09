@@ -1,5 +1,9 @@
 #include "model_3d.hpp"
 
+#include <cmath>
+
+#include <iostream>
+
 #include <stdexcept>
 
 #include <GL/glut.h>
@@ -116,7 +120,64 @@ void Model3D::Transform(const math::Matrix &matrix)
 
 void Model3D::Transform(double x, double y, double z, double sx, double sy, double sz, double phi, double psi, double theta)
 {
-    // TODO: Implement transformation
+    // Phi, Psi and Theta must be in radians
+    //Vector point;
+
+    // Centering the model
+    for (int i = 0; i < points_.get_rows(); i++) {
+        points_[i][0] -= x;
+        points_[i][1] -= y;
+        points_[i][2] -= z;
+    }
+
+    // Rotating the model
+    Matrix r_x, r_y, r_z, r_m;
+
+    r_x = Matrix::FourDimMatrix(
+        1,        0,         0, 0,
+        0, cos(phi), -sin(phi), 0,
+        0, sin(phi),  cos(phi), 0,
+        0,        0,         0, 1
+    );
+    r_y = Matrix::FourDimMatrix(
+         cos(psi),        0,         sin(psi), 0,
+                0,        1,                0, 0,
+        -sin(psi),        0,         cos(psi), 0,
+        0,                0,                0, 1
+    );
+    r_z = Matrix::FourDimMatrix(
+         cos(theta), -sin(theta), 0, 0,
+         sin(theta),  cos(theta), 0, 0,
+                  0,           0, 1, 0,
+                  0,           0, 0, 1
+    );
+
+    r_m = r_x * r_y * r_z;
+
+    // Translating the model
+    Matrix t_m;
+    t_m = Matrix::FourDimMatrix(
+        1, 0, 0, sx + x,
+        0, 1, 0, sy + y,
+        0, 0, 1, sy + z,
+        0, 0, 0, 1
+    );
+
+    Matrix tf_m;
+    tf_m = t_m * r_m;
+
+    for (int i = 0; i < points_.get_rows(); i++) {
+        Vector point = points_[i];
+        Vector point_plus(4);
+
+        point_plus[0] = point[0]; point_plus[1] = point[1];
+        point_plus[2] = point[2]; point_plus[3] = 1;
+        point_plus = tf_m * point_plus;
+        
+        points_[i][0] = point_plus[0];
+        points_[i][1] = point_plus[1];
+        points_[i][2] = point_plus[2];
+    }
 }
 
 void Model3D::Transform(const math::Vector &center, double sx, double sy, double sz, double phi, double psi, double theta)

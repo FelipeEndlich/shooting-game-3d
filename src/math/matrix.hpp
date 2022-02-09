@@ -44,6 +44,13 @@ namespace math
 
         static Matrix Zero(int rows, int columns);
         static Matrix Identity(int rows, int columns);
+        static Matrix ThreeDimMatrix(double i1, double i2, double i3,
+                                     double j1, double j2, double j3,
+                                     double k1, double k2, double k3);
+        static Matrix FourDimMatrix(double i1, double i2, double i3, double i4,
+                                    double j1, double j2, double j3, double j4,
+                                    double k1, double k2, double k3, double k4,
+                                    double l1, double l2, double l3, double l4);
 
     protected:
         void Allocate(int rows, int columns);

@@ -28,7 +28,7 @@ Cuboid::Cuboid(double width, double height, double depth)
 
     this->initial_position = math::Vector::Zero(3);
 
-    BuildPoints(width, height, depth, Vector::Zero(3));
+    BuildPoints();
 }
 
 Cuboid::Cuboid(double width, double height, double depth, const math::Vector &initial_position)
@@ -39,19 +39,12 @@ Cuboid::Cuboid(double width, double height, double depth, const math::Vector &in
     this->depth = depth;
     this->initial_position = initial_position;
 
-    BuildPoints(width, height, depth, initial_position);
+    BuildPoints();
 }
 
 math::Vector Cuboid::get_center_position() const
 {
-    return math::Vector::ThreeDimPoint(
-        this->initial_position[0] + this->width / 2,
-        this->initial_position[1] - this->height / 2,
-        this->initial_position[2] + this->depth / 2);
-}
-
-void Cuboid::BuildPoints(double width, double height, double depth, const math::Vector &initial_position)
-{
+    return (points_[6] - points_[0]) / 2;
 }
 
 void Cuboid::DrawLines()
@@ -70,15 +63,11 @@ void Cuboid::DrawLines()
 void Cuboid::Draw() {
     // Start points
     double x0, y0, z0;
-    x0 = this->initial_position[0];
-    y0 = this->initial_position[1];
-    z0 = this->initial_position[2];
+    x0 = points_[0][0], y0 = points_[0][1], z0 = points_[0][2];
 
     // Final points
     double x1, y1, z1;
-    x1 = this->width + x0;
-    y1 = y0 - this->height;
-    z1 = this->depth + z0;
+    x1 = points_[6][0], y1 = points_[6][1], z1 = points_[6][2];
 
     glBegin(GL_QUADS);
 
@@ -200,4 +189,34 @@ void Cuboid::__draw_line(double xi, double yi, double zi, double xf, double yf, 
 {
     glVertex3f(xi, yi, zi);
     glVertex3f(xf, yf, zf);
+}
+
+void Cuboid::BuildPoints() {
+    // Start points
+    double x0, y0, z0;
+    x0 = initial_position[0];
+    y0 = initial_position[1];
+    z0 = initial_position[2];
+
+    // Final points
+    double x1, y1, z1;
+    x1 = width + x0;
+    y1 = y0 - height;
+    z1 = depth + z0;
+
+    // Four front points and four back points
+    // Front: f_1, f_2, f_3, f_4
+    // Back:  b_1, b_2, b_3, b_4
+    // 8 total points
+    points_ = Matrix::Zero(8, 3);
+
+    points_[0][0] = x0, points_[0][1] = y0, points_[0][2] = z0; // f_1
+    points_[1][0] = x1, points_[1][1] = y0, points_[1][2] = z0; // f_2
+    points_[2][0] = x1, points_[2][1] = y1, points_[2][2] = z0; // f_3
+    points_[3][0] = x0, points_[3][1] = y1, points_[3][2] = z0; // f_4
+
+    points_[4][0] = x0, points_[4][1] = y0, points_[4][2] = z1; // b_1
+    points_[5][0] = x1, points_[5][1] = y0, points_[5][2] = z1; // b_2
+    points_[6][0] = x1, points_[6][1] = y1, points_[6][2] = z1; // b_3
+    points_[7][0] = x0, points_[7][1] = y1, points_[7][2] = z1; // b_4
 }

@@ -306,6 +306,34 @@ Matrix Matrix::Identity(int rows, int columns)
 
     return result;
 }
+
+Matrix Matrix::ThreeDimMatrix(double i1, double i2, double i3,
+                              double j1, double j2, double j3,
+                              double k1, double k2, double k3)
+{
+    Matrix result(3, 3);
+
+    result[0][0] = i1; result[0][1] = i2; result[0][2] = i3;
+    result[1][0] = j1; result[1][1] = j2; result[1][2] = j3;
+    result[2][0] = k1; result[2][1] = k2; result[2][2] = k3;
+
+    return result;
+}
+
+Matrix Matrix::FourDimMatrix(double i1, double i2, double i3, double i4,
+                             double j1, double j2, double j3, double j4,
+                             double k1, double k2, double k3, double k4,
+                             double l1, double l2, double l3, double l4)
+{
+    Matrix result(4, 4);
+
+    result[0][0] = i1; result[0][1] = i2; result[0][2] = i3; result[0][3] = i4;
+    result[1][0] = j1; result[1][1] = j2; result[1][2] = j3; result[1][3] = j4;
+    result[2][0] = k1; result[2][1] = k2; result[2][2] = k3; result[2][3] = k4;
+    result[3][0] = l1; result[3][1] = l2; result[3][2] = l3; result[3][3] = l4;
+
+    return result;
+}
 #pragma endregion // Static Methods
 
 #pragma region Protected Methods
