@@ -301,6 +301,43 @@ double Matrix::Det() const
     return determinant;
 }
 
+Matrix Matrix::Adj() const
+{
+    auto submatrix = [this] (int i, int j) {
+        Matrix sm = Matrix::Zero(get_rows() - 1, get_columns() - 1);
+        for (int x = 0; x < get_rows(); x++) {
+            if (x == i) continue;
+
+            int row = x < i ? x : x - 1;
+            for (int y = 0; y < get_columns(); y++) {
+                if (y == j) continue;
+
+                int column = y < j ? y : y - 1;
+                sm[row][column] = values_[x][y];
+            }
+        }
+        return sm;
+    };
+
+    // To find the adj, rows == columns
+    if (get_rows() != get_columns()) {
+        std::cout << "The matrix dimensions are invalid!" << std::endl;
+        exit(-1);
+    }
+    int N = get_rows();
+
+    // Finding the matrix of coef
+    Matrix coef(get_rows(), get_columns()); double signal = 1;
+    for (int i = 0; i < N; i++)
+        for (int j = 0; j < N; j++) {
+            Matrix subM = submatrix(i, j);
+            coef[i][j] = subM.Det() * signal;
+            signal *= -1;
+        }
+
+    return coef.Transpose();
+}
+
 Matrix Matrix::Transpose()
 {
     Matrix result(this->columns_, this->rows_);
@@ -314,9 +351,7 @@ Matrix Matrix::Transpose()
 
 Matrix Matrix::Inverse()
 {
-    Det();
-
-    return Matrix::Identity(4, 4) + Matrix::Identity(4, 4).Transpose();
+    return Adj() / Det();
 }
 
 std::string Matrix::to_string() const

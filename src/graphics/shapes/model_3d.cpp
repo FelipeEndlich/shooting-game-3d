@@ -152,7 +152,7 @@ void Model3D::Transform(double x, double y, double z, double sx, double sy, doub
                   0,           0, 0, 1
     );
 
-    r_m = r_x * r_y * r_z;
+    r_m = r_y.Inverse() * r_z.Inverse() * r_x * r_z * r_y;
 
     // Translating the model
     Matrix t_m;
