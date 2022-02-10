@@ -2,6 +2,8 @@
 #include <stdexcept>
 #include <sstream>
 
+#include <iostream>
+
 using ::math::Matrix;
 using ::math::Vector;
 
@@ -257,6 +259,48 @@ Vector &Matrix::operator[](int i)
 #pragma endregion // Operator Overloading
 
 #pragma region Other Methods
+double Matrix::Det() const
+{   
+    // This function implements the laplacian method for determinants
+
+    auto submatrix = [this] (int i, int j) {
+        Matrix sm = Matrix::Zero(get_rows() - 1, get_columns() - 1);
+        for (int x = 0; x < get_rows(); x++) {
+            if (x == i) continue;
+
+            int row = x < i ? x : x - 1;
+            for (int y = 0; y < get_columns(); y++) {
+                if (y == j) continue;
+
+                int column = y < j ? y : y - 1;
+                sm[row][column] = values_[x][y];
+            }
+        }
+        return sm;
+    };
+
+    // To find the determinant, rows == columns
+    if (get_rows() != get_columns()) {
+        std::cout << "The matrix dimensions are invalid!" << std::endl;
+        exit(-1);
+    }
+
+    if (get_rows() == 1)
+        return values_[0][0];
+
+    else if (get_rows() == 2)
+        return values_[0][0] * values_[1][1] - values_[0][1] * values_[1][0];
+
+    double determinant = 0, sign = 1;
+    for (int i = 0; i < get_rows(); i++) {
+        auto subM = submatrix(0, i);
+        determinant += sign * values_[0][i] * subM.Det();
+        sign *= -1;
+    }
+
+    return determinant;
+}
+
 Matrix Matrix::Transpose()
 {
     Matrix result(this->columns_, this->rows_);
@@ -266,6 +310,13 @@ Matrix Matrix::Transpose()
             result[j][i] = this->values_[i][j];
 
     return result;
+}
+
+Matrix Matrix::Inverse()
+{
+    Det();
+
+    return Matrix::Identity(4, 4) + Matrix::Identity(4, 4).Transpose();
 }
 
 std::string Matrix::to_string() const

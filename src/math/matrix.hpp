@@ -39,7 +39,9 @@ namespace math
         void set_rows(int rows);
         void set_columns(int columns);
 
+        double Det() const;
         Matrix Transpose();
+        Matrix Inverse();
         std::string to_string() const;
 
         static Matrix Zero(int rows, int columns);
