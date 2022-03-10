@@ -118,6 +118,40 @@ void Model3D::Transform(const math::Matrix &matrix)
     }
 }
 
+Matrix rotationMatrix(double phi, double psi, double theta) {
+
+    auto r_x = [] (double phi) {
+        return Matrix::FourDimMatrix(
+            1,        0,         0, 0,
+            0, cos(phi), -sin(phi), 0,
+            0, sin(phi),  cos(phi), 0,
+            0,        0,         0, 1
+        );
+    };
+
+    auto r_y = [] (double psi) {
+        return Matrix::FourDimMatrix(
+            cos(psi),        0,         sin(psi), 0,
+                    0,        1,                0, 0,
+            -sin(psi),        0,         cos(psi), 0,
+            0,                0,                0, 1
+        );
+    };
+
+
+    auto r_z = [] (double theta) {
+        return Matrix::FourDimMatrix(
+            cos(theta), -sin(theta), 0, 0,
+            sin(theta),  cos(theta), 0, 0,
+                     0,           0, 1, 0,
+                     0,           0, 0, 1
+        );
+    };
+
+    return r_x(phi) * r_y(psi) * r_z(theta);
+
+}
+
 void Model3D::Transform(double x, double y, double z, double sx, double sy, double sz, double phi, double psi, double theta)
 {
     // Phi, Psi and Theta must be in radians
@@ -131,28 +165,7 @@ void Model3D::Transform(double x, double y, double z, double sx, double sy, doub
     }
 
     // Rotating the model
-    Matrix r_x, r_y, r_z, r_m;
-
-    r_x = Matrix::FourDimMatrix(
-        1,        0,         0, 0,
-        0, cos(phi), -sin(phi), 0,
-        0, sin(phi),  cos(phi), 0,
-        0,        0,         0, 1
-    );
-    r_y = Matrix::FourDimMatrix(
-         cos(psi),        0,         sin(psi), 0,
-                0,        1,                0, 0,
-        -sin(psi),        0,         cos(psi), 0,
-        0,                0,                0, 1
-    );
-    r_z = Matrix::FourDimMatrix(
-         cos(theta), -sin(theta), 0, 0,
-         sin(theta),  cos(theta), 0, 0,
-                  0,           0, 1, 0,
-                  0,           0, 0, 1
-    );
-
-    r_m = r_y.Inverse() * r_z.Inverse() * r_x * r_z * r_y;
+    auto r_m = rotationMatrix(phi, psi, theta);
 
     // Translating the model
     Matrix t_m;
@@ -171,7 +184,7 @@ void Model3D::Transform(double x, double y, double z, double sx, double sy, doub
         Vector point_plus(4);
 
         point_plus[0] = point[0]; point_plus[1] = point[1];
-        point_plus[2] = point[2]; point_plus[3] = 1;
+        point_plus[2] = point[2]; point_plus[3] = 0;
         point_plus = tf_m * point_plus;
         
         points_[i][0] = point_plus[0];

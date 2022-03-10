@@ -108,6 +108,10 @@ void displayFunc(void)
     glDisable(GL_LIGHTING);
 
     Cuboid sphere(15, 15, 15, Vector::Zero(3));
+    //sphere.Translate(sphere.get_center_position() * -1.0);
+    //sphere.Rotate(sphere.get_center_position(), 0.125 * M_PI, 0.125 * M_PI, 0.125 * M_PI);
+    sphere.Transform(sphere.get_center_position(), Vector::Zero(3), 0.125 * M_PI, 0.125 * M_PI, 0.125 * M_PI);
+    
     glEnable(GL_DEPTH_TEST);
     sphere.Draw();
 
