@@ -121,19 +121,18 @@ void Model3D::Transform(const math::Matrix &matrix)
 Matrix rotationMatrix(double phi, double psi, double theta) {
 
     auto r_x = [] (double phi) {
-        return Matrix::FourDimMatrix(
-            1,        0,         0, 0,
-            0, cos(phi), -sin(phi), 0,
-            0, sin(phi),  cos(phi), 0,
-            0,        0,         0, 1
-        );
+        Matrix rot = Matrix::Identity(4, 4);
+        rot[1][1] = cos(phi);  rot[1][2] = -sin(phi);
+        rot[2][1] = sin(phi);  rot[2][2] = cos(phi);
+        return rot;
     };
 
+    /*
     auto r_y = [] (double psi) {
         return Matrix::FourDimMatrix(
-            cos(psi),        0,         sin(psi), 0,
+            cos(psi),        0,         -sin(psi), 0,
                     0,        1,                0, 0,
-            -sin(psi),        0,         cos(psi), 0,
+            sin(psi),        0,         cos(psi), 0,
             0,                0,                0, 1
         );
     };
@@ -141,14 +140,14 @@ Matrix rotationMatrix(double phi, double psi, double theta) {
 
     auto r_z = [] (double theta) {
         return Matrix::FourDimMatrix(
-            cos(theta), -sin(theta), 0, 0,
-            sin(theta),  cos(theta), 0, 0,
+            cos(theta),  sin(theta), 0, 0,
+            -sin(theta),  cos(theta), 0, 0,
                      0,           0, 1, 0,
                      0,           0, 0, 1
         );
-    };
+    }; */
 
-    return r_x(phi) * r_y(psi) * r_z(theta);
+    return r_x(phi);
 
 }
 
@@ -157,39 +156,57 @@ void Model3D::Transform(double x, double y, double z, double sx, double sy, doub
     // Phi, Psi and Theta must be in radians
     //Vector point;
 
-    // Centering the model
+    // Centering the mode
     for (int i = 0; i < points_.get_rows(); i++) {
-        points_[i][0] -= x;
-        points_[i][1] -= y;
-        points_[i][2] -= z;
+        points_[i][0] -= x / 2;
+        points_[i][1] -= y / 2;
+        points_[i][2] -= z / 2;
     }
 
     // Rotating the model
     auto r_m = rotationMatrix(phi, psi, theta);
 
     // Translating the model
-    Matrix t_m;
+    /*Matrix t_m;
     t_m = Matrix::FourDimMatrix(
         1, 0, 0, sx + x,
         0, 1, 0, sy + y,
         0, 0, 1, sy + z,
         0, 0, 0, 1
-    );
+    );*/
 
-    Matrix tf_m;
-    tf_m = t_m * r_m;
+    //Matrix tf_m;
+    //tf_m = t_m * r_m;
 
     for (int i = 0; i < points_.get_rows(); i++) {
-        Vector point = points_[i];
-        Vector point_plus(4);
+        for (int j = 0; j < 3; j++)
+            printf("%lf ", points_[i][j]);
+        printf("/n");
+        Vector aug_points = Vector::Zero(4);
+        for (int j = 0; j < 3; j++)
+            aug_points[j] = points_[i][j];
+        aug_points[3] = 1;
+        aug_points = r_m * aug_points;
+        for (int j = 0; j < 3; j++)
+            points_[i][j] = aug_points[j];
+        /*
+        double x, y, z;
+        x = points_[i][0];
+        y = points_[i][1];
+        z = points_[i][2];
 
-        point_plus[0] = point[0]; point_plus[1] = point[1];
-        point_plus[2] = point[2]; point_plus[3] = 0;
-        point_plus = tf_m * point_plus;
-        
-        points_[i][0] = point_plus[0];
-        points_[i][1] = point_plus[1];
-        points_[i][2] = point_plus[2];
+        double polar_radius, polar_delta, polar_theta;
+        polar_radius = sqrt(x * x + y * y + z * z);
+        polar_delta = atan(z / sqrt(z *x + y * y));
+        polar_theta = atan(y / z);
+
+        polar_delta += theta;
+        polar_theta += phi;
+
+        points_[i][0] = polar_radius * cos(polar_delta) * cos(polar_theta);
+        points_[i][1] = polar_radius * cos(polar_delta) * sin(polar_theta);
+        points_[i][2] = polar_radius * sin(polar_delta);
+        */
     }
 }
 

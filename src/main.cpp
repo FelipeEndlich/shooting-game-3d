@@ -12,6 +12,7 @@ using namespace std;
 #include <cmath>
 #include "./math/matrix.hpp"
 #include "./math/vector.hpp"
+#include "./game/svg_reader.hpp"
 
 #define FRAMERATE 60
 
@@ -26,6 +27,7 @@ using ::graphics::color::RGBAFactory;
 using ::graphics::shapes::Cuboid;
 using ::graphics::shapes::Sphere;
 using ::math::Vector;
+using ::game::SVGList;
 
 // Control variables
 bool pressed_key[256];
@@ -40,6 +42,9 @@ double dx, dy, dz; // Displacement
 
 // Timing and framerate settings
 Clock timer;
+
+// Geometric forms (still very primitive)
+std::vector<Cuboid> cuboids;
 
 void restart_clock()
 {
@@ -94,6 +99,20 @@ void idle_func()
     else if (is_pressed('7'))
         rz -= ROT_Z_DELTA;
 
+    // Camera displacement control
+    if (is_pressed('a'))
+        dx += ROT_X_DELTA;
+    else if (is_pressed('d'))
+        dx -= ROT_X_DELTA;
+    if (is_pressed('s'))
+        dy += ROT_Y_DELTA;
+    else if (is_pressed('w'))
+        dy -= ROT_Y_DELTA;
+    if (is_pressed('q'))
+        dz += ROT_Z_DELTA;
+    else if (is_pressed('e'))
+        dz -= ROT_Z_DELTA;
+
     timer.tick(1000 / FRAMERATE);
     glutPostRedisplay();
 }
@@ -105,16 +124,19 @@ void displayFunc(void)
     glRotatef(rx, 1, 0, 0); // Rotate x axis
     glRotatef(ry, 0, 1, 0); // Rotate y axis
     glRotatef(rz, 0, 0, 1); // Rotate z axis
-    glDisable(GL_LIGHTING);
+    glTranslatef(dx, dy, dz);
+    //glDisable(GL_LIGHTING);
 
-    Cuboid sphere(15, 15, 15, Vector::Zero(3));
+    //Cuboid sphere(15, 15, 15, Vector::Zero(3));
     //sphere.Translate(sphere.get_center_position() * -1.0);
     //sphere.Rotate(sphere.get_center_position(), 0.125 * M_PI, 0.125 * M_PI, 0.125 * M_PI);
-    sphere.Transform(sphere.get_center_position(), Vector::Zero(3), 0.125 * M_PI, 0.125 * M_PI, 0.125 * M_PI);
-    
+    //sphere.Transform(sphere.get_center_position(), Vector::Zero(3), 0.125 * M_PI, 0.125 * M_PI, 0.125 * M_PI);
     glEnable(GL_DEPTH_TEST);
-    sphere.Draw();
+    for (Cuboid cuboid : cuboids) {
+        cuboid.Draw();
+    }
 
+    glTranslatef(-dx, -dy, -dz);
     glRotatef(-rz, 0, 0, 1);
     glRotatef(-ry, 0, 1, 0);
     glRotatef(-rx, 1, 0, 0);
@@ -141,6 +163,10 @@ int main(int argc, char **argv)
 
     // Reseting controls
     reset_controls();
+
+    // Loading scene
+    SVGList svgs(argv[1]);
+    cuboids = svgs.cuboids();
 
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
@@ -169,7 +195,7 @@ int main(int argc, char **argv)
     glClearColor(scren_color.get_red(), scren_color.get_green(), scren_color.get_blue(), scren_color.get_alpha());
 
     glLoadIdentity();
-    glOrtho(-50, 50, -50, 50, -50, 50);
+    glOrtho(-250, 250, -250, 250, -50, 50);
 
     glutMainLoop();
 
