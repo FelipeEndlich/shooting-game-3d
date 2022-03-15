@@ -12,7 +12,7 @@ using namespace std;
 #include <cmath>
 #include "./math/matrix.hpp"
 #include "./math/vector.hpp"
-#include "./game/svg_reader.hpp"
+#include "./game/scene.hpp"
 
 #define FRAMERATE 60
 
@@ -27,7 +27,7 @@ using ::graphics::color::RGBAFactory;
 using ::graphics::shapes::Cuboid;
 using ::graphics::shapes::Sphere;
 using ::math::Vector;
-using ::game::SVGList;
+using ::game::GameScene;
 
 // Control variables
 bool pressed_key[256];
@@ -43,8 +43,8 @@ double dx, dy, dz; // Displacement
 // Timing and framerate settings
 Clock timer;
 
-// Geometric forms (still very primitive)
-std::vector<Cuboid> cuboids;
+// Game scene description
+GameScene* scene;
 
 void restart_clock()
 {
@@ -132,9 +132,7 @@ void displayFunc(void)
     //sphere.Rotate(sphere.get_center_position(), 0.125 * M_PI, 0.125 * M_PI, 0.125 * M_PI);
     //sphere.Transform(sphere.get_center_position(), Vector::Zero(3), 0.125 * M_PI, 0.125 * M_PI, 0.125 * M_PI);
     glEnable(GL_DEPTH_TEST);
-    for (Cuboid cuboid : cuboids) {
-        cuboid.Draw();
-    }
+    scene->Draw();
 
     glTranslatef(-dx, -dy, -dz);
     glRotatef(-rz, 0, 0, 1);
@@ -165,8 +163,7 @@ int main(int argc, char **argv)
     reset_controls();
 
     // Loading scene
-    SVGList svgs(argv[1]);
-    cuboids = svgs.cuboids();
+    scene = new GameScene(argv[1]);
 
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);

@@ -17,12 +17,25 @@ namespace game {
         CIRCLE
     };
 
+    enum SceneObjectType {
+        HERO,
+        ENEMY,
+        OBSTACLE,
+        BACKGROUND
+    };
+
+    struct SceneObject {
+        graphics::shapes::Cuboid r;
+        SceneObjectType t;
+    };
+
     class SVGObject {
         public:
             SVGObject(Color color, Shape shape);
             ~SVGObject() {};
 
             Shape get_form();
+            Color get_fill();
 
         protected:
             Color fill;
@@ -34,7 +47,9 @@ namespace game {
             SVGRect(Color color, double width, double height, double x, double y);
             ~SVGRect() {}
 
-            graphics::shapes::Cuboid cuboid();
+            graphics::shapes::Cuboid cuboid(double x, double y);
+            double get_x();
+            double get_y();
 
         private:
             double width;
@@ -48,7 +63,7 @@ namespace game {
             SVGCircle(Color color, double radius, double cx, double cy);
             ~SVGCircle() {}
 
-            graphics::shapes::Cuboid cuboid();
+            graphics::shapes::Cuboid cuboid(double x, double y);
 
         private:
             double cx;
@@ -60,10 +75,14 @@ namespace game {
         public:
             SVGList(const char* SVG_path);
             ~SVGList() {}
+
             std::vector<graphics::shapes::Cuboid> cuboids();
+            std::vector<SceneObject> scene_objects();
 
         private:
             SVGObject* parseElement(tinyxml2::XMLElement * elem);
             std::vector<SVGObject*> objs;
+            double x;
+            double y;
     };
 }
