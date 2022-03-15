@@ -46,6 +46,14 @@ Clock timer;
 // Game scene description
 GameScene* scene;
 
+void set_window() {
+    glViewport(0, 0, 500, 500);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    gluPerspective(45, 1, 0.1, 500);
+    glMatrixMode(GL_MODELVIEW);
+}
+
 void restart_clock()
 {
     timer.start();
@@ -120,24 +128,16 @@ void idle_func()
 void displayFunc(void)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glLoadIdentity();
+    set_window();
 
-    glRotatef(rx, 1, 0, 0); // Rotate x axis
-    glRotatef(ry, 0, 1, 0); // Rotate y axis
-    glRotatef(rz, 0, 0, 1); // Rotate z axis
     glTranslatef(dx, dy, dz);
-    //glDisable(GL_LIGHTING);
-
-    //Cuboid sphere(15, 15, 15, Vector::Zero(3));
-    //sphere.Translate(sphere.get_center_position() * -1.0);
-    //sphere.Rotate(sphere.get_center_position(), 0.125 * M_PI, 0.125 * M_PI, 0.125 * M_PI);
-    //sphere.Transform(sphere.get_center_position(), Vector::Zero(3), 0.125 * M_PI, 0.125 * M_PI, 0.125 * M_PI);
+    glRotatef(rx, 1, 0, 0); // Rotate x axis
+    glRotatef(ry + 90, 0, 1, 0); // Rotate y axis
+    glRotatef(rz, 0, 0, 1); // Rotate z axis
+    
     glEnable(GL_DEPTH_TEST);
     scene->Draw();
-
-    glTranslatef(-dx, -dy, -dz);
-    glRotatef(-rz, 0, 0, 1);
-    glRotatef(-ry, 0, 1, 0);
-    glRotatef(-rx, 1, 0, 0);
 
     glutSwapBuffers();
 }
@@ -167,10 +167,9 @@ int main(int argc, char **argv)
 
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
-    glViewport(500, 500, 500, 500);
     glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
-    glEnable(GL_DEPTH_TEST);
+    
+    //glEnable(GL_DEPTH_TEST);
     //glEnable(GL_LIGHTING);
     //glEnable(GL_LIGHT0);
 

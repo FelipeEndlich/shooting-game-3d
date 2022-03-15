@@ -50,6 +50,8 @@ namespace game {
             graphics::shapes::Cuboid cuboid(double x, double y);
             double get_x();
             double get_y();
+            double get_width();
+            double get_height();
 
         private:
             double width;
@@ -84,5 +86,7 @@ namespace game {
             std::vector<SVGObject*> objs;
             double x;
             double y;
+            double width;
+            double height;
     };
 }

@@ -29,21 +29,6 @@ GameScene::GameScene(const char* scene_path) {
 
             x = background->get_x();
             y = background->get_y();
-            background->Translate(0, height - 2*y, 0);
-        }
-
-        for (Cuboid* obstacle : obstacles) {
-            double xr, yr;
-            xr = obstacle->get_x();
-            yr = obstacle->get_y();
-            obstacle->Translate(0, height - 2*yr, 0);
-        }
-
-        for (Cuboid* enemy : enemies) {
-            double xr, yr;
-            xr = enemy->get_x();
-            yr = enemy->get_y();
-            //enemy->Translate(0, height - 2*yr, 0);
         }
     }
 }

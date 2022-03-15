@@ -50,6 +50,13 @@ double SVGRect::get_x() {
 double SVGRect::get_y() {
     return y;
 }
+double SVGRect::get_width() {
+    return width;
+}
+
+double SVGRect::get_height() {
+    return height;
+}
 
 SVGCircle::SVGCircle(Color color, double radius, double cx, double cy) :
            SVGObject(color, Shape::CIRCLE)
@@ -122,6 +129,8 @@ SVGList::SVGList(const char* svg_path) {
         {
             x = ((SVGRect*)form)->get_x();
             y = ((SVGRect*)form)->get_y();
+            height = ((SVGRect*)form)->get_height();
+            width = ((SVGRect*)form)->get_width();
         }
 
         if (curr_elem->NextSiblingElement())
@@ -157,7 +166,7 @@ std::vector<SceneObject> SVGList::scene_objects() {
             rect = (SVGRect*)svg;
 
             struct SceneObject obj = {
-                rect->cuboid(x, y),
+                rect->cuboid(x, height - y),
                 svg->get_fill() == Color::BLUE ?
                 SceneObjectType::BACKGROUND :
                 SceneObjectType::OBSTACLE
@@ -169,7 +178,7 @@ std::vector<SceneObject> SVGList::scene_objects() {
             circ = (SVGCircle*)svg;
             
             struct SceneObject obj = {
-                circ->cuboid(x, y),
+                circ->cuboid(x, height - y),
                 svg->get_fill() == Color::RED ?
                 SceneObjectType::ENEMY :
                 SceneObjectType::HERO
