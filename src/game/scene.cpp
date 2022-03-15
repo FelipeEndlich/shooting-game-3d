@@ -1,6 +1,8 @@
 #include "scene.hpp"
 #include "svg_reader.hpp"
 
+#include <iostream>
+
 using ::game::SceneObjectType;
 using ::game::SVGList;
 using ::game::GameScene;
@@ -20,8 +22,29 @@ GameScene::GameScene(const char* scene_path) {
             enemies.push_back(new Cuboid(r));
         else if (t == SceneObjectType::OBSTACLE)
             obstacles.push_back(new Cuboid(r));
-        else if (t == SceneObjectType::BACKGROUND)
+        else if (t == SceneObjectType::BACKGROUND) {
             background = new Cuboid(r);
+            height = background->get_height();
+            width = background->get_width();
+
+            x = background->get_x();
+            y = background->get_y();
+            background->Translate(0, height - 2*y, 0);
+        }
+
+        for (Cuboid* obstacle : obstacles) {
+            double xr, yr;
+            xr = obstacle->get_x();
+            yr = obstacle->get_y();
+            obstacle->Translate(0, height - 2*yr, 0);
+        }
+
+        for (Cuboid* enemy : enemies) {
+            double xr, yr;
+            xr = enemy->get_x();
+            yr = enemy->get_y();
+            //enemy->Translate(0, height - 2*yr, 0);
+        }
     }
 }
 

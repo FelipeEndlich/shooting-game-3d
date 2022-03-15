@@ -167,15 +167,15 @@ int main(int argc, char **argv)
 
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
-    glViewport(0, 0, 500, 500);
+    glViewport(500, 500, 500, 500);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
     glEnable(GL_DEPTH_TEST);
-    glEnable(GL_LIGHTING);
-    glEnable(GL_LIGHT0);
+    //glEnable(GL_LIGHTING);
+    //glEnable(GL_LIGHT0);
 
     GLfloat light_position[] = {50.0, 50.0, 50.0, 50.0};
-    glLightfv(GL_LIGHT0, GL_SPECULAR, light_position);
+    //glLightfv(GL_LIGHT0, GL_SPECULAR, light_position);
 
     glutInitWindowSize(500, 500);
     glutInitWindowPosition(100, 100);
@@ -192,7 +192,7 @@ int main(int argc, char **argv)
     glClearColor(scren_color.get_red(), scren_color.get_green(), scren_color.get_blue(), scren_color.get_alpha());
 
     glLoadIdentity();
-    glOrtho(-250, 250, -250, 250, -50, 50);
+    glOrtho(0, 250, 250, 0, -50, 50);
 
     glutMainLoop();
 

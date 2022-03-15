@@ -16,6 +16,13 @@ namespace graphics::shapes
         virtual ~Cuboid() = default;
 
         math::Vector get_center_position() const override;
+
+        double get_width() { return width; }
+        double get_height() { return height; }
+        double get_x() { return points_[0][0]; }
+        double get_y() { return points_[0][1]; }
+        double get_z() { return points_[0][2]; }
+
         virtual void Draw() override;
         void DrawLines();
 

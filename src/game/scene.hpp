@@ -16,5 +16,10 @@ namespace game {
             graphics::shapes::Cuboid* background;
             std::vector<graphics::shapes::Cuboid*> obstacles;
             std::vector<graphics::shapes::Cuboid*> enemies;
+
+            double width;
+            double height;
+            double x;
+            double y;
     };
 }
