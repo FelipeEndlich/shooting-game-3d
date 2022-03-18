@@ -42,6 +42,20 @@ Cuboid::Cuboid(double width, double height, double depth, const math::Vector &in
     BuildPoints();
 }
 
+Cuboid::Cuboid(double width, double height, double depth, double x, double y, double z) {
+    Vector initial_position(3);
+    initial_position[0] = x;
+    initial_position[1] = y;
+    initial_position[2] = z;
+
+    this->width = width;
+    this->height = height;
+    this->depth = depth;
+    this->initial_position = initial_position;
+
+    BuildPoints();
+}
+
 math::Vector Cuboid::get_center_position() const
 {
     return (points_[6] - points_[0]) / 2;
@@ -219,4 +233,10 @@ void Cuboid::BuildPoints() {
     points_[5][0] = x1, points_[5][1] = y0, points_[5][2] = z1; // b_2
     points_[6][0] = x1, points_[6][1] = y1, points_[6][2] = z1; // b_3
     points_[7][0] = x0, points_[7][1] = y1, points_[7][2] = z1; // b_4
+}
+
+void Cuboid::correct(double width, double height, double x, double y) {
+    Vector delta(3);
+    delta[0] = 0; delta[1] = y - height; delta[2] = 0;
+    this->Translate(delta);
 }

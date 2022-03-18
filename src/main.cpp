@@ -50,7 +50,7 @@ void set_window() {
     glViewport(0, 0, 500, 500);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    gluPerspective(45, 1, 0.1, 500);
+    gluPerspective(45, 1, 0.1, 1000);
     glMatrixMode(GL_MODELVIEW);
 }
 

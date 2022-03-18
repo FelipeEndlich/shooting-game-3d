@@ -13,6 +13,7 @@ namespace graphics::shapes
     public:
         Cuboid(double width, double height, double depth);
         Cuboid(double width, double height, double depth, const math::Vector &initial_position);
+        Cuboid(double width, double height, double depth, double x, double y, double z);
         virtual ~Cuboid() = default;
 
         math::Vector get_center_position() const override;
@@ -25,6 +26,8 @@ namespace graphics::shapes
 
         virtual void Draw() override;
         void DrawLines();
+
+        void correct(double width, double height, double x, double y);
 
     private:
         double width;

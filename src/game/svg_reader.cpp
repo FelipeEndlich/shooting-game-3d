@@ -37,9 +37,7 @@ SVGRect::SVGRect(Color color, double width, double height, double x, double y) :
 }
 
 Cuboid SVGRect::cuboid(double x_off, double y_off) {
-    Cuboid rect(width, height, fill == Color::BLACK ? 100 : 1);
-    rect.Translate(x - x_off, y - y_off, 0);
-
+    Cuboid rect(width, height, fill == Color::BLACK ? height : 1, x, y, 0);
     return rect;
 }
 
@@ -67,9 +65,7 @@ SVGCircle::SVGCircle(Color color, double radius, double cx, double cy) :
 }
 
 graphics::shapes::Cuboid SVGCircle::cuboid(double x, double y) {
-    Cuboid rect(radius * 2, radius * 2, radius * 2);
-    rect.Translate(cx / 2 - x, cy / 2 - y, 0);
-
+    Cuboid rect(radius * 2, radius * 2, radius * 2, cx - radius - x, cy - radius - y, 0);
     return rect;
 }
 
@@ -146,11 +142,11 @@ std::vector<Cuboid> SVGList::cuboids() {
         if (svg->get_form() == Shape::RECT) {
             SVGRect* rect;
             rect = (SVGRect*)svg;
-            forms.push_back(rect->cuboid(x, y));
+            forms.push_back(rect->cuboid(0, 0));
         } else {
             SVGCircle* circ;
             circ = (SVGCircle*)svg;
-            forms.push_back(circ->cuboid(x, y));
+            forms.push_back(circ->cuboid(0, 0));
         }
     }
 
@@ -165,8 +161,11 @@ std::vector<SceneObject> SVGList::scene_objects() {
             SVGRect* rect;
             rect = (SVGRect*)svg;
 
+            auto cuboid = rect->cuboid(0, 0);
+            //cuboid.correct(width, height, x, y);
+
             struct SceneObject obj = {
-                rect->cuboid(x, height - y),
+                cuboid,
                 svg->get_fill() == Color::BLUE ?
                 SceneObjectType::BACKGROUND :
                 SceneObjectType::OBSTACLE
@@ -176,9 +175,12 @@ std::vector<SceneObject> SVGList::scene_objects() {
         } else {
             SVGCircle* circ;
             circ = (SVGCircle*)svg;
+
+            auto cuboid = circ->cuboid(0, 0);
+            //cuboid.correct(width, height, x, y);
             
             struct SceneObject obj = {
-                circ->cuboid(x, height - y),
+                cuboid,
                 svg->get_fill() == Color::RED ?
                 SceneObjectType::ENEMY :
                 SceneObjectType::HERO
@@ -188,4 +190,31 @@ std::vector<SceneObject> SVGList::scene_objects() {
     }
 
     return scene_objs;
+}
+
+void SVGCircle::Show() {
+    std::cout << "\tcx: " << this->cx << std::endl;
+    std::cout << "\tcy: " << this->cy << std::endl;
+    std::cout << "\tradius: " << this->radius << std::endl;
+}
+
+void SVGRect::Show() {
+    std::cout << "\tx: " << this->x << std::endl;
+    std::cout << "\ty: " << this->y << std::endl;
+    std::cout << "\twidth: " << this->width << std::endl;
+    std::cout << "\theight: " << this->height << std::endl;
+}
+
+void SVGList::Show() {
+    for (SVGObject* svg : objs) {
+        if (svg->get_form() == Shape::RECT) {
+            SVGRect* rect;
+            rect = (SVGRect*)svg;
+            rect->Show();
+        } else {
+            SVGCircle* circ;
+            circ = (SVGCircle*)svg;
+            circ->Show();
+        }
+    }
 }

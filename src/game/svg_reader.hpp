@@ -36,6 +36,7 @@ namespace game {
 
             Shape get_form();
             Color get_fill();
+            virtual void Show() = 0;
 
         protected:
             Color fill;
@@ -52,6 +53,7 @@ namespace game {
             double get_y();
             double get_width();
             double get_height();
+            void Show() override;
 
         private:
             double width;
@@ -66,6 +68,7 @@ namespace game {
             ~SVGCircle() {}
 
             graphics::shapes::Cuboid cuboid(double x, double y);
+            void Show() override;
 
         private:
             double cx;
@@ -80,6 +83,7 @@ namespace game {
 
             std::vector<graphics::shapes::Cuboid> cuboids();
             std::vector<SceneObject> scene_objects();
+            void Show();
 
         private:
             SVGObject* parseElement(tinyxml2::XMLElement * elem);
