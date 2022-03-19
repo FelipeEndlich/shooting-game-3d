@@ -9,16 +9,16 @@ using ::math::Vector;
 
 #pragma region Constructor and Destructor
 Circle::Circle()
-    : Model2D()
+    : Model3D()
 {
     color_ = RGBA();
     radius_ = 0;
     angle_ = 0;
-    BuildPoints(Vector::Zero(2), 0);
+    BuildPoints(Vector::Zero(3), 0);
 }
 
 Circle::Circle(const Vector &origin, double radius)
-    : Model2D()
+    : Model3D()
 {
     color_ = RGBA();
     radius_ = radius;
@@ -26,7 +26,7 @@ Circle::Circle(const Vector &origin, double radius)
 }
 
 Circle::Circle(const Vector &origin, double radius, const RGBA &color)
-    : Model2D()
+    : Model3D()
 {
     color_ = color;
     radius_ = radius;
@@ -34,7 +34,7 @@ Circle::Circle(const Vector &origin, double radius, const RGBA &color)
 }
 
 Circle::Circle(const Circle &other)
-    : Model2D(other)
+    : Model3D(other)
 {
     points_ = other.points_;
     radius_ = other.radius_;
@@ -42,7 +42,7 @@ Circle::Circle(const Circle &other)
 }
 
 Circle::Circle(const Circle &&other)
-    : Model2D(other)
+    : Model3D(other)
 {
     points_ = other.points_;
     radius_ = other.radius_;
@@ -71,7 +71,7 @@ Circle &Circle::operator=(const Circle &&other)
 #pragma region Private Methods
 void Circle::BuildPoints(const Vector &origin, double radius)
 {
-    points_ = Matrix::Zero(segments_ + 1, 2);
+    points_ = Matrix::Zero(segments_ + 1, 3);
     double angle = 0;
     for (int i = 0; i < segments_; i++)
     {

@@ -2,7 +2,7 @@
 
 using ::graphics::color::RGBA;
 using ::graphics::elements::Obstacle;
-using ::graphics::shapes::Rectangle;
+using ::graphics::shapes::Cuboid;
 using ::math::Vector;
 using ::physic::ICollidable;
 
@@ -13,7 +13,7 @@ Obstacle::Obstacle(Vector &initial_position, double width, double height, RGBA &
     : RigidBody(2)
 {
     position_ = initial_position;
-    shape_ = new Rectangle(position_, width, height, color);
+    shape_ = new Cuboid(position_, width, height, color);
 }
 
 Obstacle::~Obstacle()

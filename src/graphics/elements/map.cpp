@@ -1,13 +1,13 @@
 #include "map.hpp"
 
-#include "../shapes/rectangle.hpp"
+#include "../shapes/cuboid.hpp"
 #include "../elements/obstacle.hpp"
 
 using ::graphics::elements::Map;
 using ::graphics::elements::Obstacle;
-using ::graphics::shapes::Rectangle;
+using ::graphics::shapes::Cuboid;
 
-void Map::set_background(Rectangle *background)
+void Map::set_background(Cuboid *background)
 {
     background_ = background;
 }

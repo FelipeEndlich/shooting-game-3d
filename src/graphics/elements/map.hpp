@@ -4,7 +4,7 @@
 
 #include <vector>
 
-#include "../shapes/rectangle.hpp"
+#include "../shapes/cuboid.hpp"
 
 namespace graphics::elements
 {
@@ -14,7 +14,7 @@ namespace graphics::elements
         Map() = default;
         virtual ~Map();
 
-        void set_background(shapes::Rectangle *background);
+        void set_background(shapes::Cuboid *background);
         double get_width() const;
         double get_height() const;
 
@@ -22,7 +22,7 @@ namespace graphics::elements
         void Render();
 
     private:
-        shapes::Rectangle* background_;
-        std::vector<Obstacle*> obstacles_;
+        shapes::Cuboid *background_;
+        std::vector<Obstacle *> obstacles_;
     };
 }

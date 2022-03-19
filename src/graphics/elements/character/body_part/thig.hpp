@@ -1,17 +1,17 @@
 #pragma once
 
-#include "../../../shapes/rectangle.hpp"
+#include "../../../shapes/cuboid.hpp"
 
 #include "../../../color/rgba.hpp"
 #include "../../../../math/vector.hpp"
 
 namespace graphics::elements::character
 {
-    class Thig : public graphics::shapes::Rectangle
+    class Thig : public graphics::shapes::Cuboid
     {
     public:
         Thig(const math::Vector &origin, double width, double height, const graphics::color::RGBA &color)
-            : Rectangle(origin, width, height, color){};
+            : Cuboid(origin, width, height, color){};
         ~Thig() = default;
 
         math::Vector TorsoAnchorPoint() const;

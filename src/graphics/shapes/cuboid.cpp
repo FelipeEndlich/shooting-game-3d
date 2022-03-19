@@ -1,21 +1,21 @@
-#include "rectangle.hpp"
+#include "cuboid.hpp"
 
 using ::graphics::color::RGBA;
-using ::graphics::shapes::Rectangle;
+using ::graphics::shapes::Cuboid;
 using ::math::Matrix;
 using ::math::Vector;
 
 #pragma region Constructor and Destructor
-Rectangle::Rectangle()
-    : Model2D()
+Cuboid::Cuboid()
+    : Model3D()
 {
     color_ = RGBA();
     angle_ = 0;
-    BuildPoints(Vector::Zero(2), 0, 0);
+    BuildPoints(Vector::Zero(3), 0, 0);
 }
 
-Rectangle::Rectangle(const Vector &origin, double width, double height)
-    : Model2D()
+Cuboid::Cuboid(const Vector &origin, double width, double height)
+    : Model3D()
 {
     color_ = RGBA();
     width_ = width;
@@ -26,8 +26,8 @@ Rectangle::Rectangle(const Vector &origin, double width, double height)
     BuildPoints(origin, width, height);
 }
 
-Rectangle::Rectangle(const Vector &origin, double width, double height, const RGBA &color)
-    : Model2D()
+Cuboid::Cuboid(const Vector &origin, double width, double height, const RGBA &color)
+    : Model3D()
 {
     color_ = color;
     width_ = width;
@@ -36,21 +36,21 @@ Rectangle::Rectangle(const Vector &origin, double width, double height, const RG
     BuildPoints(origin, width, height);
 }
 
-Rectangle::Rectangle(const Rectangle &other)
-    : Model2D(other)
+Cuboid::Cuboid(const Cuboid &other)
+    : Model3D(other)
 {
     *this = other;
 }
 
-Rectangle::Rectangle(const Rectangle &&other)
-    : Model2D(other)
+Cuboid::Cuboid(const Cuboid &&other)
+    : Model3D(other)
 {
     *this = other;
 }
 #pragma endregion // Constructor and Destructor
 
 #pragma region Operator Overloads
-Rectangle &Rectangle::operator=(const Rectangle &other)
+Cuboid &Cuboid::operator=(const Cuboid &other)
 {
     points_ = other.points_;
     color_ = other.color_;
@@ -60,7 +60,7 @@ Rectangle &Rectangle::operator=(const Rectangle &other)
     return *this;
 }
 
-Rectangle &Rectangle::operator=(const Rectangle &&other)
+Cuboid &Cuboid::operator=(const Cuboid &&other)
 {
     points_ = other.points_;
     color_ = other.color_;
@@ -72,9 +72,9 @@ Rectangle &Rectangle::operator=(const Rectangle &&other)
 #pragma endregion // Operator Overloads
 
 #pragma region Private Methods
-void Rectangle::BuildPoints(const Vector &origin, double width, double height)
+void Cuboid::BuildPoints(const Vector &origin, double width, double height)
 {
-    points_ = Matrix::Zero(4, 2);
+    points_ = Matrix::Zero(4, 3);
     this->width_ = width;
     this->height_ = height;
 
@@ -93,18 +93,18 @@ void Rectangle::BuildPoints(const Vector &origin, double width, double height)
 #pragma endregion // Private Methods
 
 #pragma region Getters and Setters
-double Rectangle::get_width() const
+double Cuboid::get_width() const
 {
     return width_;
 }
 
-double Rectangle::get_height() const
+double Cuboid::get_height() const
 {
     return height_;
 }
 #pragma endregion // Getters and Setters
 
-Vector Rectangle::get_center_position() const
+Vector Cuboid::get_center_position() const
 {
     return Vector(points_[0] + points_[1] + points_[2] + points_[3]) / 4;
 }

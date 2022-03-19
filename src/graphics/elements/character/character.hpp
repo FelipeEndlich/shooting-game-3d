@@ -6,7 +6,7 @@
 #include "../../../physics/igravity_affectable.hpp"
 #include "../../../math/vector.hpp"
 #include "../../color/rgba.hpp"
-#include "../../shapes/rectangle.hpp"
+#include "../../shapes/cuboid.hpp"
 #include "../../shapes/circle.hpp"
 #include "../bullet.hpp"
 #include "./state/base_state.hpp"
@@ -50,7 +50,7 @@ namespace graphics::elements
             void Move(double delta_time, physic::Direction direction);
 
             void Aim(double angle);
-            Bullet* Shoot();
+            Bullet *Shoot();
 
             void set_state(BaseState *state);
 
@@ -67,7 +67,7 @@ namespace graphics::elements
         private:
             graphics::shapes::Circle shape_;
 
-            graphics::shapes::Model2D *outline_;
+            graphics::shapes::Model3D *outline_;
             Head *head_;
             Torso *torso_;
             Arm *left_arm_;

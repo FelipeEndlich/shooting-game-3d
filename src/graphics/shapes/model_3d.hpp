@@ -4,15 +4,15 @@
 
 namespace graphics::shapes
 {
-    class Model2D : public Model
+    class Model3D : public Model
     {
     public:
-        Model2D();
-        Model2D(const math::Matrix &matrix);
-        Model2D(const math::Matrix &matrix, const graphics::color::RGBA &color);
-        Model2D(const Model2D &other);
-        Model2D(const Model2D &&other);
-        virtual ~Model2D() = default;
+        Model3D();
+        Model3D(const math::Matrix &matrix);
+        Model3D(const math::Matrix &matrix, const graphics::color::RGBA &color);
+        Model3D(const Model3D &other);
+        Model3D(const Model3D &&other);
+        virtual ~Model3D() = default;
 
         virtual void Translate(double dx, double dy);
         virtual void Translate(const math::Vector &vector);

@@ -1,10 +1,10 @@
 #pragma once
 
-#include "./model_2d.hpp"
+#include "./model_3d.hpp"
 
 namespace graphics::shapes
 {
-    class Circle : public Model2D
+    class Circle : public Model3D
     {
     public:
         Circle();

@@ -11,7 +11,7 @@
 #include "../graphics/color/rgba_factory.hpp"
 #include "../graphics/color/rgba.hpp"
 #include "../graphics/shapes/circle.hpp"
-#include "../graphics/shapes/rectangle.hpp"
+#include "../graphics/shapes/cuboid.hpp"
 #include "../graphics/elements/obstacle.hpp"
 #include "../graphics/elements/bullet.hpp"
 #include "../physics/direction.hpp"
@@ -23,7 +23,7 @@ using ::graphics::elements::Bullet;
 using ::graphics::elements::Obstacle;
 using ::graphics::elements::character::Character;
 using ::graphics::shapes::Circle;
-using ::graphics::shapes::Rectangle;
+using ::graphics::shapes::Cuboid;
 using ::math::Vector;
 using ::physic::CollisionSystem;
 using ::physic::Direction;
@@ -125,7 +125,7 @@ namespace shoot_and_jump
 
         glLoadIdentity();
 
-        glOrtho(ortho_left_, ortho_right_, ortho_bottom_, ortho_top_, -500, 500);
+        glOrtho(ortho_left_, ortho_right_, ortho_bottom_, ortho_top_, 1000, 2000);
 
         glutSetKeyRepeat(GLUT_KEY_REPEAT_OFF);
         glutMouseFunc(mouseFunc);
@@ -200,27 +200,27 @@ namespace shoot_and_jump
             Vector old_position = player_->get_position();
             CheckKeys();
 
-            ProcessAiming();
+            // ProcessAiming();
 
-            for (auto bullet : bullets_)
-                bullet->Update(delta_time_);
+            // for (auto bullet : bullets_)
+            //     bullet->Update(delta_time_);
 
-            collision_system_.ProcessCollisions();
-            gravity_constraint_system_.ProcessGravityEffects();
-            shooting_system_.ProcessShoots();
+            // collision_system_.ProcessCollisions();
+            // gravity_constraint_system_.ProcessGravityEffects();
+            // shooting_system_.ProcessShoots();
 
-            for (auto &bullet : shooting_system_.hit_bullets_)
-                bullets_.erase(remove(bullets_.begin(), bullets_.end(), bullet), bullets_.end());
-            shooting_system_.hit_bullets_.clear();
+            // for (auto &bullet : shooting_system_.hit_bullets_)
+            //     bullets_.erase(remove(bullets_.begin(), bullets_.end(), bullet), bullets_.end());
+            // shooting_system_.hit_bullets_.clear();
 
-            for (auto &enemy : shooting_system_.hit_enemies_)
-            {
-                collision_system_.RemoveFromCollisionSystem(enemy);
-                enemies_.erase(remove(enemies_.begin(), enemies_.end(), enemy), enemies_.end());
-            }
-            shooting_system_.hit_enemies_.clear();
+            // for (auto &enemy : shooting_system_.hit_enemies_)
+            // {
+            //     collision_system_.RemoveFromCollisionSystem(enemy);
+            //     enemies_.erase(remove(enemies_.begin(), enemies_.end(), enemy), enemies_.end());
+            // }
+            // shooting_system_.hit_enemies_.clear();
 
-            Vector translation = old_position - player_->get_position();
+            // Vector translation = old_position - player_->get_position();
             // glTranslated(translation[0], 0, 0);
 
             glutPostRedisplay();
@@ -350,7 +350,7 @@ namespace shoot_and_jump
 
         RGBA color = RGBAFactory::get_color(fill);
 
-        Rectangle *background = new Rectangle(origin, width, height, color);
+        Cuboid *background = new Cuboid(origin, width, height, color);
 
         map_.set_background(background);
 

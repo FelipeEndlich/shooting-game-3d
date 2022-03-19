@@ -3,7 +3,7 @@
 #include "../../physics/rigid_body.hpp"
 #include "../../math/vector.hpp"
 #include "../color/rgba.hpp"
-#include "../shapes/rectangle.hpp"
+#include "../shapes/cuboid.hpp"
 #include "./character/character.hpp"
 #include "bullet.hpp"
 
@@ -35,10 +35,10 @@ namespace graphics::elements
         double height_;
         double angle_;
 
-        graphics::shapes::Rectangle *body_;
-        graphics::shapes::Rectangle *barrel_;
-        graphics::shapes::Rectangle *grip_;
-        graphics::shapes::Rectangle *magazine_;
+        graphics::shapes::Cuboid *body_;
+        graphics::shapes::Cuboid *barrel_;
+        graphics::shapes::Cuboid *grip_;
+        graphics::shapes::Cuboid *magazine_;
 
         friend graphics::elements::character::Character;
     };

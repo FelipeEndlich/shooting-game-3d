@@ -3,7 +3,7 @@
 #include "../../physics/rigid_body.hpp"
 #include "../../math/vector.hpp"
 #include "../color/rgba.hpp"
-#include "../shapes/rectangle.hpp"
+#include "../shapes/cuboid.hpp"
 #include "../../physics/icollidable.hpp"
 
 namespace graphics::elements
@@ -23,6 +23,6 @@ namespace graphics::elements
         void ProcessCollision(ICollidable *collidable) override;
 
     private:
-        graphics::shapes::Rectangle* shape_;
+        graphics::shapes::Cuboid *shape_;
     };
 }

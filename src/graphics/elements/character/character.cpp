@@ -6,7 +6,7 @@
 #include "./state/falling_state.hpp"
 #include "../../../physics/rigid_body.hpp"
 #include "../../shapes/circle.hpp"
-#include "../../shapes/rectangle.hpp"
+#include "../../shapes/cuboid.hpp"
 #include "../../color/rgba_factory.hpp"
 #include "../gun.hpp"
 #include "../bullet.hpp"
@@ -18,7 +18,7 @@ using ::graphics::elements::character::BaseState;
 using ::graphics::elements::character::Character;
 using ::graphics::elements::character::FallingState;
 using ::graphics::shapes::Circle;
-using ::graphics::shapes::Rectangle;
+using ::graphics::shapes::Cuboid;
 using ::math::Vector;
 using ::physic::Direction;
 using ::physic::ICollidable;
@@ -139,7 +139,7 @@ void Character::InstantiateCharacter(double radius, graphics::color::RGBA &color
     width_ = body_width;
     height_ = radius * 2;
 
-    // outline_ = new Rectangle(get_position(), get_width(), get_height(), color::RGBAFactory::get_color("black"));
+    // outline_ = new Cuboid(get_position(), get_width(), get_height(), color::RGBAFactory::get_color("black"));
     outline_ = new Circle(left_arm_->TorsoAnchorPoint(), 0.3, color::RGBAFactory::get_color("red"));
 }
 
@@ -245,7 +245,7 @@ void Character::Aim(double angle)
 
 void Character::Allocate()
 {
-    graphics::shapes::Rectangle left_arm_;
+    graphics::shapes::Cuboid left_arm_;
     state_ = new FallingState(this);
 }
 
