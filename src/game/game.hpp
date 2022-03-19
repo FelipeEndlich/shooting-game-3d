@@ -55,6 +55,14 @@ namespace shoot_and_jump
         double window_width_;
         double window_height_;
 
+        double camera_dx;
+        double camera_dy;
+        double camera_dz;
+
+        double camera_rx;
+        double camera_ry;
+        double camera_rz;
+
         physic::CollisionSystem collision_system_;
         physic::GravityConstraintSystem gravity_constraint_system_;
         graphics::elements::ShootingSystem shooting_system_;

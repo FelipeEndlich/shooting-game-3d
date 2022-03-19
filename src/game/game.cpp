@@ -37,6 +37,12 @@ using ::std::min;
 using ::std::remove;
 using ::std::string;
 
+#define TRANSLATION_DELTA 2
+#define ROTATION_DELTA 0.162
+
+double dx, dy, dz;
+double rx, ry, rz;
+
 namespace shoot_and_jump
 {
     static Game *instance;
@@ -112,8 +118,14 @@ namespace shoot_and_jump
         RGBA scren_color = RGBAFactory::get_color(ColorOption::kBlack);
         glClearColor(scren_color.get_red(), scren_color.get_green(), scren_color.get_blue(), scren_color.get_alpha());
 
+        glViewport(0, 0, 500, 500);
+        glMatrixMode(GL_PROJECTION);
+        gluPerspective(45, 1, 0.1, 1000);
+        glMatrixMode(GL_MODELVIEW);
+
         glLoadIdentity();
-        glOrtho(ortho_left_, ortho_right_, ortho_bottom_, ortho_top_, ortho_near_, ortho_far_);
+
+        glOrtho(ortho_left_, ortho_right_, ortho_bottom_, ortho_top_, -500, 500);
 
         glutSetKeyRepeat(GLUT_KEY_REPEAT_OFF);
         glutMouseFunc(mouseFunc);
@@ -128,6 +140,58 @@ namespace shoot_and_jump
 
     void Game::Idle()
     {
+        // Controlling
+        auto is_pressed = [this](char key)
+        {
+            return this->keys_[key];
+        };
+
+        if (is_pressed('w') && !is_pressed('s'))
+            camera_dy = TRANSLATION_DELTA;
+        else if (!is_pressed('w') && is_pressed('s'))
+            camera_dy = -TRANSLATION_DELTA;
+        else if (!is_pressed('w') && !is_pressed('s'))
+            camera_dy = 0;
+        else if (is_pressed('w') && is_pressed('s'))
+            camera_dy = 0;
+
+        if (is_pressed('a') && !is_pressed('d'))
+            camera_dx = TRANSLATION_DELTA;
+        else if (!is_pressed('a') && is_pressed('d'))
+            camera_dx = -TRANSLATION_DELTA;
+        else if (!is_pressed('a') && !is_pressed('d'))
+            camera_dx = 0;
+        else if (is_pressed('a') && is_pressed('d'))
+            camera_dx = 0;
+
+        if (is_pressed('q') && !is_pressed('e'))
+            camera_dz = 7 * TRANSLATION_DELTA;
+        else if (!is_pressed('q') && is_pressed('e'))
+            camera_dz = -7 * TRANSLATION_DELTA;
+        else if (!is_pressed('q') && !is_pressed('e'))
+            camera_dz = 0;
+        else if (is_pressed('q') && is_pressed('e'))
+            camera_dz = 0;
+
+        if (is_pressed('8') && !is_pressed('2'))
+            camera_rx = ROTATION_DELTA;
+        else if (!is_pressed('8') && is_pressed('2'))
+            camera_rx = -ROTATION_DELTA;
+        else if (!is_pressed('8') && !is_pressed('2'))
+            camera_rx = 0;
+        else if (is_pressed('8') && is_pressed('2'))
+            camera_rx = 0;
+
+        if (is_pressed('4') && !is_pressed('6'))
+            camera_ry = ROTATION_DELTA;
+        else if (!is_pressed('4') && is_pressed('6'))
+            camera_ry = -ROTATION_DELTA;
+        else if (!is_pressed('4') && !is_pressed('6'))
+            camera_ry = 0;
+        else if (is_pressed('4') && is_pressed('6'))
+            camera_ry = 0;
+        // End of controlling
+
         double current_time = glutGet(GLUT_ELAPSED_TIME);
         delta_time_ = current_time - this->current_time_;
         if (delta_time_ > 0.1)
@@ -157,7 +221,7 @@ namespace shoot_and_jump
             shooting_system_.hit_enemies_.clear();
 
             Vector translation = old_position - player_->get_position();
-            glTranslated(translation[0], 0, 0);
+            // glTranslated(translation[0], 0, 0);
 
             glutPostRedisplay();
         }
@@ -189,7 +253,14 @@ namespace shoot_and_jump
 
     void Game::Display()
     {
-        glClear(GL_COLOR_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+        glTranslatef(camera_dx, camera_dy, camera_dz);
+        glRotatef(camera_rx, 1, 0, 0);
+        glRotatef(camera_ry, 0, 1, 0);
+        glRotatef(camera_rz, 0, 0, 1);
+
+        glEnable(GL_DEPTH_TEST);
 
         map_.Render();
         player_->Render();
