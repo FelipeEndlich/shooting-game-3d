@@ -183,7 +183,7 @@ void Model3D::Draw()
     glColor4d(red, green, blue, alpha);
     glBegin(GL_POLYGON);
     for (int i = 0; i < points_.get_rows(); i++)
-        glVertex3d(points_[i][0], points_[i][1], 0);
+        glVertex3d(points_[i][0], points_[i][1], points_[i][2]);
 
     glEnd();
 }
