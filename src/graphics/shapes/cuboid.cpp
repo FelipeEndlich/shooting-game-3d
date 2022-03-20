@@ -16,7 +16,7 @@ Cuboid::Cuboid()
     BuildPoints(Vector::Zero(3), 0, 0, 1 /* depth as 1 */);
 }
 
-Cuboid::Cuboid(const Vector &origin, double width, double height)
+Cuboid::Cuboid(const Vector &origin, double width, double height, double depth)
     : Model3D()
 {
     color_ = RGBA();
@@ -25,11 +25,10 @@ Cuboid::Cuboid(const Vector &origin, double width, double height)
 
     angle_ = 0;
 
-    double depth = 5;
     BuildPoints(origin, width, height, depth);
 }
 
-Cuboid::Cuboid(const Vector &origin, double width, double height, const RGBA &color)
+Cuboid::Cuboid(const Vector &origin, double width, double height, double depth, const RGBA &color)
     : Model3D()
 {
     color_ = color;
@@ -37,7 +36,6 @@ Cuboid::Cuboid(const Vector &origin, double width, double height, const RGBA &co
     height_ = height;
     angle_ = 0;
 
-    double depth = 5;
     BuildPoints(origin, width, height, depth);
 }
 
@@ -267,6 +265,11 @@ double Cuboid::get_width() const
 double Cuboid::get_height() const
 {
     return height_;
+}
+
+double Cuboid::get_depth() const
+{
+    return depth_;
 }
 #pragma endregion // Getters and Setters
 

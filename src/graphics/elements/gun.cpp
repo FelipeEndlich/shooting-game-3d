@@ -18,33 +18,36 @@ using ::graphics::elements::character::Character;
 using ::graphics::shapes::Cuboid;
 using ::math::Vector;
 
-Gun::Gun(Vector &initial_position, double width, double height)
+Gun::Gun(Vector &initial_position, double width, double height, double depth)
     : RigidBody(2)
 {
     Vector body_initial_position = initial_position;
     body_initial_position[1] -= height / 2;
-    body_ = new Cuboid(body_initial_position, width, height, RGBAFactory::get_color("black"));
+    body_ = new Cuboid(body_initial_position, width, height, depth, RGBAFactory::get_color("black"));
 
     double barrel_width = body_->get_width() / 2;
     double barrel_height = body_->get_height() / 2;
+    double barrel_depth = body_->get_depth() / 2;
     Vector barrel_initial_position = body_->get_center_position();
     barrel_initial_position[0] += width / 2;
     barrel_initial_position[1] -= barrel_height / 3;
-    barrel_ = new Cuboid(barrel_initial_position, barrel_width, barrel_height, RGBAFactory::get_color("black"));
+    barrel_ = new Cuboid(barrel_initial_position, barrel_width, barrel_depth, barrel_height, RGBAFactory::get_color("black"));
 
     double grip_width = body_->get_width() / 4;
     double grip_height = body_->get_height();
+    double grip_depth = body_->get_depth();
     Vector grip_initial_position = body_->get_center_position();
     grip_initial_position[0] -= (body_->get_width() - grip_width) / 2;
     grip_initial_position[1] += body_->get_height() / 2;
-    grip_ = new Cuboid(grip_initial_position, grip_width, grip_height, RGBAFactory::get_color("black"));
+    grip_ = new Cuboid(grip_initial_position, grip_width, grip_height, grip_depth, RGBAFactory::get_color("black"));
 
     double magazine_width = body_->get_width() / 4;
     double magazine_height = body_->get_height() / 2;
+    double magazine_depth = body_->get_height() / 2;
     Vector magazine_initial_position = body_->get_center_position();
     magazine_initial_position[0] -= (body_->get_width() - magazine_width * 4) / 2;
     magazine_initial_position[1] += body_->get_height() / 2;
-    magazine_ = new Cuboid(magazine_initial_position, magazine_width, magazine_height, RGBAFactory::get_color("black"));
+    magazine_ = new Cuboid(magazine_initial_position, magazine_width, magazine_height, magazine_depth, RGBAFactory::get_color("black"));
 
     angle_ = 0;
 }

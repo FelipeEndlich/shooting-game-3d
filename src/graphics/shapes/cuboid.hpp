@@ -8,8 +8,8 @@ namespace graphics::shapes
     {
     public:
         Cuboid();
-        Cuboid(const math::Vector &origin, double width, double height);
-        Cuboid(const math::Vector &origin, double width, double height, const graphics::color::RGBA &color);
+        Cuboid(const math::Vector &origin, double width, double height, double depth);
+        Cuboid(const math::Vector &origin, double width, double height, double depth, const graphics::color::RGBA &color);
         Cuboid(const Cuboid &other);
         Cuboid(const Cuboid &&other);
         ~Cuboid() = default;

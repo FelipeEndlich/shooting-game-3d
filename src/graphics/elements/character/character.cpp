@@ -48,7 +48,7 @@ Character::Character(Vector &initial_position, double radius, RGBA &color, bool 
 
     InstantiateCharacter(radius, color);
     Vector gun_initial_position = torso_->get_center_position();
-    gun_ = new Gun(gun_initial_position, torso_->get_height(), head_->get_radius());
+    gun_ = new Gun(gun_initial_position, torso_->get_height(), head_->get_radius(), torso_->get_depth());
 
     Allocate();
 }
@@ -86,51 +86,58 @@ void Character::InstantiateCharacter(double radius, graphics::color::RGBA &color
     // Instantiate body
     double body_width = radius * body_width_factor;
     double body_height = radius * body_height_factor;
+    double body_depth = radius * body_width_factor;
     Vector body_position = head_->TorsoAnchorPoint();
     body_position[0] -= body_width / 2;
-    torso_ = new Torso(body_position, body_width, body_height, color);
+    torso_ = new Torso(body_position, body_width, body_height, body_depth, color);
 
     // Instantiate left arm
     double left_arm_width = radius * arm_width_factor;
     double left_arm_height = radius * arm_height_factor;
+    double left_arm_depth = radius * arm_width_factor;
     Vector left_arm_position = torso_->LeftArmAnchorPoint();
     left_arm_position[0] -= left_arm_width / 2;
-    left_arm_ = new Arm(left_arm_position, left_arm_width, left_arm_height, color);
+    left_arm_ = new Arm(left_arm_position, left_arm_width, left_arm_height, left_arm_depth, color);
 
     // Instantiate left leg
     double left_thig_width = radius * leg_width_factor;
     double left_thig_height = radius * leg_height_factor;
+    double left_thig_depth = radius * leg_width_factor;
     Vector left_thig_position = body_position;
     left_thig_position[0] += (body_width - left_thig_width) / 2;
     left_thig_position[1] += body_height;
-    left_thig_ = new Thig(left_thig_position, left_thig_width, left_thig_height, color);
+    left_thig_ = new Thig(left_thig_position, left_thig_width, left_thig_height, left_thig_depth, color);
 
     double left_calf_width = radius * leg_width_factor;
     double left_calf_height = radius * leg_height_factor;
+    double left_calf_depth = radius * leg_width_factor;
     Vector left_calf_position = left_thig_position;
     left_calf_position[1] += left_thig_height;
-    left_calf_ = new Calf(left_calf_position, left_calf_width, left_calf_height, color);
+    left_calf_ = new Calf(left_calf_position, left_calf_width, left_calf_height, left_calf_depth, color);
 
     // Instantiate right arm
     double right_arm_width = radius * arm_width_factor;
     double right_arm_height = radius * arm_height_factor;
+    double right_arm_depth = radius * arm_width_factor;
     Vector right_arm_position = body_position;
     right_arm_position[0] += (body_width - right_arm_width) / 2;
-    right_arm_ = new Arm(right_arm_position, right_arm_width, right_arm_height, color);
+    right_arm_ = new Arm(right_arm_position, right_arm_width, right_arm_height, right_arm_depth, color);
 
     // Instantiate right leg
     double right_thig_width = radius * leg_width_factor;
     double right_thig_height = radius * leg_height_factor;
+    double right_thig_depth = radius * leg_width_factor;
     Vector right_thig_position = body_position;
     right_thig_position[0] += (body_width - right_thig_width) / 2;
     right_thig_position[1] += body_height;
-    right_thig_ = new Thig(right_thig_position, right_thig_width, right_thig_height, color);
+    right_thig_ = new Thig(right_thig_position, right_thig_width, right_thig_height, right_thig_depth, color);
 
     double right_calf_width = radius * leg_width_factor;
     double right_calf_height = radius * leg_height_factor;
+    double right_calf_depth = radius * leg_width_factor;
     Vector right_calf_position = right_thig_position;
     right_calf_position[1] += right_thig_height;
-    right_calf_ = new Calf(right_calf_position, right_calf_width, right_calf_height, color);
+    right_calf_ = new Calf(right_calf_position, right_calf_width, right_calf_height, right_calf_depth, color);
 
     left_arm_->Rotate(left_arm_->TorsoAnchorPoint(), -0.80);
     right_arm_->Rotate(right_arm_->TorsoAnchorPoint(), -0.20);

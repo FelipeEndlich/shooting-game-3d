@@ -10,8 +10,8 @@ namespace graphics::elements::character
     class Arm : public graphics::shapes::Cuboid
     {
     public:
-        Arm(const math::Vector &origin, double width, double height, const graphics::color::RGBA &color)
-            : Cuboid(origin, width, height, color){};
+        Arm(const math::Vector &origin, double width, double height, double depth, const graphics::color::RGBA &color)
+            : Cuboid(origin, width, height, depth, color){};
         ~Arm() = default;
 
         math::Vector TorsoAnchorPoint() const;

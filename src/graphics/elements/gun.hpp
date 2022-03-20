@@ -13,7 +13,7 @@ namespace graphics::elements
     {
     public:
         Gun() = default;
-        Gun(math::Vector &initial_position, double width, double height);
+        Gun(math::Vector &initial_position, double width, double height, double depth);
         ~Gun();
 
         Bullet *Shoot(bool invert);

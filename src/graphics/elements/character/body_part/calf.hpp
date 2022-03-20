@@ -10,8 +10,8 @@ namespace graphics::elements::character
     class Calf : public graphics::shapes::Cuboid
     {
     public:
-        Calf(const math::Vector &origin, double width, double height, const graphics::color::RGBA &color)
-            : Cuboid(origin, width, height, color){};
+        Calf(const math::Vector &origin, double width, double height, double depth, const graphics::color::RGBA &color)
+            : Cuboid(origin, width, height, depth, color){};
         ~Calf() = default;
 
         math::Vector ThigAnchorPoint() const;

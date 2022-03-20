@@ -10,8 +10,8 @@ namespace graphics::elements::character
     class Torso : public graphics::shapes::Cuboid
     {
     public:
-        Torso(const math::Vector &origin, double width, double height, const graphics::color::RGBA &color)
-            : Cuboid(origin, width, height, color){};
+        Torso(const math::Vector &origin, double width, double height, double depth, const graphics::color::RGBA &color)
+            : Cuboid(origin, width, height, depth, color){};
         ~Torso() = default;
 
         math::Vector HeadAnchorPoint() const;

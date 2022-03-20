@@ -10,8 +10,8 @@ namespace graphics::elements::character
     class Thig : public graphics::shapes::Cuboid
     {
     public:
-        Thig(const math::Vector &origin, double width, double height, const graphics::color::RGBA &color)
-            : Cuboid(origin, width, height, color){};
+        Thig(const math::Vector &origin, double width, double height, double depth, const graphics::color::RGBA &color)
+            : Cuboid(origin, width, height, depth, color){};
         ~Thig() = default;
 
         math::Vector TorsoAnchorPoint() const;

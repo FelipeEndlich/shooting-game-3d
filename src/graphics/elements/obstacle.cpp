@@ -9,11 +9,11 @@ using ::physic::ICollidable;
 #include <iostream>
 using namespace std;
 
-Obstacle::Obstacle(Vector &initial_position, double width, double height, RGBA &color)
+Obstacle::Obstacle(Vector &initial_position, double width, double height, double depth, RGBA &color)
     : RigidBody(2)
 {
     position_ = initial_position;
-    shape_ = new Cuboid(position_, width, height, color);
+    shape_ = new Cuboid(position_, width, height, depth, color);
 }
 
 Obstacle::~Obstacle()

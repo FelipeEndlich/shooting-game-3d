@@ -120,7 +120,7 @@ namespace shoot_and_jump
 
         glViewport(0, 0, 500, 500);
         glMatrixMode(GL_PROJECTION);
-        gluPerspective(45, 1, 0.1, 1000);
+        gluPerspective(45, 1, 1000, 0.1);
         glMatrixMode(GL_MODELVIEW);
 
         glLoadIdentity();
@@ -259,7 +259,6 @@ namespace shoot_and_jump
         glRotatef(camera_rx, 1, 0, 0);
         glRotatef(camera_ry, 0, 1, 0);
         glRotatef(camera_rz, 0, 0, 1);
-
         glEnable(GL_DEPTH_TEST);
 
         map_.Render();
@@ -341,16 +340,18 @@ namespace shoot_and_jump
     {
         double width = element->DoubleAttribute("width");
         double height = element->DoubleAttribute("height");
+        double depth = 1;
         double x = element->DoubleAttribute("x");
         double y = element->DoubleAttribute("y");
         string fill = element->Attribute("fill");
-        Vector origin(2);
+        Vector origin(3);
         origin[0] = x;
         origin[1] = y;
+        origin[2] = 0;
 
         RGBA color = RGBAFactory::get_color(fill);
 
-        Cuboid *background = new Cuboid(origin, width, height, color);
+        Cuboid *background = new Cuboid(origin, width, height, depth, color);
 
         map_.set_background(background);
 
@@ -360,8 +361,8 @@ namespace shoot_and_jump
         ortho_right_ = player_position[0] + height / 2;
         ortho_top_ = y;
         ortho_bottom_ = y + height;
-        ortho_near_ = 20.0;
-        ortho_far_ = 0.0;
+        ortho_near_ = 0.0;
+        ortho_far_ = 20.0;
 
         RGBA obstacle_color = RGBAFactory::get_color("black");
 
@@ -369,7 +370,7 @@ namespace shoot_and_jump
 
         Vector bottom_limit = Vector(origin);
         bottom_limit[1] += height;
-        Obstacle *bottom_limit_obstacle = new Obstacle(bottom_limit, width, obstacle_stroke, obstacle_color);
+        Obstacle *bottom_limit_obstacle = new Obstacle(bottom_limit, width, obstacle_stroke, depth, obstacle_color);
         map_.AddObstacle(bottom_limit_obstacle);
         collision_system_.AddToCollisionSystem(bottom_limit_obstacle);
         gravity_constraint_system_.AddSurface(bottom_limit_obstacle);
@@ -377,21 +378,21 @@ namespace shoot_and_jump
 
         Vector top_limit = Vector(origin);
         top_limit[1] -= obstacle_stroke;
-        Obstacle *top_limit_obstacle = new Obstacle(top_limit, width, obstacle_stroke, obstacle_color);
+        Obstacle *top_limit_obstacle = new Obstacle(top_limit, width, obstacle_stroke, depth, obstacle_color);
         map_.AddObstacle(top_limit_obstacle);
         collision_system_.AddToCollisionSystem(top_limit_obstacle);
         shooting_system_.AddObstacle(top_limit_obstacle);
 
         Vector left_limit = Vector(origin);
         left_limit[0] -= obstacle_stroke;
-        Obstacle *left_limit_obstacle = new Obstacle(left_limit, obstacle_stroke, height, obstacle_color);
+        Obstacle *left_limit_obstacle = new Obstacle(left_limit, obstacle_stroke, height, depth, obstacle_color);
         map_.AddObstacle(left_limit_obstacle);
         collision_system_.AddToCollisionSystem(left_limit_obstacle);
         shooting_system_.AddObstacle(left_limit_obstacle);
 
         Vector right_limit = Vector(origin);
         right_limit[0] += width;
-        Obstacle *right_limit_obstacle = new Obstacle(right_limit, obstacle_stroke, height, obstacle_color);
+        Obstacle *right_limit_obstacle = new Obstacle(right_limit, obstacle_stroke, height, depth, obstacle_color);
         map_.AddObstacle(right_limit_obstacle);
         collision_system_.AddToCollisionSystem(right_limit_obstacle);
         shooting_system_.AddObstacle(right_limit_obstacle);
@@ -401,17 +402,25 @@ namespace shoot_and_jump
     {
         double width = element->DoubleAttribute("width");
         double height = element->DoubleAttribute("height");
+
+        double depth = height;
+        if (width > height)
+            depth = width;
+        depth /= 2;
+
         double x = element->DoubleAttribute("x");
         double y = element->DoubleAttribute("y");
+        double z = 1;
         string fill = element->Attribute("fill");
 
-        Vector origin(2);
+        Vector origin(3);
         origin[0] = x;
         origin[1] = y;
+        origin[2] = z;
 
         RGBA color = RGBAFactory::get_color(fill);
 
-        Obstacle *obstacle = new Obstacle(origin, width, height, color);
+        Obstacle *obstacle = new Obstacle(origin, width, height, depth, color);
         map_.AddObstacle(obstacle);
         collision_system_.AddToCollisionSystem(obstacle);
         gravity_constraint_system_.AddSurface(obstacle);
