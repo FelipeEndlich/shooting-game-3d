@@ -50,6 +50,7 @@ namespace math
 
         static Vector Zero(int dimension);
         static Vector Fill(int dimension, double value);
+        static Vector ThreeDimPoint(double x, double y, double z);
 
     protected:
         void Copy(const Vector &other);

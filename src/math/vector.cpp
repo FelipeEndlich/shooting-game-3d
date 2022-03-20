@@ -204,6 +204,16 @@ Vector Vector::Fill(int dimension, double value)
 
     return result;
 }
+
+Vector Vector::ThreeDimPoint(double x, double y, double z)
+{
+    Vector point(3);
+    point.values_[0] = x;
+    point.values_[1] = y;
+    point.values_[2] = z;
+    
+    return point;
+}
 #pragma endregion // Static Methods
 
 #pragma region Other Methods
