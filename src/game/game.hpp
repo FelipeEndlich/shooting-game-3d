@@ -12,6 +12,7 @@
 #include "../graphics/elements/shooting_system.hpp"
 #include "../physics/collision_system.hpp"
 #include "../physics/gravity_constraint_system.hpp"
+#include "./first_person_camera.hpp"
 
 namespace shoot_and_jump
 {
@@ -34,6 +35,8 @@ namespace shoot_and_jump
     private:
         double delta_time_;
         double current_time_;
+
+        FirstPersonCamera camera_;
 
         graphics::elements::Map map_;
         graphics::elements::character::Character *player_;

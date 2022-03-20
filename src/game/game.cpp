@@ -1,4 +1,6 @@
 #include "game.hpp"
+#include "camera.hpp"
+#include "first_person_camera.hpp"
 
 #include <iostream>
 #include <algorithm>
@@ -37,7 +39,7 @@ using ::std::min;
 using ::std::remove;
 using ::std::string;
 
-#define TRANSLATION_DELTA 2
+#define TRANSLATION_DELTA 0.5
 #define ROTATION_DELTA 0.162
 
 double dx, dy, dz;
@@ -83,6 +85,7 @@ namespace shoot_and_jump
         instance = this;
         Allocate();
         LoadMap(path);
+        camera_ = FirstPersonCamera(player_->get_position());
         get<0>(mouse_position_) = 1;
         window_width_ = 500;
         window_height_ = 500;
@@ -109,7 +112,7 @@ namespace shoot_and_jump
     void Game::Run(int argc, char **argv)
     {
         glutInit(&argc, argv);
-        glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
+        glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
         glutInitWindowSize(window_width_, window_height_);
         glutInitWindowPosition(100, 100);
         glutCreateWindow("2D GAME");
@@ -118,14 +121,14 @@ namespace shoot_and_jump
         RGBA scren_color = RGBAFactory::get_color(ColorOption::kBlack);
         glClearColor(scren_color.get_red(), scren_color.get_green(), scren_color.get_blue(), scren_color.get_alpha());
 
-        glViewport(0, 0, 500, 500);
-        glMatrixMode(GL_PROJECTION);
-        gluPerspective(45, 1, 1000, 0.1);
-        glMatrixMode(GL_MODELVIEW);
+        // glViewport(0, 0, 500, 500);
+        // glMatrixMode(GL_PROJECTION);
+        // gluPerspective(45, 1, 0.1, 1000);
+        // glMatrixMode(GL_MODELVIEW);
 
-        glLoadIdentity();
-
-        glOrtho(ortho_left_, ortho_right_, ortho_bottom_, ortho_top_, 1000, 2000);
+        glEnable(GL_DEPTH_TEST);
+        glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+        // glOrtho(ortho_left_, ortho_right_, ortho_bottom_, ortho_top_, 1000, 2000);
 
         glutSetKeyRepeat(GLUT_KEY_REPEAT_OFF);
         glutMouseFunc(mouseFunc);
@@ -147,22 +150,14 @@ namespace shoot_and_jump
         };
 
         if (is_pressed('w') && !is_pressed('s'))
-            camera_dy = TRANSLATION_DELTA;
-        else if (!is_pressed('w') && is_pressed('s'))
-            camera_dy = -TRANSLATION_DELTA;
-        else if (!is_pressed('w') && !is_pressed('s'))
-            camera_dy = 0;
-        else if (is_pressed('w') && is_pressed('s'))
-            camera_dy = 0;
+            camera_.Move(Vector::ThreeDimPoint(TRANSLATION_DELTA, 0, 0));
+        else if (is_pressed('s') && !is_pressed('w'))
+            camera_.Move(Vector::ThreeDimPoint(-TRANSLATION_DELTA, 0, 0));
 
         if (is_pressed('a') && !is_pressed('d'))
-            camera_dx = TRANSLATION_DELTA;
-        else if (!is_pressed('a') && is_pressed('d'))
-            camera_dx = -TRANSLATION_DELTA;
-        else if (!is_pressed('a') && !is_pressed('d'))
-            camera_dx = 0;
-        else if (is_pressed('a') && is_pressed('d'))
-            camera_dx = 0;
+            camera_.Move(Vector::ThreeDimPoint(0, 0, TRANSLATION_DELTA));
+        else if (is_pressed('d') && !is_pressed('a'))
+            camera_.Move(Vector::ThreeDimPoint(0, 0, -TRANSLATION_DELTA));
 
         if (is_pressed('q') && !is_pressed('e'))
             camera_dz = 7 * TRANSLATION_DELTA;
@@ -222,7 +217,6 @@ namespace shoot_and_jump
 
             // Vector translation = old_position - player_->get_position();
             // glTranslated(translation[0], 0, 0);
-
             glutPostRedisplay();
         }
     }
@@ -254,12 +248,27 @@ namespace shoot_and_jump
     void Game::Display()
     {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        glViewport(0, 0, 500, 500);
+        glMatrixMode(GL_PROJECTION);
+        glLoadIdentity();
+        gluPerspective(45.0, 1, 0.1, 800);
+        glMatrixMode(GL_MODELVIEW);
 
+        // glMatrixMode(GL_PROJECTION);
+        // glLoadIdentity();
+        // gluPerspective(45, 1, 0.1, 1000);
+        // glMatrixMode(GL_MODELVIEW);
+        // gluLookAt(0, 0, 1, 0, 0, 0, 0, 1, 0);
+
+        // camera_.Run();
+        /*
         glTranslatef(camera_dx, camera_dy, camera_dz);
         glRotatef(camera_rx, 1, 0, 0);
         glRotatef(camera_ry, 0, 1, 0);
         glRotatef(camera_rz, 0, 0, 1);
-        glEnable(GL_DEPTH_TEST);
+        */
+        glLoadIdentity();
+        camera_.Run();
 
         map_.Render();
         player_->Render();
@@ -270,6 +279,7 @@ namespace shoot_and_jump
         for (auto &bullet : bullets_)
             bullet->Render();
 
+        glutPostRedisplay();
         glutSwapBuffers();
     }
 
