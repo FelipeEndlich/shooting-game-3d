@@ -121,70 +121,22 @@ void Cuboid::BuildPoints(const Vector &origin, double width, double height, doub
     points_[7][0] = x0, points_[7][1] = y1, points_[7][2] = z1; // b_4
 }
 
-void Cuboid::__draw_quad_face(math::Vector p1, math::Vector p2, math::Vector p3, math::Vector p4)
+void Cuboid::__draw_quad_face(math::Vector p1, math::Vector p2, math::Vector p3, math::Vector p4, math::Vector normal)
 {
-    double x, y, z;
-
-    auto update_coords = [](math::Vector p, double *x, double *y, double *z)
-    {
-        *x = p[0];
-        *y = p[1];
-        *z = p[2];
-    };
-
     std::vector<math::Vector> points;
     points.push_back(p1);
     points.push_back(p2);
     points.push_back(p3);
     points.push_back(p4);
+    points.push_back(p1);
 
+    glBegin(GL_QUADS);
+    glNormal3f(normal[0], normal[1], normal[2]);
     for (math::Vector p : points)
     {
-        update_coords(p, &x, &y, &z);
-        glVertex3f(x, y, z);
+        glVertex3f(p[0], p[1], p[2]);
     }
-}
-
-void Cuboid::__draw_interface()
-{
-    // Start points
-    double x0, y0, z0;
-    x0 = this->points_[0][0];
-    y0 = this->points_[0][1];
-    z0 = this->points_[0][2];
-
-    // End points
-    double x1, y1, z1;
-    x1 = x0 + this->width_;
-    y1 = y0 - this->height_;
-    z1 = z0 + this->depth_;
-
-    this->__draw_line(x0, y0, z0, x0, y0, z1);
-    this->__draw_line(x1, y0, z0, x1, y0, z1);
-    this->__draw_line(x0, y1, z0, x0, y1, z1);
-    this->__draw_line(x1, y1, z0, x1, y1, z1);
-}
-
-void Cuboid::__draw_face(double z)
-{
-    double x0, y0, x1, y1;
-    x0 = this->points_[0][0];
-    y0 = this->points_[0][1];
-
-    x1 = x0 + this->width_;
-    y1 = y0 - this->height_;
-
-    // Drawing the faces' lines
-    this->__draw_line(x0, y0, z, x1, y0, z);
-    this->__draw_line(x1, y0, z, x1, y1, z);
-    this->__draw_line(x1, y1, z, x0, y1, z);
-    this->__draw_line(x0, y1, z, x0, y0, z);
-}
-
-void Cuboid::__draw_line(double xi, double yi, double zi, double xf, double yf, double zf)
-{
-    glVertex3f(xi, yi, zi);
-    glVertex3f(xf, yf, zf);
+    glEnd();
 }
 
 void Cuboid::Draw()
@@ -193,6 +145,7 @@ void Cuboid::Draw()
     double green = color_.get_green() / 255.0;
     double blue = color_.get_blue() / 255.0;
     double alpha = color_.get_alpha() / 255.0;
+    glColor4d(red, green, blue, alpha);
 
     // Start points
     double x0, y0, z0;
@@ -202,57 +155,53 @@ void Cuboid::Draw()
     double x1, y1, z1;
     x1 = points_[6][0], y1 = points_[6][1], z1 = points_[6][2];
 
-    glBegin(GL_QUADS);
-
     // Front face
-    glColor4d((red + 0.5) / 2, green, blue, alpha);
     this->__draw_quad_face(
         math::Vector::ThreeDimPoint(x0, y0, z0),
         math::Vector::ThreeDimPoint(x1, y0, z0),
         math::Vector::ThreeDimPoint(x1, y1, z0),
-        math::Vector::ThreeDimPoint(x0, y1, z0));
+        math::Vector::ThreeDimPoint(x0, y1, z0),
+        math::Vector::ThreeDimPoint(0, 0, -1));
 
     // Back face
-    glColor4d(red, (green + 0.5) / 2, blue, alpha);
     this->__draw_quad_face(
         math::Vector::ThreeDimPoint(x0, y0, z1),
         math::Vector::ThreeDimPoint(x1, y0, z1),
         math::Vector::ThreeDimPoint(x1, y1, z1),
-        math::Vector::ThreeDimPoint(x0, y1, z1));
+        math::Vector::ThreeDimPoint(x0, y1, z1),
+        math::Vector::ThreeDimPoint(0, 0, 1));
 
     // Right face
-    glColor4d(red, green, (blue + 0.5) / 2, alpha);
     __draw_quad_face(
         math::Vector::ThreeDimPoint(x1, y0, z0),
         math::Vector::ThreeDimPoint(x1, y1, z0),
         math::Vector::ThreeDimPoint(x1, y1, z1),
-        math::Vector::ThreeDimPoint(x1, y0, z1));
+        math::Vector::ThreeDimPoint(x1, y0, z1),
+        math::Vector::ThreeDimPoint(1, 0, 0));
 
     // Left face
-    glColor4d((red + 0.5) / 2, green, blue, alpha);
     __draw_quad_face(
         math::Vector::ThreeDimPoint(x0, y0, z0),
         math::Vector::ThreeDimPoint(x0, y1, z0),
         math::Vector::ThreeDimPoint(x0, y1, z1),
-        math::Vector::ThreeDimPoint(x0, y0, z1));
+        math::Vector::ThreeDimPoint(x0, y0, z1),
+        math::Vector::ThreeDimPoint(-1, 0, 0));
 
     // Upper face
-    glColor4d(red, (green + 0.5) / 2, blue, alpha);
     __draw_quad_face(
         math::Vector::ThreeDimPoint(x0, y1, z0),
         math::Vector::ThreeDimPoint(x1, y1, z0),
         math::Vector::ThreeDimPoint(x1, y1, z1),
-        math::Vector::ThreeDimPoint(x0, y1, z1));
+        math::Vector::ThreeDimPoint(x0, y1, z1),
+        math::Vector::ThreeDimPoint(0, 1, 0));
 
     // Bottom face
-    glColor4d(red, green, (blue + 0.5) / 2, alpha);
     __draw_quad_face(
         math::Vector::ThreeDimPoint(x0, y0, z0),
         math::Vector::ThreeDimPoint(x1, y0, z0),
         math::Vector::ThreeDimPoint(x1, y0, z1),
-        math::Vector::ThreeDimPoint(x0, y0, z1));
-
-    glEnd();
+        math::Vector::ThreeDimPoint(x0, y0, z1),
+        math::Vector::ThreeDimPoint(0, -1, 0));
 }
 #pragma endregion // Private Methods
 

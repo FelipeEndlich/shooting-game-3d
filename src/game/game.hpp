@@ -49,13 +49,6 @@ namespace shoot_and_jump
         std::tuple<int, int> mouse_position_;
         bool shoot_processed_ = false;
 
-        double ortho_left_;
-        double ortho_right_;
-        double ortho_bottom_;
-        double ortho_top_;
-        double ortho_near_;
-        double ortho_far_;
-
         double window_width_;
         double window_height_;
 

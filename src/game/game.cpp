@@ -111,6 +111,8 @@ namespace shoot_and_jump
 #pragma region Public Methods
     void Game::Run(int argc, char **argv)
     {
+        float ambient_light[] = {0.1, 0.1, 0.1, 1.0};
+
         glutInit(&argc, argv);
         glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
         glutInitWindowSize(window_width_, window_height_);
@@ -122,6 +124,11 @@ namespace shoot_and_jump
         glClearColor(scren_color.get_red(), scren_color.get_green(), scren_color.get_blue(), scren_color.get_alpha());
 
         glEnable(GL_DEPTH_TEST);
+        glEnable(GL_LIGHTING);
+        glShadeModel(GL_SMOOTH);
+        glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
+        glLightModelfv(GL_LIGHT_MODEL_AMBIENT, ambient_light);
+        glEnable(GL_LIGHT0);
         glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 
         glutSetKeyRepeat(GLUT_KEY_REPEAT_OFF);
@@ -173,26 +180,26 @@ namespace shoot_and_jump
 
     void Game::ProcessAiming()
     {
-        Vector mouse_position(2);
-        mouse_position[0] = get<0>(mouse_position_);
+        // Vector mouse_position(2);
+        // mouse_position[0] = get<0>(mouse_position_);
 
-        if (player_->IsLookingRight())
-            mouse_position[1] = ((ortho_bottom_ - player_->get_position()[1]) / (ortho_bottom_ - ortho_top_)) * window_height_ - get<1>(mouse_position_);
-        else
-            mouse_position[1] = get<1>(mouse_position_) - ((ortho_bottom_ - player_->get_position()[1]) / (ortho_bottom_ - ortho_top_)) * window_height_;
+        // if (player_->IsLookingRight())
+        //     mouse_position[1] = ((ortho_bottom_ - player_->get_position()[1]) / (ortho_bottom_ - ortho_top_)) * window_height_ - get<1>(mouse_position_);
+        // else
+        //     mouse_position[1] = get<1>(mouse_position_) - ((ortho_bottom_ - player_->get_position()[1]) / (ortho_bottom_ - ortho_top_)) * window_height_;
 
-        double angle = atan2(mouse_position[1], mouse_position[0]);
+        // double angle = atan2(mouse_position[1], mouse_position[0]);
 
-        if (angle > M_PI / 2)
-            angle = M_PI - angle;
+        // if (angle > M_PI / 2)
+        //     angle = M_PI - angle;
 
-        if (angle < -M_PI / 2)
-            angle = -M_PI - angle;
+        // if (angle < -M_PI / 2)
+        //     angle = -M_PI - angle;
 
-        angle = max(angle, -M_PI / 4);
-        angle = min(angle, M_PI / 4);
+        // angle = max(angle, -M_PI / 4);
+        // angle = min(angle, M_PI / 4);
 
-        player_->Aim(angle);
+        // player_->Aim(angle);
     }
 
     void Game::Display()
@@ -206,6 +213,20 @@ namespace shoot_and_jump
 
         glLoadIdentity();
         camera_.Run();
+
+        float light[4][4] = {
+            {10.0, 10.0, 10.0, 10.0},
+            {10.0, 10.0, 10.0, 10.0},
+            {10.0, 10.0, 10.0, 10.0},
+            {0.00, 0.00, 0.00, 1.00}};
+
+        glLightfv(GL_LIGHT0, GL_AMBIENT, &light[0][0]);
+        glLightfv(GL_LIGHT0, GL_DIFFUSE, &light[1][0]);
+        glLightfv(GL_LIGHT0, GL_SPECULAR, &light[2][0]);
+        glLightfv(GL_LIGHT0, GL_POSITION, &light[3][0]);
+        glLightf(GL_LIGHT0, GL_CONSTANT_ATTENUATION, 0.15);
+        glLightf(GL_LIGHT0, GL_LINEAR_ATTENUATION, 0.005);
+        glLightf(GL_LIGHT0, GL_QUADRATIC_ATTENUATION, 0.001);
 
         map_.Render();
         player_->Render();
@@ -253,12 +274,12 @@ namespace shoot_and_jump
 
         tinyxml2::XMLElement *root = doc.FirstChildElement("svg");
 
-        if (root == nullptr)
+        if (doc.FirstChildElement("svg") == nullptr)
         {
             throw "Configuration not found";
         }
 
-        tinyxml2::XMLElement *circle_element = root->FirstChildElement("circle");
+        tinyxml2::XMLElement *circle_element = doc.FirstChildElement("svg")->FirstChildElement("circle");
         while (circle_element != nullptr)
         {
             string fill = circle_element->Attribute("fill");
@@ -270,7 +291,7 @@ namespace shoot_and_jump
             circle_element = circle_element->NextSiblingElement("circle");
         }
 
-        tinyxml2::XMLElement *rect_element = root->FirstChildElement("rect");
+        tinyxml2::XMLElement *rect_element = doc.FirstChildElement("svg")->FirstChildElement("rect");
         while (rect_element != nullptr)
         {
             string fill = rect_element->Attribute("fill");
@@ -305,46 +326,12 @@ namespace shoot_and_jump
 
         Vector player_position = player_->get_position();
 
-        ortho_left_ = player_position[0] - height / 2;
-        ortho_right_ = player_position[0] + height / 2;
-        ortho_top_ = y;
-        ortho_bottom_ = y + height;
-        ortho_near_ = 0.0;
-        ortho_far_ = 20.0;
-
-        Obstacle *front_wall = new Obstacle(x + width, y, z, depth, height, height / 2, color);
-        map_.AddObstacle(front_wall);
-        collision_system_.AddToCollisionSystem(front_wall);
-        gravity_constraint_system_.AddSurface(front_wall);
-        shooting_system_.AddObstacle(front_wall);
-
         AddWall(new Obstacle(x + width, y, z, depth, height, height / 2, color)); // front
         AddWall(new Obstacle(x, y, z, depth, height, height / 2, color));         // back
         AddWall(new Obstacle(x, y, z + height / 2, width, height, depth, color)); // left
         AddWall(new Obstacle(x, y, z, width, height, depth, color));              // right
         AddWall(new Obstacle(x, y + height, z, width, depth, height / 2, color)); // floor
         AddWall(new Obstacle(x, y, z, width, depth, height / 2, color));          // ceil
-
-        // Vector top_limit = Vector(origin);
-        // top_limit[1] -= obstacle_stroke;
-        // Obstacle *top_limit_obstacle = new Obstacle(top_limit, width, obstacle_stroke, depth, obstacle_color);
-        // map_.AddObstacle(top_limit_obstacle);
-        // collision_system_.AddToCollisionSystem(top_limit_obstacle);
-        // shooting_system_.AddObstacle(top_limit_obstacle);
-
-        // Vector left_limit = Vector(origin);
-        // left_limit[0] -= obstacle_stroke;
-        // Obstacle *left_limit_obstacle = new Obstacle(left_limit, obstacle_stroke, height, depth, obstacle_color);
-        // map_.AddObstacle(left_limit_obstacle);
-        // collision_system_.AddToCollisionSystem(left_limit_obstacle);
-        // shooting_system_.AddObstacle(left_limit_obstacle);
-
-        // Vector right_limit = Vector(origin);
-        // right_limit[0] += width;
-        // Obstacle *right_limit_obstacle = new Obstacle(right_limit, obstacle_stroke, height, depth, obstacle_color);
-        // map_.AddObstacle(right_limit_obstacle);
-        // collision_system_.AddToCollisionSystem(right_limit_obstacle);
-        // shooting_system_.AddObstacle(right_limit_obstacle);
     }
 
     void Game::AddWall(Obstacle *obstacle)

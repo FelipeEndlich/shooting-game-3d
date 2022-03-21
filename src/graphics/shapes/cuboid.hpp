@@ -31,10 +31,7 @@ namespace graphics::shapes
         double depth_;
 
     private:
-        void __draw_interface();
-        void __draw_face(double z);
-        void __draw_line(double xi, double yi, double zi, double xf, double yf, double zf);
-        void __draw_quad_face(math::Vector p1, math::Vector p2, math::Vector p3, math::Vector p4);
+        void __draw_quad_face(math::Vector p1, math::Vector p2, math::Vector p3, math::Vector p4, math::Vector normal);
         void BuildPoints(const math::Vector &origin, double width, double height, double depth);
     };
 }
