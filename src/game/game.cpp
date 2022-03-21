@@ -300,12 +300,8 @@ namespace shoot_and_jump
 
         RGBA color = RGBAFactory::get_color(fill);
 
-        map_.set_front_wall(new Cuboid(Vector::ThreeDimPoint(x + width, y, z), depth, height, height / 2, color));
-        map_.set_back_wall(new Cuboid(Vector::ThreeDimPoint(x, y, z), depth, height, height / 2, color));
-        map_.set_left_wall(new Cuboid(Vector::ThreeDimPoint(x, y, z + height / 2), width, height, depth, color));
-        map_.set_right_wall(new Cuboid(Vector::ThreeDimPoint(x, y, z), width, height, depth, color));
-        map_.set_floor(new Cuboid(Vector::ThreeDimPoint(x, y + height, z), width, depth, height / 2, color));
-        map_.set_ceil(new Cuboid(Vector::ThreeDimPoint(x, y, z), width, depth, height / 2, color));
+        map_.set_height(height);
+        map_.set_width(width);
 
         Vector player_position = player_->get_position();
 
@@ -316,38 +312,47 @@ namespace shoot_and_jump
         ortho_near_ = 0.0;
         ortho_far_ = 20.0;
 
-        RGBA obstacle_color = RGBAFactory::get_color("black");
+        Obstacle *front_wall = new Obstacle(x + width, y, z, depth, height, height / 2, color);
+        map_.AddObstacle(front_wall);
+        collision_system_.AddToCollisionSystem(front_wall);
+        gravity_constraint_system_.AddSurface(front_wall);
+        shooting_system_.AddObstacle(front_wall);
 
-        double obstacle_stroke = 1;
+        AddWall(new Obstacle(x + width, y, z, depth, height, height / 2, color)); // front
+        AddWall(new Obstacle(x, y, z, depth, height, height / 2, color));         // back
+        AddWall(new Obstacle(x, y, z + height / 2, width, height, depth, color)); // left
+        AddWall(new Obstacle(x, y, z, width, height, depth, color));              // right
+        AddWall(new Obstacle(x, y + height, z, width, depth, height / 2, color)); // floor
+        AddWall(new Obstacle(x, y, z, width, depth, height / 2, color));          // ceil
 
-        Vector bottom_limit = Vector(origin);
-        bottom_limit[1] += height;
-        Obstacle *bottom_limit_obstacle = new Obstacle(bottom_limit, width, obstacle_stroke, depth, obstacle_color);
-        map_.AddObstacle(bottom_limit_obstacle);
-        collision_system_.AddToCollisionSystem(bottom_limit_obstacle);
-        gravity_constraint_system_.AddSurface(bottom_limit_obstacle);
-        shooting_system_.AddObstacle(bottom_limit_obstacle);
+        // Vector top_limit = Vector(origin);
+        // top_limit[1] -= obstacle_stroke;
+        // Obstacle *top_limit_obstacle = new Obstacle(top_limit, width, obstacle_stroke, depth, obstacle_color);
+        // map_.AddObstacle(top_limit_obstacle);
+        // collision_system_.AddToCollisionSystem(top_limit_obstacle);
+        // shooting_system_.AddObstacle(top_limit_obstacle);
 
-        Vector top_limit = Vector(origin);
-        top_limit[1] -= obstacle_stroke;
-        Obstacle *top_limit_obstacle = new Obstacle(top_limit, width, obstacle_stroke, depth, obstacle_color);
-        map_.AddObstacle(top_limit_obstacle);
-        collision_system_.AddToCollisionSystem(top_limit_obstacle);
-        shooting_system_.AddObstacle(top_limit_obstacle);
+        // Vector left_limit = Vector(origin);
+        // left_limit[0] -= obstacle_stroke;
+        // Obstacle *left_limit_obstacle = new Obstacle(left_limit, obstacle_stroke, height, depth, obstacle_color);
+        // map_.AddObstacle(left_limit_obstacle);
+        // collision_system_.AddToCollisionSystem(left_limit_obstacle);
+        // shooting_system_.AddObstacle(left_limit_obstacle);
 
-        Vector left_limit = Vector(origin);
-        left_limit[0] -= obstacle_stroke;
-        Obstacle *left_limit_obstacle = new Obstacle(left_limit, obstacle_stroke, height, depth, obstacle_color);
-        map_.AddObstacle(left_limit_obstacle);
-        collision_system_.AddToCollisionSystem(left_limit_obstacle);
-        shooting_system_.AddObstacle(left_limit_obstacle);
+        // Vector right_limit = Vector(origin);
+        // right_limit[0] += width;
+        // Obstacle *right_limit_obstacle = new Obstacle(right_limit, obstacle_stroke, height, depth, obstacle_color);
+        // map_.AddObstacle(right_limit_obstacle);
+        // collision_system_.AddToCollisionSystem(right_limit_obstacle);
+        // shooting_system_.AddObstacle(right_limit_obstacle);
+    }
 
-        Vector right_limit = Vector(origin);
-        right_limit[0] += width;
-        Obstacle *right_limit_obstacle = new Obstacle(right_limit, obstacle_stroke, height, depth, obstacle_color);
-        map_.AddObstacle(right_limit_obstacle);
-        collision_system_.AddToCollisionSystem(right_limit_obstacle);
-        shooting_system_.AddObstacle(right_limit_obstacle);
+    void Game::AddWall(Obstacle *obstacle)
+    {
+        map_.AddObstacle(obstacle);
+        collision_system_.AddToCollisionSystem(obstacle);
+        gravity_constraint_system_.AddSurface(obstacle);
+        shooting_system_.AddObstacle(obstacle);
     }
 
     void Game::LoadObstacle(tinyxml2::XMLElement *element)

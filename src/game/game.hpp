@@ -9,6 +9,7 @@
 #include "../graphics/elements/map.hpp"
 #include "../graphics/elements/character/character.hpp"
 #include "../graphics/elements/bullet.hpp"
+#include "../graphics/elements/obstacle.hpp"
 #include "../graphics/elements/shooting_system.hpp"
 #include "../physics/collision_system.hpp"
 #include "../physics/gravity_constraint_system.hpp"
@@ -70,6 +71,8 @@ namespace shoot_and_jump
         void LoadObstacle(tinyxml2::XMLElement *obstacle);
         void LoadPlayer(tinyxml2::XMLElement *player);
         void LoadEnemy(tinyxml2::XMLElement *enemy);
+
+        void AddWall(graphics::elements::Obstacle *obstacle);
 
         void CheckKeys();
         void ProcessAiming();

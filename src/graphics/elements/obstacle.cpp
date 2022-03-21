@@ -9,8 +9,17 @@ using ::physic::ICollidable;
 #include <iostream>
 using namespace std;
 
+Obstacle::Obstacle(double x, double y, double z, double width, double height, double depth, RGBA &color)
+    : RigidBody(3)
+{
+    Vector initial_position = Vector::ThreeDimPoint(x, y, z);
+    position_ = initial_position;
+    shape_ = new Cuboid(position_, width, height, depth, color);
+}
+        
+
 Obstacle::Obstacle(Vector &initial_position, double width, double height, double depth, RGBA &color)
-    : RigidBody(2)
+    : RigidBody(3)
 {
     position_ = initial_position;
     shape_ = new Cuboid(position_, width, height, depth, color);

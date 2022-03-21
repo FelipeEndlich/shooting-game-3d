@@ -13,6 +13,7 @@ namespace graphics::elements
     public:
         Obstacle() = default;
         Obstacle(math::Vector &initial_position, double width, double height, double depth, graphics::color::RGBA &color);
+        Obstacle(double x, double y, double z, double width, double height, double depth, graphics::color::RGBA &color);
         ~Obstacle();
 
         void Render();
