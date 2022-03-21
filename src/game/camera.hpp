@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../math/vector.hpp"
+#include "../physics/direction.hpp"
 
 namespace shoot_and_jump
 {
@@ -9,7 +10,7 @@ namespace shoot_and_jump
     public:
         Camera();
 
-        virtual void Move(const math::Vector &movement) = 0;
+        virtual void Move(physic::Direction direction, double increment) = 0;
         virtual void Rotate(const math::Vector &angles) = 0;
         void Run();
 
@@ -17,5 +18,7 @@ namespace shoot_and_jump
         math::Vector eye_;
         math::Vector center_;
         math::Vector up_;
+
+        double angle_ = 0;
     };
 }

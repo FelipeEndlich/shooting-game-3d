@@ -7,6 +7,8 @@ namespace physic
         kLeft,
         kRight,
         kUp,
-        kDown
+        kDown,
+        kForward,
+        kBackward
     };
 }

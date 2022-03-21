@@ -1,7 +1,8 @@
 #pragma once
 
-#include "../math/vector.hpp"
 #include "./camera.hpp"
+#include "../math/vector.hpp"
+#include "../physics/direction.hpp"
 
 namespace shoot_and_jump
 {
@@ -11,7 +12,7 @@ namespace shoot_and_jump
         FirstPersonCamera() : Camera() {}
         FirstPersonCamera(const math::Vector &character_position);
 
-        virtual void Move(const math::Vector &movement);
+        virtual void Move(physic::Direction direction, double increment);
         virtual void Rotate(const math::Vector &angles);
     };
 }

@@ -21,10 +21,60 @@ FirstPersonCamera::FirstPersonCamera(const math::Vector &character_position)
     up_[1] = -up_[1];
 }
 
-void FirstPersonCamera::Move(const math::Vector &movement)
+void FirstPersonCamera::Move(physic::Direction direction, double increment)
 {
-    eye_ += movement;
-    center_ += movement;
+    switch (direction)
+    {
+    case physic::Direction::kLeft:
+    {
+        double x = sin(angle_) * increment;
+        double y = 0;
+        double z = cos(angle_) * increment;
+        Vector vec = Vector::ThreeDimPoint(x, y, z);
+
+        center_ += vec;
+        eye_ += vec;
+    }
+    break;
+
+    case physic::Direction::kRight:
+    {
+        double x = sin(angle_) * increment;
+        double y = 0;
+        double z = cos(angle_) * increment;
+        Vector vec = Vector::ThreeDimPoint(x, y, z);
+
+        center_ -= vec;
+        eye_ -= vec;
+    }
+    break;
+
+    case physic::Direction::kForward:
+    {
+        double x = cos(angle_) * increment;
+        double y = 0;
+        double z = sin(angle_) * increment;
+        Vector vec = Vector::ThreeDimPoint(x, y, z);
+
+        center_ += vec;
+        eye_ += vec;
+    }
+    break;
+
+    case physic::Direction::kBackward:
+    {
+        double x = cos(angle_) * increment;
+        double y = 0;
+        double z = sin(angle_) * increment;
+        Vector vec = Vector::ThreeDimPoint(x, y, z);
+
+        center_ -= vec;
+        eye_ -= vec;
+    }
+
+    default:
+        break;
+    }
 }
 
 void FirstPersonCamera::Rotate(const math::Vector &angles)

@@ -143,42 +143,6 @@ namespace shoot_and_jump
 
     void Game::Idle()
     {
-        // Controlling
-        auto is_pressed = [this](char key)
-        {
-            return this->keys_[key];
-        };
-
-        if (is_pressed('w') && !is_pressed('s'))
-             camera_.Move(Vector::ThreeDimPoint(TRANSLATION_DELTA, 0, 0));
-        else if (is_pressed('s') && !is_pressed('w'))
-             camera_.Move(Vector::ThreeDimPoint(-TRANSLATION_DELTA, 0, 0));
-
-        if (is_pressed('a') && !is_pressed('d'))
-            camera_.Move(Vector::ThreeDimPoint(0, 0, TRANSLATION_DELTA));
-        else if (is_pressed('d') && !is_pressed('a'))
-            camera_.Move(Vector::ThreeDimPoint(0, 0, -TRANSLATION_DELTA));
-
-        if (is_pressed('q') && !is_pressed('e'))
-            camera_dz = 7 * TRANSLATION_DELTA;
-        else if (!is_pressed('q') && is_pressed('e'))
-            camera_dz = -7 * TRANSLATION_DELTA;
-        else if (!is_pressed('q') && !is_pressed('e'))
-            camera_dz = 0;
-        else if (is_pressed('q') && is_pressed('e'))
-            camera_dz = 0;
-
-        if (is_pressed('8') && !is_pressed('2'))
-            camera_.Rotate(Vector::ThreeDimPoint(ROTATION_DELTA, 0, 0));
-        else if (!is_pressed('8') && is_pressed('2'))
-            camera_.Rotate(Vector::ThreeDimPoint(-ROTATION_DELTA, 0, 0));
-
-        if (is_pressed('4') && !is_pressed('6'))
-            camera_.Rotate(Vector::ThreeDimPoint(0, -ROTATION_DELTA, 0));
-        else if (!is_pressed('4') && is_pressed('6'))
-            camera_.Rotate(Vector::ThreeDimPoint(0, ROTATION_DELTA, 0));
-        // End of controlling
-
         double current_time = glutGet(GLUT_ELAPSED_TIME);
         delta_time_ = current_time - this->current_time_;
         if (delta_time_ > 0.1)
@@ -470,31 +434,66 @@ namespace shoot_and_jump
 
     void Game::CheckKeys()
     {
-        if (keys_['a'] && !keys_['d'] && mouse_[GLUT_RIGHT_BUTTON])
-            player_->Jump(delta_time_, Direction::kLeft);
+        if (keys_['w'] && !keys_['s'])
+            camera_.Move(physic::Direction::kForward, TRANSLATION_DELTA);
+        else if (!keys_['w'] && keys_['s'])
+            camera_.Move(physic::Direction::kBackward, TRANSLATION_DELTA);
 
-        if (keys_['a'] && !keys_['d'] && !mouse_[GLUT_RIGHT_BUTTON])
-            player_->Move(delta_time_, Direction::kLeft);
+        if (keys_['a'] && !keys_['d'])
+            camera_.Move(physic::Direction::kLeft, TRANSLATION_DELTA);
+        else if (!keys_['a'] && keys_['d'])
+            camera_.Move(physic::Direction::kRight, TRANSLATION_DELTA);
 
-        if (!keys_['a'] && keys_['d'] && mouse_[GLUT_RIGHT_BUTTON])
-            player_->Jump(delta_time_, Direction::kRight);
+        // if (is_pressed('a') && !is_pressed('d'))
+        //     camera_.Move(Vector::ThreeDimPoint(0, 0, TRANSLATION_DELTA));
+        // else if (is_pressed('d') && !is_pressed('a'))
+        //     camera_.Move(Vector::ThreeDimPoint(0, 0, -TRANSLATION_DELTA));
 
-        if (!keys_['a'] && keys_['d'] && !mouse_[GLUT_RIGHT_BUTTON])
-            player_->Move(delta_time_, Direction::kRight);
+        // if (is_pressed('q') && !is_pressed('e'))
+        //     camera_dz = 7 * TRANSLATION_DELTA;
+        // else if (!is_pressed('q') && is_pressed('e'))
+        //     camera_dz = -7 * TRANSLATION_DELTA;
+        // else if (!is_pressed('q') && !is_pressed('e'))
+        //     camera_dz = 0;
+        // else if (is_pressed('q') && is_pressed('e'))
+        //     camera_dz = 0;
 
-        if (((!keys_['a'] && !keys_['d']) || (keys_['a'] && keys_['d'])) && !mouse_[GLUT_RIGHT_BUTTON])
-            player_->Stop(delta_time_);
+        // if (is_pressed('8') && !is_pressed('2'))
+        //     camera_.Rotate(Vector::ThreeDimPoint(ROTATION_DELTA, 0, 0));
+        // else if (!is_pressed('8') && is_pressed('2'))
+        //     camera_.Rotate(Vector::ThreeDimPoint(-ROTATION_DELTA, 0, 0));
 
-        if (((!keys_['a'] && !keys_['d']) || (keys_['a'] && keys_['d'])) && mouse_[GLUT_RIGHT_BUTTON])
-            player_->Jump(delta_time_);
+        // if (is_pressed('4') && !is_pressed('6'))
+        //     camera_.Rotate(Vector::ThreeDimPoint(0, -ROTATION_DELTA, 0));
+        // else if (!is_pressed('4') && is_pressed('6'))
+        //     camera_.Rotate(Vector::ThreeDimPoint(0, ROTATION_DELTA, 0));
+        // // End of controlling
 
-        if (mouse_[GLUT_LEFT_BUTTON] && !shoot_processed_)
-        {
-            shoot_processed_ = true;
-            Bullet *bullet = player_->Shoot();
-            bullets_.push_back(bullet);
-            shooting_system_.AddBullet(bullet);
-        }
+        // if (keys_['a'] && !keys_['d'] && mouse_[GLUT_RIGHT_BUTTON])
+        //     player_->Jump(delta_time_, Direction::kLeft);
+
+        // if (keys_['a'] && !keys_['d'] && !mouse_[GLUT_RIGHT_BUTTON])
+        //     player_->Move(delta_time_, Direction::kLeft);
+
+        // if (!keys_['a'] && keys_['d'] && mouse_[GLUT_RIGHT_BUTTON])
+        //     player_->Jump(delta_time_, Direction::kRight);
+
+        // if (!keys_['a'] && keys_['d'] && !mouse_[GLUT_RIGHT_BUTTON])
+        //     player_->Move(delta_time_, Direction::kRight);
+
+        // if (((!keys_['a'] && !keys_['d']) || (keys_['a'] && keys_['d'])) && !mouse_[GLUT_RIGHT_BUTTON])
+        //     player_->Stop(delta_time_);
+
+        // if (((!keys_['a'] && !keys_['d']) || (keys_['a'] && keys_['d'])) && mouse_[GLUT_RIGHT_BUTTON])
+        //     player_->Jump(delta_time_);
+
+        // if (mouse_[GLUT_LEFT_BUTTON] && !shoot_processed_)
+        // {
+        //     shoot_processed_ = true;
+        //     Bullet *bullet = player_->Shoot();
+        //     bullets_.push_back(bullet);
+        //     shooting_system_.AddBullet(bullet);
+        // }
     }
 #pragma endregion // Private Methods
 }
