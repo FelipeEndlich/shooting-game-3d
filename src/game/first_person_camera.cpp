@@ -2,6 +2,7 @@
 #include "./camera.hpp"
 #include "../math/vector.hpp"
 #include <GL/glut.h>
+#include <cmath>
 
 using math::Vector;
 using shoot_and_jump::Camera;
@@ -26,4 +27,22 @@ void FirstPersonCamera::Move(const math::Vector &movement)
 
 void FirstPersonCamera::Rotate(const math::Vector &angles)
 {
+    double rho_squared, tan_theta, cos_phi;
+    double rho, theta, phi;
+    double x, y, z;
+    x = center_[0];
+    y = center_[1];
+    z = center_[2];
+
+    rho_squared = pow(x, 2) + pow(y, 2) + pow(z, 2);
+    tan_theta = y / x;
+    cos_phi = z / sqrt(rho_squared);
+
+    rho = sqrt(rho_squared);
+    theta = atan(tan_theta) - angles[0];
+    phi = acos(cos_phi) + asin(angles[1]);
+
+    center_[0] = rho * sin(phi) * cos(theta);
+    center_[1] = rho * sin(phi) * sin(theta);
+    center_[2] = rho * cos(phi);
 }

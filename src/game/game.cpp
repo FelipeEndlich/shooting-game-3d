@@ -40,7 +40,7 @@ using ::std::remove;
 using ::std::string;
 
 #define TRANSLATION_DELTA 0.5
-#define ROTATION_DELTA 0.162
+#define ROTATION_DELTA M_PI * 0.005
 
 double dx, dy, dz;
 double rx, ry, rz;
@@ -150,9 +150,9 @@ namespace shoot_and_jump
         };
 
         if (is_pressed('w') && !is_pressed('s'))
-            camera_.Move(Vector::ThreeDimPoint(TRANSLATION_DELTA, 0, 0));
+             camera_.Move(Vector::ThreeDimPoint(TRANSLATION_DELTA, 0, 0));
         else if (is_pressed('s') && !is_pressed('w'))
-            camera_.Move(Vector::ThreeDimPoint(-TRANSLATION_DELTA, 0, 0));
+             camera_.Move(Vector::ThreeDimPoint(-TRANSLATION_DELTA, 0, 0));
 
         if (is_pressed('a') && !is_pressed('d'))
             camera_.Move(Vector::ThreeDimPoint(0, 0, TRANSLATION_DELTA));
@@ -169,22 +169,14 @@ namespace shoot_and_jump
             camera_dz = 0;
 
         if (is_pressed('8') && !is_pressed('2'))
-            camera_rx = ROTATION_DELTA;
+            camera_.Rotate(Vector::ThreeDimPoint(ROTATION_DELTA, 0, 0));
         else if (!is_pressed('8') && is_pressed('2'))
-            camera_rx = -ROTATION_DELTA;
-        else if (!is_pressed('8') && !is_pressed('2'))
-            camera_rx = 0;
-        else if (is_pressed('8') && is_pressed('2'))
-            camera_rx = 0;
+            camera_.Rotate(Vector::ThreeDimPoint(-ROTATION_DELTA, 0, 0));
 
         if (is_pressed('4') && !is_pressed('6'))
-            camera_ry = ROTATION_DELTA;
+            camera_.Rotate(Vector::ThreeDimPoint(0, -ROTATION_DELTA, 0));
         else if (!is_pressed('4') && is_pressed('6'))
-            camera_ry = -ROTATION_DELTA;
-        else if (!is_pressed('4') && !is_pressed('6'))
-            camera_ry = 0;
-        else if (is_pressed('4') && is_pressed('6'))
-            camera_ry = 0;
+            camera_.Rotate(Vector::ThreeDimPoint(0, ROTATION_DELTA, 0));
         // End of controlling
 
         double current_time = glutGet(GLUT_ELAPSED_TIME);
