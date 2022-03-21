@@ -121,14 +121,8 @@ namespace shoot_and_jump
         RGBA scren_color = RGBAFactory::get_color(ColorOption::kBlack);
         glClearColor(scren_color.get_red(), scren_color.get_green(), scren_color.get_blue(), scren_color.get_alpha());
 
-        // glViewport(0, 0, 500, 500);
-        // glMatrixMode(GL_PROJECTION);
-        // gluPerspective(45, 1, 0.1, 1000);
-        // glMatrixMode(GL_MODELVIEW);
-
         glEnable(GL_DEPTH_TEST);
         glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
-        // glOrtho(ortho_left_, ortho_right_, ortho_bottom_, ortho_top_, 1000, 2000);
 
         glutSetKeyRepeat(GLUT_KEY_REPEAT_OFF);
         glutMouseFunc(mouseFunc);
@@ -210,19 +204,6 @@ namespace shoot_and_jump
         gluPerspective(45.0, 1, 0.1, 800);
         glMatrixMode(GL_MODELVIEW);
 
-        // glMatrixMode(GL_PROJECTION);
-        // glLoadIdentity();
-        // gluPerspective(45, 1, 0.1, 1000);
-        // glMatrixMode(GL_MODELVIEW);
-        // gluLookAt(0, 0, 1, 0, 0, 0, 0, 1, 0);
-
-        // camera_.Run();
-        /*
-        glTranslatef(camera_dx, camera_dy, camera_dz);
-        glRotatef(camera_rx, 1, 0, 0);
-        glRotatef(camera_ry, 0, 1, 0);
-        glRotatef(camera_rz, 0, 0, 1);
-        */
         glLoadIdentity();
         camera_.Run();
 
@@ -306,10 +287,12 @@ namespace shoot_and_jump
     {
         double width = element->DoubleAttribute("width");
         double height = element->DoubleAttribute("height");
-        double depth = 1;
+        double depth = 0.1;
         double x = element->DoubleAttribute("x");
         double y = element->DoubleAttribute("y");
+        double z = 0;
         string fill = element->Attribute("fill");
+
         Vector origin(3);
         origin[0] = x;
         origin[1] = y;
@@ -317,9 +300,12 @@ namespace shoot_and_jump
 
         RGBA color = RGBAFactory::get_color(fill);
 
-        Cuboid *background = new Cuboid(origin, width, height, depth, color);
-
-        map_.set_background(background);
+        map_.set_front_wall(new Cuboid(Vector::ThreeDimPoint(x + width, y, z), depth, height, height / 2, color));
+        map_.set_back_wall(new Cuboid(Vector::ThreeDimPoint(x, y, z), depth, height, height / 2, color));
+        map_.set_left_wall(new Cuboid(Vector::ThreeDimPoint(x, y, z + height / 2), width, height, depth, color));
+        map_.set_right_wall(new Cuboid(Vector::ThreeDimPoint(x, y, z), width, height, depth, color));
+        map_.set_floor(new Cuboid(Vector::ThreeDimPoint(x, y + height, z), width, depth, height / 2, color));
+        map_.set_ceil(new Cuboid(Vector::ThreeDimPoint(x, y, z), width, depth, height / 2, color));
 
         Vector player_position = player_->get_position();
 
@@ -368,11 +354,7 @@ namespace shoot_and_jump
     {
         double width = element->DoubleAttribute("width");
         double height = element->DoubleAttribute("height");
-
-        double depth = height;
-        if (width > height)
-            depth = width;
-        depth /= 2;
+        double depth = map_.get_height() / 2;
 
         double x = element->DoubleAttribute("x");
         double y = element->DoubleAttribute("y");
