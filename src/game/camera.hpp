@@ -11,7 +11,7 @@ namespace shoot_and_jump
         Camera();
 
         virtual void Move(physic::Direction direction, double increment) = 0;
-        virtual void Rotate(const math::Vector &angles) = 0;
+        virtual void Rotate(physic::Direction direction, double increment) = 0;
         void Run();
 
     protected:

@@ -444,6 +444,11 @@ namespace shoot_and_jump
         else if (!keys_['a'] && keys_['d'])
             camera_.Move(physic::Direction::kRight, TRANSLATION_DELTA);
 
+        if (keys_['q'] && !keys_['e'])
+            camera_.Rotate(physic::Direction::kLeft, ROTATION_DELTA);
+        else if (!keys_['q'] && keys_['e'])
+            camera_.Rotate(physic::Direction::kRight, ROTATION_DELTA);
+
         // if (is_pressed('a') && !is_pressed('d'))
         //     camera_.Move(Vector::ThreeDimPoint(0, 0, TRANSLATION_DELTA));
         // else if (is_pressed('d') && !is_pressed('a'))
