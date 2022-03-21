@@ -10,8 +10,12 @@ using ::math::Vector;
 Vector Head::TorsoAnchorPoint() const
 {
     Vector position = get_center_position();
-    position[0] += radius_ * cos(angle_ + M_PI / 2);
-    position[1] += radius_ * sin(angle_ + M_PI / 2);
+
+    double radius = height_ / 2;
+
+    position[0] += radius * cos(angle_ - M_PI / 2);
+    position[1] += radius * sin(angle_ - M_PI / 2);
+
     return position;
 }
 

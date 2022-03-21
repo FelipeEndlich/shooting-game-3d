@@ -14,6 +14,10 @@ namespace shoot_and_jump
         virtual void Rotate(physic::Direction direction, double increment) = 0;
         void Run();
 
+        double get_x() const;
+        double get_y() const;
+        double get_z() const;
+
     protected:
         math::Vector eye_;
         math::Vector center_;

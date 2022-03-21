@@ -132,10 +132,10 @@ void Cuboid::__draw_quad_face(math::Vector p1, math::Vector p2, math::Vector p3,
 
     glBegin(GL_QUADS);
     glNormal3f(normal[0], normal[1], normal[2]);
+    glColor3f(1, 0, 0);
     for (math::Vector p : points)
-    {
         glVertex3f(p[0], p[1], p[2]);
-    }
+
     glEnd();
 }
 
@@ -177,7 +177,7 @@ void Cuboid::Draw()
         math::Vector::ThreeDimPoint(x1, y1, z0),
         math::Vector::ThreeDimPoint(x1, y1, z1),
         math::Vector::ThreeDimPoint(x1, y0, z1),
-        math::Vector::ThreeDimPoint(1, 0, 0));
+        math::Vector::ThreeDimPoint(-1, 0, 0));
 
     // Left face
     __draw_quad_face(
@@ -185,7 +185,7 @@ void Cuboid::Draw()
         math::Vector::ThreeDimPoint(x0, y1, z0),
         math::Vector::ThreeDimPoint(x0, y1, z1),
         math::Vector::ThreeDimPoint(x0, y0, z1),
-        math::Vector::ThreeDimPoint(-1, 0, 0));
+        math::Vector::ThreeDimPoint(1, 0, 0));
 
     // Upper face
     __draw_quad_face(
@@ -193,7 +193,7 @@ void Cuboid::Draw()
         math::Vector::ThreeDimPoint(x1, y1, z0),
         math::Vector::ThreeDimPoint(x1, y1, z1),
         math::Vector::ThreeDimPoint(x0, y1, z1),
-        math::Vector::ThreeDimPoint(0, 1, 0));
+        math::Vector::ThreeDimPoint(0, -1, 0));
 
     // Bottom face
     __draw_quad_face(
@@ -201,7 +201,7 @@ void Cuboid::Draw()
         math::Vector::ThreeDimPoint(x1, y0, z0),
         math::Vector::ThreeDimPoint(x1, y0, z1),
         math::Vector::ThreeDimPoint(x0, y0, z1),
-        math::Vector::ThreeDimPoint(0, -1, 0));
+        math::Vector::ThreeDimPoint(0, 1, 0));
 }
 #pragma endregion // Private Methods
 

@@ -65,7 +65,7 @@ namespace graphics::elements
             inline static double default_horizontal_velocity_ = 0.05;
 
         private:
-            graphics::shapes::Circle shape_;
+            graphics::shapes::Cuboid shape_;
 
             graphics::shapes::Model3D *outline_;
             Head *head_;

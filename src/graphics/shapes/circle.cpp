@@ -77,10 +77,12 @@ void Circle::BuildPoints(const Vector &origin, double radius)
     {
         points_[i][0] = origin[0] + radius * std::cos(angle);
         points_[i][1] = origin[1] + radius * std::sin(angle);
+        points_[i][2] = origin[2];
         angle += 2 * M_PI / segments_;
     }
     points_[segments_][0] = points_[0][0];
     points_[segments_][1] = points_[0][1];
+    points_[segments_][2] = points_[0][2];
 }
 #pragma endregion // Private Methods
 

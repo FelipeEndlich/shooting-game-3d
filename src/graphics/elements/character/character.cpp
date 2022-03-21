@@ -26,21 +26,24 @@ using ::std::cout;
 using ::std::endl;
 
 Character::Character(bool collision_processable)
-    : RigidBody(2)
+    : RigidBody(3)
 {
     collision_processable_ = collision_processable;
     Allocate();
 }
 
 Character::Character(Vector &initial_position, double radius, RGBA &color, bool collision_processable)
-    : RigidBody(2)
+    : RigidBody(3)
 {
     collision_processable_ = collision_processable;
     position_ = initial_position;
-    shape_ = Circle(position_, radius, color);
 
+    position_ += Vector::ThreeDimPoint(-radius / 2, 0, -radius / 2);
+    shape_ = Cuboid(position_, radius, radius, radius, color);
+
+    /*
     double time_jump_max = 1000;
-    Vector gravity_acceleration = Vector::Zero(2);
+    Vector gravity_acceleration = Vector::Zero(3);
     gravity_acceleration[1] = 12 * radius / (time_jump_max * time_jump_max);
     set_gravity_acceleration(gravity_acceleration);
 
@@ -48,9 +51,10 @@ Character::Character(Vector &initial_position, double radius, RGBA &color, bool 
 
     InstantiateCharacter(radius, color);
     Vector gun_initial_position = torso_->get_center_position();
-    gun_ = new Gun(gun_initial_position, torso_->get_height(), head_->get_radius(), torso_->get_depth());
+    gun_ = new Gun(gun_initial_position, torso_->get_height(), head_->get_height(), torso_->get_depth());
 
     Allocate();
+    */
 }
 
 Character::~Character()
@@ -61,7 +65,9 @@ Character::~Character()
 void Character::InstantiateCharacter(double radius, graphics::color::RGBA &color)
 {
     // Radius factors
-    double head_radius_factor = 0.3;
+    double head_width_factor = 0.35;
+    double head_height_factor = 0.35;
+    double head_depth_factor = 0.35;
 
     // Height factors
     double body_height_factor = 0.7;
@@ -78,10 +84,12 @@ void Character::InstantiateCharacter(double radius, graphics::color::RGBA &color
     double leg_rotate_factor = M_PI / 12;
 
     // Instantiate head
-    double head_radius = radius * head_radius_factor;
+    double head_width = radius * head_width_factor;
+    double head_height = radius * head_height_factor;
+    double head_depth = radius * head_depth_factor;
     Vector head_position = position_;
-    head_position[1] += head_radius - radius;
-    head_ = new Head(head_position, head_radius, color);
+    head_position[0] += head_width / 2;
+    head_ = new Head(head_position, head_width_factor, head_height, head_depth, color);
 
     // Instantiate body
     double body_width = radius * body_width_factor;
@@ -178,57 +186,59 @@ Character &Character::operator=(const Character &other)
 
 void Character::Render()
 {
+    // shape_.Draw();
     head_->Draw();
-    torso_->Draw();
+    // torso_->Draw();
 
-    if (looking_right_)
-    {
-        left_arm_->Draw();
-        gun_->Render();
-        right_arm_->Draw();
-    }
-    else
-    {
-        right_arm_->Draw();
-        gun_->Render();
-        left_arm_->Draw();
-    }
+    // if (looking_right_)
+    // {
+    //     left_arm_->Draw();
+    //     gun_->Render();
+    //     right_arm_->Draw();
+    // }
+    // else
+    // {
+    //     right_arm_->Draw();
+    //     gun_->Render();
+    //     left_arm_->Draw();
+    // }
 
-    right_thig_->Draw();
-    right_calf_->Draw();
+    // right_thig_->Draw();
+    // right_calf_->Draw();
 
-    left_thig_->Draw();
-    left_calf_->Draw();
+    // left_thig_->Draw();
+    // left_calf_->Draw();
 }
 
 void Character::Jump(double delta_time)
 {
-    state_->Jump(delta_time);
+    // state_->Jump(delta_time);
 }
 
 void Character::Jump(double delta_time, physic::Direction direction)
 {
-    state_->Jump(delta_time, direction);
+    // state_->Jump(delta_time, direction);
 }
 
 void Character::Stop(double delta_time)
 {
-    state_->Stop(delta_time);
+    // state_->Stop(delta_time);
 }
 
 void Character::Move(double delta_time, Direction direction)
 {
-    state_->Move(delta_time, direction);
+    // state_->Move(delta_time, direction);
 }
 
 void Character::set_state(BaseState *state)
 {
-    delete state_;
-    this->state_ = state;
+    // delete state_;
+    // this->state_ = state;
 }
 
 void Character::Aim(double angle)
 {
+    /*
     if (looking_right_)
     {
 
@@ -248,12 +258,13 @@ void Character::Aim(double angle)
         right_arm_->Rotate(position, increment);
         gun_->Rotate(position, increment);
     }
+    */
 }
 
 void Character::Allocate()
 {
-    graphics::shapes::Cuboid left_arm_;
-    state_ = new FallingState(this);
+    // graphics::shapes::Cuboid left_arm_;
+    // state_ = new FallingState(this);
 }
 
 void Character::Deallocate()
@@ -353,22 +364,23 @@ void Character::Translate(double dx, double dy, bool translate_position)
 }
 
 void Character::Translate(math::Vector &translation, bool translate_position)
-{
-    shape_.Translate(translation);
-    head_->Translate(translation);
-    torso_->Translate(translation);
-    outline_->Translate(translation);
-    left_arm_->Translate(translation);
-    right_arm_->Translate(translation);
-    left_thig_->Translate(translation);
-    right_thig_->Translate(translation);
-    left_calf_->Translate(translation);
-    right_calf_->Translate(translation);
+{ /*
+  shape_.Translate(translation);
+  head_->Translate(translation);
+  torso_->Translate(translation);
+  outline_->Translate(translation);
+  left_arm_->Translate(translation);
+  right_arm_->Translate(translation);
+  left_thig_->Translate(translation);
+  right_thig_->Translate(translation);
+  left_calf_->Translate(translation);
+  right_calf_->Translate(translation);
 
-    gun_->Translate(translation, translate_position);
+  gun_->Translate(translation, translate_position);
 
-    if (translate_position)
-        position_ += translation;
+  if (translate_position)
+      position_ += translation;
+  */
 }
 
 void Character::ResetAnimation()
@@ -422,7 +434,7 @@ void Character::Mirror()
     Vector center = torso_->get_center_position();
 
     outline_->Scale(center, -1, 1);
-    shape_.Scale(center, -1, 1);
+    // shape_.Scale(center, -1, 1);
 
     head_->Mirror(center);
     torso_->Mirror(center);

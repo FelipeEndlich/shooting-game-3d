@@ -14,7 +14,7 @@ namespace graphics::shapes
         Model3D(const Model3D &&other);
         virtual ~Model3D() = default;
 
-        virtual void Translate(double dx, double dy);
+        virtual void Translate(double dx, double dy, double dz);
         virtual void Translate(const math::Vector &vector);
         virtual void Scale(double x, double y, double sx, double sy);
         virtual void Scale(const math::Vector &center, double sx, double sy);

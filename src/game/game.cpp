@@ -218,7 +218,7 @@ namespace shoot_and_jump
             {10.0, 10.0, 10.0, 10.0},
             {10.0, 10.0, 10.0, 10.0},
             {10.0, 10.0, 10.0, 10.0},
-            {0.00, 0.00, 0.00, 1.00}};
+            {camera_.get_x(), camera_.get_y(), camera_.get_z(), 1.00}};
 
         glLightfv(GL_LIGHT0, GL_AMBIENT, &light[0][0]);
         glLightfv(GL_LIGHT0, GL_DIFFUSE, &light[1][0]);
@@ -279,19 +279,7 @@ namespace shoot_and_jump
             throw "Configuration not found";
         }
 
-        tinyxml2::XMLElement *circle_element = doc.FirstChildElement("svg")->FirstChildElement("circle");
-        while (circle_element != nullptr)
-        {
-            string fill = circle_element->Attribute("fill");
-            if (fill == "green")
-                LoadPlayer(circle_element);
-            else if (fill == "red")
-                LoadEnemy(circle_element);
-
-            circle_element = circle_element->NextSiblingElement("circle");
-        }
-
-        tinyxml2::XMLElement *rect_element = doc.FirstChildElement("svg")->FirstChildElement("rect");
+        tinyxml2::XMLElement *rect_element = root->FirstChildElement("rect");
         while (rect_element != nullptr)
         {
             string fill = rect_element->Attribute("fill");
@@ -301,6 +289,18 @@ namespace shoot_and_jump
                 LoadObstacle(rect_element);
 
             rect_element = rect_element->NextSiblingElement("rect");
+        }
+
+        tinyxml2::XMLElement *circle_element = root->FirstChildElement("circle");
+        while (circle_element != nullptr)
+        {
+            string fill = circle_element->Attribute("fill");
+            if (fill == "green")
+                LoadPlayer(circle_element);
+            else if (fill == "red")
+                LoadEnemy(circle_element);
+
+            circle_element = circle_element->NextSiblingElement("circle");
         }
     }
 
@@ -323,8 +323,6 @@ namespace shoot_and_jump
 
         map_.set_height(height);
         map_.set_width(width);
-
-        Vector player_position = player_->get_position();
 
         AddWall(new Obstacle(x + width, y, z, depth, height, height / 2, color)); // front
         AddWall(new Obstacle(x, y, z, depth, height, height / 2, color));         // back
@@ -374,9 +372,10 @@ namespace shoot_and_jump
         double cy = element->DoubleAttribute("cy");
         string fill = element->Attribute("fill");
 
-        Vector origin(2);
+        Vector origin(3);
         origin[0] = cx;
         origin[1] = cy;
+        origin[2] = map_.get_height() / 4;
 
         RGBA color = RGBAFactory::get_color(fill);
 
@@ -394,9 +393,10 @@ namespace shoot_and_jump
         double cy = element->DoubleAttribute("cy");
         string fill = element->Attribute("fill");
 
-        Vector origin(2);
+        Vector origin(3);
         origin[0] = cx;
         origin[1] = cy;
+        origin[2] = map_.get_height() / 4;
 
         RGBA color = RGBAFactory::get_color(fill);
 

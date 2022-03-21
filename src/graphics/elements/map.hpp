@@ -19,6 +19,11 @@ namespace graphics::elements
 
         double get_width() const;
         double get_height() const;
+        double get_depth() const;
+
+        double get_x() const;
+        double get_y() const;
+        double get_z() const;
 
         void AddObstacle(Obstacle *obstacle);
         void Render();
@@ -26,6 +31,7 @@ namespace graphics::elements
     private:
         double width_;
         double height_;
+        double depth_;
         std::vector<Obstacle *> obstacles_;
     };
 }

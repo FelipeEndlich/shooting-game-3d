@@ -38,6 +38,11 @@ double Map::get_height() const
     return height_;
 }
 
+double Map::get_depth() const
+{
+    return depth_;
+}
+
 void Map::AddObstacle(Obstacle *obstacle)
 {
     obstacles_.push_back(obstacle);

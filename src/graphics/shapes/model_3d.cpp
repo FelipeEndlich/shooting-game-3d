@@ -52,18 +52,20 @@ Model3D::Model3D(const Model3D &&other)
 #pragma endregion // Constructors and Destructors
 
 #pragma region Methods
-void Model3D::Translate(double dx, double dy)
+void Model3D::Translate(double dx, double dy, double dz)
 {
-    // Vector translation(3);
-    // translation[0] = dx;
-    // translation[1] = dy;
-    // Translate(translation);
+    Vector translation(3);
+    translation[0] = dx;
+    translation[1] = dy;
+    translation[2] = dz;
+
+    Translate(translation);
 }
 
 void Model3D::Translate(const Vector &vector)
 {
-    // for (int i = 0; i < points_.get_rows(); i++)
-    //     points_[i] += vector;
+    for (int i = 0; i < points_.get_rows(); i++)
+        points_[i] += vector;
 }
 
 void Model3D::Scale(double x, double y, double sx, double sy)
