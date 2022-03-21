@@ -39,7 +39,7 @@ using ::std::min;
 using ::std::remove;
 using ::std::string;
 
-#define TRANSLATION_DELTA 0.5
+#define TRANSLATION_DELTA 1
 #define ROTATION_DELTA M_PI * 0.005
 
 double dx, dy, dz;

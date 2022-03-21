@@ -14,11 +14,9 @@ FirstPersonCamera::FirstPersonCamera(const math::Vector &character_position)
 {
     eye_ = Vector::ThreeDimPoint(character_position[0], character_position[1], character_position[2]);
 
-    Vector center = Vector::ThreeDimPoint(character_position[0] + 1, character_position[1], character_position[2]);
-
-    center_ = Vector::ThreeDimPoint(center[0], center[1], center[2]);
+    center_ += Vector::ThreeDimPoint(1, 0, 0) + eye_;
     up_ = Vector::ThreeDimPoint(0, 0, 1).CrossProduct(center_ - eye_);
-    up_[1] = -up_[1];
+    up_[1] = -abs(up_[1]);
 }
 
 void FirstPersonCamera::Move(physic::Direction direction, double increment)
@@ -29,17 +27,17 @@ void FirstPersonCamera::Move(physic::Direction direction, double increment)
     {
     case physic::Direction::kLeft:
     {
-        vec[0] = sin(angle_) * increment;
+        vec[0] = cos(angle_ + 0.5 * M_PI) * increment;
         vec[1] = 0;
-        vec[2] = cos(angle_) * increment;
+        vec[2] = sin(angle_ + 0.5 * M_PI) * increment;
     }
     break;
 
     case physic::Direction::kRight:
     {
-        vec[0] = -sin(angle_) * increment;
+        vec[0] = cos(angle_ - 0.5 * M_PI) * increment;
         vec[1] = 0;
-        vec[2] = -cos(angle_) * increment;
+        vec[2] = sin(angle_ - 0.5 * M_PI) * increment;
     }
     break;
 
@@ -65,43 +63,25 @@ void FirstPersonCamera::Move(physic::Direction direction, double increment)
 
     center_ += vec;
     eye_ += vec;
+    up_ = Vector::ThreeDimPoint(0, 0, 1).CrossProduct(center_ - eye_);
+    up_[1] = -abs(up_[1]);
 }
 
-void FirstPersonCamera::Rotate(physic::Direction direction, double increment)
+void FirstPersonCamera::Rotate(physic::Direction direction, double angle_increment)
 {
-    Vector vec = Vector::Zero(3);
-
     switch (direction)
     {
     case physic::Direction::kLeft:
     {
-        vec[0] = sin(angle_) * increment;
-        vec[1] = 0;
-        vec[2] = cos(angle_) * increment;
+        angle_ += angle_increment;
+        center_ = eye_ + Vector::ThreeDimPoint(cos(angle_), 0, sin(angle_));
     }
     break;
 
     case physic::Direction::kRight:
     {
-        vec[0] = -sin(angle_) * increment;
-        vec[1] = 0;
-        vec[2] = -cos(angle_) * increment;
-    }
-    break;
-
-    case physic::Direction::kForward:
-    {
-        vec[0] = cos(angle_) * increment;
-        vec[1] = 0;
-        vec[2] = sin(angle_) * increment;
-    }
-    break;
-
-    case physic::Direction::kBackward:
-    {
-        vec[0] = -cos(angle_) * increment;
-        vec[1] = 0;
-        vec[2] = -sin(angle_) * increment;
+        angle_ -= angle_increment;
+        center_ = eye_ + Vector::ThreeDimPoint(cos(angle_), 0, sin(angle_));
     }
     break;
 
@@ -109,8 +89,8 @@ void FirstPersonCamera::Rotate(physic::Direction direction, double increment)
         break;
     }
 
-    center_ += vec;
-    eye_ += vec;
+    up_ = Vector::ThreeDimPoint(0, 0, 1).CrossProduct(center_ - eye_);
+    up_[1] = -abs(up_[1]);
 
     // double rho_squared, tan_theta, cos_phi;
     // double rho, theta, phi;

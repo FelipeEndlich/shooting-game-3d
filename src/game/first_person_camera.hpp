@@ -13,6 +13,6 @@ namespace shoot_and_jump
         FirstPersonCamera(const math::Vector &character_position);
 
         virtual void Move(physic::Direction direction, double increment);
-        virtual void Rotate(physic::Direction direction, double increment);
+        virtual void Rotate(physic::Direction direction, double angle_increment);
     };
 }
