@@ -218,7 +218,9 @@ namespace shoot_and_jump
             {10.0, 10.0, 10.0, 10.0},
             {10.0, 10.0, 10.0, 10.0},
             {10.0, 10.0, 10.0, 10.0},
-            {camera_.get_x(), camera_.get_y(), camera_.get_z(), 1.00}};
+            {(float)camera_.get_x(),
+             (float)camera_.get_y(),
+             (float)camera_.get_z(), 1.00}};
 
         glLightfv(GL_LIGHT0, GL_AMBIENT, &light[0][0]);
         glLightfv(GL_LIGHT0, GL_DIFFUSE, &light[1][0]);

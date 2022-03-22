@@ -19,11 +19,11 @@ void Map::Render()
         obstacle->Render();
 }
 
-double Map::set_height(double height)
+void Map::set_height(double height)
 {
     this->height_ = height;
 }
-double Map::set_width(double width)
+void Map::set_width(double width)
 {
     this->width_ = width;
 }

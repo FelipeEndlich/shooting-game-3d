@@ -14,8 +14,8 @@ namespace graphics::elements
         Map() = default;
         virtual ~Map();
 
-        double set_height(double height);
-        double set_width(double width);
+        void set_height(double height);
+        void set_width(double width);
 
         double get_width() const;
         double get_height() const;

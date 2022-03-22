@@ -41,7 +41,6 @@ Character::Character(Vector &initial_position, double radius, RGBA &color, bool 
     position_ += Vector::ThreeDimPoint(-radius / 2, 0, -radius / 2);
     shape_ = Cuboid(position_, radius, radius, radius, color);
 
-    /*
     double time_jump_max = 1000;
     Vector gravity_acceleration = Vector::Zero(3);
     gravity_acceleration[1] = 12 * radius / (time_jump_max * time_jump_max);
@@ -54,12 +53,11 @@ Character::Character(Vector &initial_position, double radius, RGBA &color, bool 
     gun_ = new Gun(gun_initial_position, torso_->get_height(), head_->get_height(), torso_->get_depth());
 
     Allocate();
-    */
 }
 
 Character::~Character()
 {
-    Deallocate();
+    // Deallocate();
 }
 
 void Character::InstantiateCharacter(double radius, graphics::color::RGBA &color)
@@ -80,8 +78,8 @@ void Character::InstantiateCharacter(double radius, graphics::color::RGBA &color
     double arm_width_factor = 0.15;
 
     // Rotate factors
-    double arm_rotate_factor = M_PI / 6;
-    double leg_rotate_factor = M_PI / 12;
+    //double arm_rotate_factor = M_PI / 6;
+    //double leg_rotate_factor = M_PI / 12;
 
     // Instantiate head
     double head_width = radius * head_width_factor;
@@ -178,7 +176,7 @@ Character &Character::operator=(const Character &other)
         last_position_ = other.last_position_;
         looking_right_ = other.looking_right_;
 
-        Deallocate();
+        //Deallocate();
         this->state_ = other.state_->Clone();
     }
     return *this;
@@ -269,6 +267,7 @@ void Character::Allocate()
 
 void Character::Deallocate()
 {
+    /*
     delete state_;
     delete head_;
     delete torso_;
@@ -280,6 +279,7 @@ void Character::Deallocate()
     delete right_calf_;
     delete gun_;
     delete outline_;
+    */
 }
 
 Vector Character::get_position()
@@ -308,59 +308,73 @@ bool Character::IsLookingRight()
 
 void Character::ProcessCollision(ICollidable *collidable)
 {
+    /*
     if (collision_processable_)
     {
         state_->ProcessCollision(collidable);
     }
+    */
 }
 
 void Character::ProcessMove(double delta_time)
 {
+    /*
     Vector position = position_;
     Update(delta_time);
     Vector translation = position_ - position;
     Translate(translation, false);
+    */
 }
 
 void Character::ProcessCollisionByLeft(ICollidable *collidable)
 {
+    /*
     double collidable_x = collidable->get_position()[0] + collidable->get_width();
     double character_x = get_position()[0];
     Translate(collidable_x - character_x, 0);
+    */
 }
 
 void Character::ProcessCollisionByRight(ICollidable *collidable)
 {
+    /*
     double collidable_x = collidable->get_position()[0];
     double character_x = get_position()[0] + get_width();
     Translate(collidable_x - character_x, 0);
+    */
 }
 
 void Character::ProcessCollisionByTop(ICollidable *collidable)
 {
+    /*
     double collidable_y = collidable->get_position()[1] + collidable->get_height();
     double character_y = get_position()[1];
     Translate(0, collidable_y - character_y);
+    */
 }
 
 void Character::ProcessCollisionByBottom(ICollidable *collidable)
 {
+    /*
     double collidable_y = collidable->get_position()[1];
     double character_y = get_position()[1] + get_height();
     Translate(0, collidable_y - character_y);
+    */
 }
 
 void Character::ProcessGravity()
 {
-    state_->ProcessGravity();
+    //state_->ProcessGravity();
 }
 
 void Character::Translate(double dx, double dy, bool translate_position)
 {
+    /*
     Vector translation(2);
     translation[0] = dx;
     translation[1] = dy;
     Translate(translation, translate_position);
+    */
 }
 
 void Character::Translate(math::Vector &translation, bool translate_position)
@@ -385,6 +399,7 @@ void Character::Translate(math::Vector &translation, bool translate_position)
 
 void Character::ResetAnimation()
 {
+    /*
     head_->Rotate(head_->get_center_position(), -head_->get_angle());
 
     torso_->Rotate(torso_->get_center_position(), -torso_->get_angle());
@@ -427,10 +442,12 @@ void Character::ResetAnimation()
         right_arm_->Rotate(right_arm_->TorsoAnchorPoint(), 0.80);
         left_arm_->Rotate(left_arm_->TorsoAnchorPoint(), 0.20);
     }
+    */
 }
 
 void Character::Mirror()
 {
+    /*
     Vector center = torso_->get_center_position();
 
     outline_->Scale(center, -1, 1);
@@ -447,6 +464,7 @@ void Character::Mirror()
     gun_->Mirror(center);
 
     looking_right_ = !looking_right_;
+    */
 }
 
 Bullet *Character::Shoot()
