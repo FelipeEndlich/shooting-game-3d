@@ -51,6 +51,8 @@ WalkingAnimationSystem::WalkingAnimationSystem(Character *character)
         {WalkPhase::kDown, {-0.65, 0.25}},
         {WalkPhase::kUp, {0.95, 0.25}}};
 
+   
+    /*
     if (!character->looking_right_)
     {
         for (auto &[key, value] : phase_info_)
@@ -61,11 +63,12 @@ WalkingAnimationSystem::WalkingAnimationSystem(Character *character)
                 get<1>(angle) *= -1;
             }
         }
-    }
+    }*/
 }
 
 void WalkingAnimationSystem::Animate()
 {
+    /*
     Head *head = character_->head_;
     Torso *torso = character_->torso_;
     Arm *left_arm = character_->left_arm_;
@@ -227,7 +230,7 @@ void WalkingAnimationSystem::Animate()
         {
             phase_ = WalkPhase::kContact;
         }
-    }
+    }*/
 }
 
 bool WalkingAnimationSystem::IsDoubleEq(double a, double b, double epsilon)
